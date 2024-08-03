@@ -13,15 +13,11 @@
 
 export default {
   props: {
-<<<<<<< HEAD
     game: Object,
     enableAdd: {
       type: Boolean,
       default: false
     }
-=======
-    game: Object
->>>>>>> 6a57524dff7fea8847e688a79a15a72b7ca3c6c7
   },
 };
 </script>

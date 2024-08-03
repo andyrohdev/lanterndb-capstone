@@ -82,7 +82,8 @@ export default {
 }
 .content-container {
   width: 100%;
-  max-width: 90%;
+  
+
   display: flex;
   flex-direction: column;
   align-items: center;
