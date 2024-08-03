@@ -1,7 +1,9 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.GamesCollections;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JdbcGamesCollecitonDao implements GamesCollectionDao{
     //    private List<Games> games;
 //    @Autowired
