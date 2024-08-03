@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.GamesDao;
+import com.techelevator.dao.JdbcGamesDao;
 import com.techelevator.model.Games;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -14,13 +15,13 @@ public class GameController {
 private String API_URL = "http://localhost:8080/games";
 private String API_KEY = "916f7023c320440daebd11eb40e66e2e";
 private RestTemplate restTemplate;
-private GamesDao gamesDao;
+private JdbcGamesDao jdbcGamesDao;
 
 
 
     @RequestMapping(path="/games", method = RequestMethod.GET)
     public List<Games> fetchAllGames (){
-        List<Games> fetchedGames = gamesDao.getGames();
+        List<Games> fetchedGames = jdbcGamesDao.getGames();
         return fetchedGames;
     }
 
