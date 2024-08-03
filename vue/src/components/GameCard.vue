@@ -1,17 +1,23 @@
 <template>
   <div class="card">
-    <img :src="game.background_image" alt="Game image" class="game-image" />
+    <img :src="game.background_image || 'default-image.jpg'" alt="Game image" class="game-image" />
     <div class="card-content">
-      <h2 class="game-title">{{ game.name }}</h2>
-      <p class="game-rating">Rating: {{ game.rating }}</p>
+      <h2 class="game-title">{{ game.name || 'Unknown Title' }}</h2>
+      <p class="game-rating">Rating: {{ game.rating || 'N/A' }}</p>
     </div>
   </div>
 </template>
 
+
 <script>
+
 export default {
   props: {
     game: Object,
+    enableAdd: {
+      type: Boolean,
+      default: false
+    }
   },
 };
 </script>
@@ -25,6 +31,7 @@ export default {
   display: flex; /* Flexbox for vertical alignment */
   flex-direction: column; /* Stack children vertically */
   overflow: hidden; /* Ensure content doesn't overflow */
+
 }
 
 .game-image {

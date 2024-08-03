@@ -4,7 +4,7 @@
 
 <script>
 
-import GameList from "../components/GameCard.vue"
+import GameList from "../components/GameList.vue"
 
 export default {
   components: {
