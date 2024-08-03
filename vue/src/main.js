@@ -3,6 +3,7 @@ import CapstoneApp from './App.vue'
 import { createStore } from './store'
 import router from './router'
 import axios from 'axios'
+import FontAwesomeIcon from './services/fontawesome'
 
 /* sets the base url for server API communication with axios */
 axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API;
@@ -28,3 +29,4 @@ const app = createApp(CapstoneApp);
 app.use(store);
 app.use(router);
 app.mount('#app');
+app.component(FontAwesomeIcon)
