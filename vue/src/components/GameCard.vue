@@ -1,8 +1,9 @@
 <template>
-  <div class="card" :style="{ backgroundImage: 'url(' + game.background_image + ')' }">
+  <div class="card">
+    <img :src="game.background_image" alt="Game image" class="game-image" />
     <div class="card-content">
       <h2 class="game-title">{{ game.name }}</h2>
-      <p class="game-genre">Rating: {{ game.rating }}</p>
+      <p class="game-rating">Rating: {{ game.rating }}</p>
     </div>
   </div>
 </template>
@@ -17,36 +18,36 @@ export default {
 
 <style>
 .card {
-  /* Card Sizing */
-  width: 200px;
-  height: 300px;
+  width: 200px; /* Fixed width */
+  border: 1px solid #ccc; /* Add a light grey border */
+  border-radius: 0px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  display: flex; /* Flexbox for vertical alignment */
+  flex-direction: column; /* Stack children vertically */
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
 
-  /* Card Borders/Margin/Padding */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
-  /* Alignment */
-  display: flex;
-  /* Alignment of the Card Content */
-  flex-direction: column;
-  justify-content: flex-end;
-
-  /* Background */
-  background-size: cover;
-  background-position: center;
-
-  /* This is Text Color */
-  color: white;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+.game-image {
+  width: 100%; /* Full width of the card */
+  height: 300px; /* Adjust height as needed */
+  object-fit: cover; /* Ensure image covers the area */
 }
 
 .card-content {
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-  padding: 10px;
-  border-radius: 8px;
+  padding: 16px; /* Add padding inside the content area */
+  display: flex;
+  flex-direction: column; /* Stack text vertically */
+  align-items: flex-start; /* Align text to the left */
+  background-color: rgba(240, 248, 255, 0);
+}
+
+.game-title {
+  font-size: 1.2em; /* Larger font size for the title */
+  margin: 0; /* Remove default margin */
+}
+
+.game-rating {
+  color: #666; /* Lighter color for the rating */
+  margin-top: 8px; /* Space above the rating */
 }
 </style>
