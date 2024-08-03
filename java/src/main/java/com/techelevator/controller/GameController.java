@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.GamesDao;
 import com.techelevator.dao.JdbcGamesDao;
 import com.techelevator.model.Games;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +16,7 @@ public class GameController {
 private String API_URL = "http://localhost:8080/games";
 private String API_KEY = "916f7023c320440daebd11eb40e66e2e";
 private RestTemplate restTemplate;
+@Autowired
 private JdbcGamesDao jdbcGamesDao;
 
 

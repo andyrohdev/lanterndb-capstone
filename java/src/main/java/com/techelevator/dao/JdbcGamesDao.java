@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Games;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 public class JdbcGamesDao implements GamesDao {
 
     private List<Games> games;
+    @Autowired
     public JdbcGamesDao() {
 
         games = new ArrayList<>();
