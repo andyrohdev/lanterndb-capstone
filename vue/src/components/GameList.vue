@@ -32,7 +32,7 @@ export default {
   computed: {
     filteredGames() {
           return this.games.filter( (game) => {
-            return this.nameFilter == '' ? true : game.title.includes(this.nameFilter);
+            return this.nameFilter == '' ? true : game.name.includes(this.nameFilter);
         });
     }
   },
@@ -41,7 +41,7 @@ export default {
   },
   created() {
     GameService.retrieveGames().then((response) => {
-      this.games = response.data;
+      this.games = response.data.results;
     });
   }
 };
