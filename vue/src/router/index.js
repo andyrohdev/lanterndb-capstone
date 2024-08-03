@@ -7,6 +7,7 @@ import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import GamesListView from '../views/GamesListView.vue';
+import DashboardView from  '../views/DashboardView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -57,6 +58,16 @@ const routes = [
       requiresAuth: false
     }
   },
+  {
+    path:"/dashboard",
+    name:"dashboard",
+    component: DashboardView,
+  },
+  {
+    // path:"/profile",
+    // name:"profile",
+    // component:
+  }
 ];
 
 // Create the router
