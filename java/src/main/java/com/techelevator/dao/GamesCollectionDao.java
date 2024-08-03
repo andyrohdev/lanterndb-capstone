@@ -4,7 +4,7 @@ import com.techelevator.model.GamesCollections;
 
 public interface GamesCollectionDao {
 
-    public GamesCollections fetchCollectionById(int gameCollectionId);
+    public GamesCollections fetchCollectionListById(int gameCollectionId);
 
 
 
