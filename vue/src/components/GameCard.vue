@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <h2 class="game-title"> {{ game.title }} </h2>
+    <p class="game-genre"> {{ game.genre }} </p>
     
   </div>
 </template>

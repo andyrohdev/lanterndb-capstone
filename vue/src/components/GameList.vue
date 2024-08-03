@@ -18,10 +18,7 @@
 import GameService from "../services/GameService.js";
 import GameCard from "./GameCard.vue";
 export default {
-  props: {
-    // games: {},
-  },
-
+  
   components: {
     GameCard,
   },
@@ -34,15 +31,18 @@ export default {
   },
   computed: {
     filteredGames() {
-        const games = GameService.retrieveGames;
-
-        return games.filter( (game) => {
+          return this.games.filter( (game) => {
             return this.nameFilter == '' ? true : game.title.includes(this.nameFilter);
         });
     }
   },
   methods: {
     
+  },
+  created() {
+    GameService.retrieveGames().then((response) => {
+      this.games = response.data;
+    });
   }
 };
 </script>
