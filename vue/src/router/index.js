@@ -63,11 +63,9 @@ const routes = [
     name:"dashboard",
     component: DashboardView,
   },
-  {
-    // path:"/profile",
-    // name:"profile",
-    // component:
-  }
+  
+    
+  
 ];
 
 // Create the router

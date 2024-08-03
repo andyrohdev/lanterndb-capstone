@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import GameList from "../components/GameList.vue";
+
+import GameList from "../components/GameCard.vue"
 
 export default {
   components: {
