@@ -7,8 +7,8 @@
         <label for="gameName">Find Your Next Game</label>
         <input type="text" name="gameName" id="gameName" v-model="nameFilter" autocomplete="off"/>
       </div>
-
-      <div class="game-container">
+      
+      <div class="game-container" >
         <game-card
           v-bind:game="game"
           v-bind:key="game.id"
@@ -81,11 +81,12 @@ export default {
   /* Game Container Alignment */
   display: flex;
   flex-wrap: wrap;
-  ;
+  
 
   /* GameCard Alignment */
   border: 1px solid lime;
   justify-content: center;
+  
 }
 .search-box {
   display: flex;
@@ -103,6 +104,7 @@ export default {
   padding: 3%;
 
   border: 1px solid black;
+
 }
 .page-container {
   display: flex;
