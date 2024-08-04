@@ -5,7 +5,7 @@
 
       <div class="search-box">
         <label for="gameName">Find Your Next Game</label>
-        <input type="text" name="gameName" id="gameName" v-model="nameFilter" />
+        <input type="text" name="gameName" id="gameName" v-model="nameFilter" autocomplete="off"/>
       </div>
 
       <div class="game-container">
@@ -32,6 +32,8 @@ export default {
     return {
       nameFilter: "",
       games: [],
+      page1Games: [],
+      page2Games: [],
     };
   },
 
@@ -53,10 +55,19 @@ export default {
 
   created() {
     console.log("Component created, attempting to retrieve games...");
-    GameService.retrieveGames()
+    GameService.retrieveGames(1)
       .then((response) => {
         console.log("Games retrieved successfully:", response.data.results);
-        this.games = response.data.results;
+        this.games = this.games.concat(response.data.results);
+      })
+      .catch((error) => {
+        console.error("Error retrieving games:", error);
+      });
+    GameService.retrieveGames(2)
+      .then((response) => {
+        console.log("Games retrieved successfully:", response.data.results)
+        this.games = this.games.concat(response.data.results);
+        
       })
       .catch((error) => {
         console.error("Error retrieving games:", error);
@@ -82,7 +93,6 @@ export default {
 }
 .content-container {
   width: 100%;
-  
 
   display: flex;
   flex-direction: column;
