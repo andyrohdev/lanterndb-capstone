@@ -6,7 +6,11 @@ import java.security.Principal;
 
 public interface CollectionListDao {
 
-    public CollectionList fetchCollectionByType(int collectionType, int userId);
+   CollectionList fetchCollectionByType(int collectionType, int userId);
 
-    public CollectionList fetchCollectionByName(String collectionName);
+   CollectionList fetchCollectionByName(String collectionName);
+
+   CollectionList addGameToCollection(CollectionList collectionList, int userId);
+
+
 }
