@@ -23,7 +23,7 @@
       </div>
 
       <!-- Loading Spinner -->
-      <div v-if="loading" class="loading-spinner">Loading...</div>
+      <!-- <div v-if="loading" class="loading-spinner">Loading...</div> -->
     </div>
   </div>
 </template>
