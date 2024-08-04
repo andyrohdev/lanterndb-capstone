@@ -6,19 +6,7 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      games:
-      [
-        {
-          title: 'Fortnite',
-          coverImageURL: 'PlaceHolderFN',
-          genre: 'Shooter'
-        },
-        {
-          title: 'Valorant',
-          coverImageURL: 'PlaceHolderVal',
-          genre: 'Shooter'
-        }
-      ]
+      
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {

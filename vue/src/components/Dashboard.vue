@@ -39,7 +39,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .dashboard {
     display: flex;
     justify-content: space-around;
