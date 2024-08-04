@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="dashboard-card">
       <h3>{{ title }}</h3>
       <ul>
         <li v-for="item in items" :key="item.id">{{ item.name }}</li>
@@ -22,8 +22,8 @@
   };
   </script>
   
-  <style>
-  .card {
+  <style scoped>
+  .dashboard-card {
     background-color: #ffffff;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
@@ -31,18 +31,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 16px;
   }
-  .card h3 {
+  .dashboard-card h3 {
     margin-top: 0;
   }
-  .card ul {
+  .dashboard-card ul {
     list-style-type: none;
     padding-left: 0;
   }
-  .card li {
+  .dashboard-card li {
     padding: 8px 0;
     border-bottom: 1px solid #dcdcdc;
   }
-  .card li:last-child {
+  .dashboard-card li:last-child {
     border-bottom: none;
   }
   </style>

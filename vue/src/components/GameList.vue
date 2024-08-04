@@ -76,14 +76,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .game-container {
   /* Game Container Alignment */
   display: flex;
   flex-wrap: wrap;
+  ;
 
   /* GameCard Alignment */
-  gap: 16px;
+  border: 1px solid lime;
+  justify-content: center;
 }
 .search-box {
   display: flex;
@@ -99,10 +101,14 @@ export default {
   align-items: center;
   margin: 0 auto;
   padding: 3%;
+
+  border: 1px solid black;
 }
 .page-container {
   display: flex;
   justify-content: center;
   width: 100%;
+
+  border: 1px solid purple;
 }
 </style>
