@@ -8,63 +8,38 @@
     </div>
   </div>
   <div class="dashboard">
-    <Card v-bind:key="wishlist" title="Wishlist" :items="wishlist" />
-    <Card v-bind:key="playing" title="Playing" :items="playing" />
-    <Card v-bind:key="played" title="Played" :items="played" />
-
-    <div class="search-box">
-      <label for="gameName">Find Your Next Game</label>
-      <input
-        type="text"
-        name="gameName"
-        id="gameName"
-        v-model="nameFilter"
-        autocomplete="off"
-      />
-    </div>
+    <Card v-bind:key="'wishlist'" title="Wishlist" :items="wishlist" />
+    <Card v-bind:key="'playing'" title="Playing" :items="playing" />
+    <Card v-bind:key="'played'" title="Played" :items="played" />
   </div>
 </template>
   
   <script>
-  import Card from '@/components/Card.vue';
-  import CollectionService from '../services/CollectionService';
+import Card from "@/components/Card.vue";
+import CollectionService from "../services/CollectionService";
 
-
-  export default {
-    components: {
-      Card
-    },
-    data() {
-      return {
-        wishlist: [
-        
-          
-        ],
-        playing: [
-        
-        ],
-        played: [
-        
-        ]
-        
-      };
-    },
-    created() {
-          
-      CollectionService.getCollections(1).then((response) => {
-        this.wishlist = response.data;
+export default {
+  components: {
+    Card,
+  },
+  data() {
+    return {
+      wishlist: [],
+      playing: [],
+      played: [],
+    };
+  },
+  created() {
+    CollectionService.getCollections(1)
+      .then((response) => {
+        this.wishlist = response.data ? [response.data] : [];
       })
-      .catch((error)=> {
-        console.error('error retrieving collection', error)
-      })
-
-    },
-     
-  
+      .catch((error) => {
+        console.error("error retrieving collection", error);
+      });
+  },
 };
-  
-  
-  </script>
+</script>
   
   <style scoped>
 .dashboard {

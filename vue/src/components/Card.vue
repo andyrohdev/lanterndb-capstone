@@ -2,7 +2,7 @@
   <div class="dashboard-card">
     <h3>{{ title }}</h3>
     <ul>
-      <li v-for="item in items" :key="item.id">{{ item.name }}</li>
+      <li v-for="item in items" :key="item.collectionListId">{{ item.title }}</li>
     </ul>
   </div>
 </template>
