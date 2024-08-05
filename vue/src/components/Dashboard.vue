@@ -35,7 +35,8 @@ export default {
   created() {
     CollectionService.getCollections(1)
       .then((response) => {
-        this.wishlist = response.data ? [response.data] : [];
+        console.log("Wishlist Response:", response.data)
+        this.wishlist = response.data;
       })
       .catch((error) => {
         console.error("error retrieving collection", error);
@@ -43,14 +44,14 @@ export default {
 
     CollectionService.getCollections(2)
       .then((response)=> {
-      this.playing =response.data? [response.data] : []
+      this.playing = response.data;
     })
     .catch((error)=>{
       console.error("error retrieving",error);
     });
     CollectionService.getCollections(3)
       .then((response)=> {
-      this.played =response.data? [response.data] : []
+      this.played = response.data;
     })
     .catch((error)=>{
       console.error("error retrieving",error);
