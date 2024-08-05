@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container" ref="scrollContainer">
+  <div class="page-container">
     <div class="content-container">
       <h1 class="header">Game Search</h1>
 
@@ -14,7 +14,7 @@
         />
       </div>
 
-      <div class="game-container">
+      <div class="game-container" ref="scrollContainer">
         <game-card
           v-bind:game="game"
           v-bind:key="game.id"
@@ -94,23 +94,26 @@ export default {
 
     checkScroll() {
       const scrollContainer = this.$refs.scrollContainer;
+      const scrollHeight = scrollContainer.scrollHeight;
+      const scrollTop = scrollContainer.scrollTop;
+      const clientHeight = scrollContainer.clientHeight;
+      const scrollPosition = (scrollTop + clientHeight) / scrollHeight;
       console.log(
-        "Scroll position:",
-        scrollContainer.scrollTop,
-        "Scroll height:",
-        scrollContainer.scrollHeight,
-        "Client height:",
-        scrollContainer.clientHeight
+        "Scroll position:", scrollTop,
+        "Scroll height:", scrollHeight,
+        "Client height:", clientHeight
       );
-      const bottom =
-        scrollContainer.scrollHeight <=
-        scrollContainer.scrollTop + scrollContainer.clientHeight + 1;
-      console.log("At bottom:", bottom);
 
-      if (bottom && this.currentPage < this.totalPages) {
+      console.log("Scroll percentage:", scrollPosition);
+
+      if (scrollPosition >= 0.75 && this.currentPage < this.totalPages && !this.loading) {
         this.currentPage += 1;
-        this.loadGames(this.currentPage);
+        this.loadGames(this.currentPage)
+
       }
+      
+
+      
     },
   },
 };
@@ -119,24 +122,11 @@ export default {
 <style scoped>
 .page-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  overflow-y: auto; /* Ensure scrolling */
-  height: 100vh; /* Make sure it's tall enough to scroll */
-}
-
-
-.game-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.search-box {
-  display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 3%;
+  width: 100%;
+  height: 100vh; /* Full height to allow scrolling */
+  overflow: hidden; /* Prevent page-level scrolling */
 }
 
 .content-container {
@@ -146,6 +136,24 @@ export default {
   align-items: center;
   margin: 0 auto;
   padding: 3%;
+  overflow: hidden; /* Prevent content-level scrolling */
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 3%;
+}
+
+.game-container {
+  width: 100%;
+  flex: 1; /* Grow to fill the available space */
+  overflow-y: auto; /* Scrollable content */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem; /* Add some padding for better spacing */
 }
 
 .loading-spinner {
