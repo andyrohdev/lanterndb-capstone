@@ -3,22 +3,20 @@ import axios from 'axios';
 const API_URL = 'http://localhost:9000/';
 
 export default {
-
   getCollections(collectionId) {
     return axios.get(`${API_URL}collections/${collectionId}`);
   },
-
-  addToCollections(collectionId, userId, title, genre) {
-    return axios.post(`${API_URL}collections/${collectionId}`, {userId, title, genre});
-  },
-  // updateCollection(collectionId, gameId, updatedGame) {
-  //   return axios.put(`${API_URL}collections/${collectionId}/games/${gameId}`, updatedGame);
-  // },
-
-  // deleteFromCollections(collectionId, gameId) {
-  //   return axios.delete(`${API_URL}collections/${collectionId}/games/${gameId}`);
-  // }
-  // // Add Game title and Game genre
-
+  
+  addToCollections(gameData) {
+    console.log("POST request data:", gameData);
+    return axios.post(`${API_URL}collections`, gameData)
+      .then(response => {
+        console.log("POST request successful:", response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error("POST request error:", error);
+        throw error;
+      });
+  }
 };
-

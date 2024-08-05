@@ -3,14 +3,15 @@ package com.techelevator.dao;
 import com.techelevator.model.CollectionList;
 
 import java.security.Principal;
+import java.util.List;
 
 public interface CollectionListDao {
 
-   CollectionList fetchCollectionByType(int collectionType, int userId);
+   List<CollectionList> fetchCollectionByType(int collection_id, int userId);
 
    CollectionList fetchCollectionByName(String collectionName);
 
-   CollectionList addGameToCollection(CollectionList collectionList, int userId);
+   List<CollectionList> addGameToCollection(CollectionList collectionList, int userId);
 
    CollectionList updateCollection(CollectionList collectionList, int userId);
 

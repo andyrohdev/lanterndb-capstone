@@ -7,13 +7,11 @@
         class="game-image"
         loading="lazy"
       />
-
       <div class="card-content">
         <div class="text-content">
           <h2 class="game-title">{{ game.name || "Unknown Title" }}</h2>
           <p class="game-rating">Rating: {{ game.rating || "N/A" }}</p>
         </div>
-
         <div class="dropdown">
           <button
             class="btn btn-secondary dropdown-toggle"
@@ -21,7 +19,6 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#" @click="addToCollection('wishlist')">Add to Wishlist</a></li>
@@ -34,27 +31,38 @@
   </div>
 </template>
 
-
 <script>
 import CollectionService from '../services/CollectionService';
 
 export default {
   props: {
     game: Object,
+    userId: String, // Ensure userId is passed as a prop
   },
   methods: {
     addToCollection(collectionType) {
+      console.log("Game object:", this.game);
 
-      const title = this.game.name;
-      const genre = this.game.genre;
+      // Extract the first genre name from the genres array
+      const genre = this.game.genres && this.game.genres.length > 0
+        ? this.game.genres[0].name
+        : 'Unknown Genre';
 
-      CollectionService.addToCollections(title, this.userId, genre, collectionType).then((response) => {
-        console.log(`Game added to ${collectionType} collection`)
+      const gameData = {
+        title: this.game.name,
+        genre: genre,
+        collectionType,
+      };
 
-      })
-      .catch((error) => {
-        console.error(`Error adding game to ${collectionType} collection`, error)
-      });
+      console.log("Sending data to backend:", gameData);
+
+      CollectionService.addToCollections(gameData)
+        .then((response) => {
+          console.log(`Game added to ${collectionType} collection`, response);
+        })
+        .catch((error) => {
+          console.error(`Error adding game to ${collectionType} collection`, error);
+        });
     }
   }
 };
