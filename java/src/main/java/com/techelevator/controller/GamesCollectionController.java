@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @CrossOrigin
@@ -19,13 +20,12 @@ public class GamesCollectionController {
     @Autowired
     private JdbcUserDao jdbcUserDao;
 
-    public GamesCollectionController(JdbcCollectionListDao jdbcWishListDao, JdbcUserDao jdbcuserDao) {
-        this.jdbcCollectionListDao = jdbcWishListDao;
+    @Autowired
+    private CollectionListDao collectionListDao;
+
+    public GamesCollectionController(JdbcCollectionListDao jdbcCollectionListDao, JdbcUserDao jdbcuserDao) {
+        this.jdbcCollectionListDao = jdbcCollectionListDao;
         this.jdbcUserDao = jdbcuserDao;
-    }
-
-    public GamesCollectionController() {
-
     }
 
 
@@ -50,6 +50,19 @@ public class GamesCollectionController {
 
         return foundCollection;
     }
+
+    @PostMapping("/collections/{id}")
+    public CollectionList addGameToCollectionList(@Valid @RequestBody CollectionList collectionList, Principal principal){
+        String userName = principal.getName();
+        User user = jdbcUserDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        collectionList.setUserId(userId);
+        CollectionList addedTo = collectionListDao.addGameToCollection(collectionList, userId);
+        return addedTo;
+    }
+
+
 }
 
 
