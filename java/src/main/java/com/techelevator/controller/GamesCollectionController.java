@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -30,7 +31,7 @@ public class GamesCollectionController {
 
 
     @GetMapping("/collections/{id}")
-    public CollectionList fetchCollectionListById(
+    public List<CollectionList> fetchCollectionListById(
             Principal principal,
             @PathVariable int id){
 
@@ -42,7 +43,7 @@ public class GamesCollectionController {
         User user = jdbcUserDao.getUserByUsername(userName);
         int userId = user.getId();
 
-        CollectionList foundCollection = jdbcCollectionListDao.fetchCollectionByType(id, userId);
+        List<CollectionList> foundCollection = jdbcCollectionListDao.fetchCollectionByType(id, userId);
 
         if (foundCollection == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
@@ -52,7 +53,7 @@ public class GamesCollectionController {
     }
 
     @PostMapping("/collections")
-    public CollectionList addGameToCollectionList(@Valid @RequestBody CollectionList collectionList, Principal principal){
+    public List<CollectionList> addGameToCollectionList(@Valid @RequestBody CollectionList collectionList, Principal principal){
         String userName = principal.getName();
         User user = jdbcUserDao.getUserByUsername(userName);
         int userId = user.getId();

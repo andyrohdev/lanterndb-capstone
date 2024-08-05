@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JdbcCollectionListDao implements CollectionListDao {
     @Autowired
@@ -25,21 +28,21 @@ public class JdbcCollectionListDao implements CollectionListDao {
     }
 
     @Override
-    public CollectionList fetchCollectionByType(int collectionType, int userId) {
-        CollectionList collectionList = null;
+    public List <CollectionList> fetchCollectionByType(int collection_id, int userId) {
+        List<CollectionList> collectionLists = new ArrayList<>();
 
         String sql = "SELECT collection_list_id, user_id, collection_id, title, genre " +
                 "FROM collection_list " +
                 "WHERE collection_id = ? AND user_id = ?";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionType, userId);
-            if (results.next()) {
-                collectionList = mapRowToCollectionList(results);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collection_id, userId);
+            while (results.next()) {
+                collectionLists.add( mapRowToCollectionList(results));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-        return collectionList;
+        return collectionLists;
     }
 
     @Override
@@ -48,8 +51,8 @@ public class JdbcCollectionListDao implements CollectionListDao {
     }
 
     @Override
-    public CollectionList addGameToCollection(CollectionList collectionList, int userId) {
-        CollectionList addedGame = null;
+    public List<CollectionList> addGameToCollection(CollectionList collectionList, int userId) {
+        List <CollectionList> addedGame = null;
 
         String sql = "INSERT INTO collection_list (user_id, collection_id, title, genre) " +
                 "VALUES(?, ?, ?, ?) " +
