@@ -20,12 +20,12 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Dropdown button
+            
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection('wishlist')">Add to Wishlist</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection('playing')">Add to Playing</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection('played')">Add to Played</a></li>
           </ul>
         </div>
       </div>
@@ -35,14 +35,27 @@
 
 
 <script>
+import CollectionService from '../services/CollectionService';
+
 export default {
   props: {
     game: Object,
-    enableAdd: {
-      type: Boolean,
-      default: false,
-    },
   },
+  methods: {
+    addToCollection(collectionType) {
+
+      const title = this.game.name;
+      const genre = this.game.genre;
+
+      CollectionService.addToCollections(title, this.userId, genre, collectionType).then((response) => {
+        console.log(`Game added to ${collectionType} collection`)
+
+      })
+      .catch((error) => {
+        console.error(`Error adding game to ${collectionType} collection`, error)
+      });
+    }
+  }
 };
 </script>
 
@@ -110,7 +123,7 @@ export default {
   /* Space above the rating */
 }
 
-#plus {
+.dropdown {
   position: absolute;
   /* Absolute positioning to place button at the bottom right */
   bottom: 16px;
