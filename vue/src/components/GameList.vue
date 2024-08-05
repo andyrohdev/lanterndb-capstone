@@ -49,10 +49,24 @@ export default {
   },
 
   computed: {
-    filteredGames() {
+  filteredGames() {
+    const filterText = this.nameFilter.trim().toLowerCase();
+    if (filterText === "") {
       return this.games;
-    },
+    }
+
+    return this.games.filter((game) => {
+      if (!game || !game.name) {
+        return false;
+      }
+      const gameTitle = game.name.trim().toLowerCase();
+
+      // Check if the filterText is contained within the gameTitle
+      return gameTitle.includes(filterText);
+    });
   },
+},
+
 
   watch: {
     nameFilter: "performSearch",
@@ -94,7 +108,9 @@ export default {
       if (this.loading) return; // Prevent multiple requests
 
       this.loading = true;
-      const loadMethod = this.searching ? GameService.searchGames : GameService.retrieveGames;
+      const loadMethod = this.searching
+        ? GameService.searchGames
+        : GameService.retrieveGames;
 
       loadMethod(page, this.nameFilter)
         .then((response) => {
@@ -109,6 +125,14 @@ export default {
         });
     },
 
+    normalizeString(str) {
+      // Replace non-alphanumeric characters with spaces and convert to lower case
+      return str
+        .replace(/[^a-z0-9\s]/gi, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    },
+
     checkScroll() {
       const scrollContainer = this.$refs.scrollContainer;
       const scrollHeight = scrollContainer.scrollHeight;
@@ -116,7 +140,11 @@ export default {
       const clientHeight = scrollContainer.clientHeight;
       const scrollPosition = (scrollTop + clientHeight) / scrollHeight;
 
-      if (scrollPosition >= 0.75 && this.currentPage < this.totalPages && !this.loading) {
+      if (
+        scrollPosition >= 0.75 &&
+        this.currentPage < this.totalPages &&
+        !this.loading
+      ) {
         this.currentPage += 1;
         this.loadGames(this.currentPage);
       }
