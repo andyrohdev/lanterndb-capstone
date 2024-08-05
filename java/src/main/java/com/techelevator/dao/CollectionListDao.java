@@ -12,5 +12,11 @@ public interface CollectionListDao {
 
    CollectionList addGameToCollection(CollectionList collectionList, int userId);
 
+   CollectionList updateCollection(CollectionList collectionList, int userId);
+
+   CollectionList fetchCollectionById(int collection_list_id);
+
+   int deleteCollection(int collection_list_id);
+
 
 }

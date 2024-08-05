@@ -51,7 +51,7 @@ public class GamesCollectionController {
         return foundCollection;
     }
 
-    @PostMapping("/collections/{id}")
+    @PostMapping("/collections")
     public CollectionList addGameToCollectionList(@Valid @RequestBody CollectionList collectionList, Principal principal){
         String userName = principal.getName();
         User user = jdbcUserDao.getUserByUsername(userName);
@@ -60,6 +60,25 @@ public class GamesCollectionController {
         collectionList.setUser_id(userId);
         return collectionListDao.addGameToCollection(collectionList, userId);
     }
+
+    @PutMapping("/collections")
+    public CollectionList updateGameInCollectionList(@Valid @RequestBody CollectionList collectionList, Principal principal){
+        String userName = principal.getName();
+        User user = jdbcUserDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        collectionList.setUser_id(userId);
+        return collectionListDao.updateCollection(collectionList, userId);
+    }
+    @DeleteMapping("/collections/{id}")
+    public void deleteCollection(@PathVariable int id){
+        if(collectionListDao.fetchCollectionById(id) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        collectionListDao.deleteCollection(id);
+    }
+
+
 
 
 }

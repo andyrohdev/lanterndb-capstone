@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.CollectionList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -59,6 +60,65 @@ public class JdbcCollectionListDao implements CollectionListDao {
 
             return addedGame;
     }
+    @Override
+    public CollectionList fetchCollectionById(int collection_list_id) {
+        CollectionList collectionList = null;
+
+        String sql = "SELECT collection_list_id, user_id, collection_id, title, genre " +
+                "FROM collection_list " +
+                "WHERE collection_list_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collection_list_id);
+            if (results.next()) {
+                collectionList = mapRowToCollectionList(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return collectionList;
+    }
+
+    @Override
+    public int deleteCollection(int collection_list_id) {
+        int rows = 0;
+        String sql = "DELETE FROM collection_list WHERE collection_list_id = ?;";
+        try{
+            rows = jdbcTemplate.update(sql, collection_list_id);
+        }
+        catch (CannotGetJdbcConnectionException e) {
+        throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+        throw new DaoException("Data integrity violation", e);
+        }
+        return rows;
+    }
+
+
+    @Override
+    public CollectionList updateCollection(CollectionList collectionList, int userId) {
+        CollectionList updatedCollection = null;
+        String sql = "UPDATE collection_list " +
+                    "SET user_id = ?, collection_id = ?, title = ?, genre = ? " +
+                     "WHERE collection_list_id = ?;";
+
+        try{
+            int rowsCollection = jdbcTemplate.update(sql,collectionList.getUser_id(), collectionList.getCollection_id(), collectionList.getTitle(), collectionList.getGenre(), collectionList.getCollection_list_id());
+            if(rowsCollection == 0){
+                throw new DaoException("Zero rows affected, expected at least one");
+            }
+            else {
+                updatedCollection = fetchCollectionById(collectionList.getCollection_list_id());
+            }
+        }
+        catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return updatedCollection;
+    }
+
+
 
     private CollectionList mapRowToCollectionList(SqlRowSet rs) {
         CollectionList collectionList = new CollectionList();
