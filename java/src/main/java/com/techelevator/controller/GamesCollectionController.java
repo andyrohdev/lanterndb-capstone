@@ -57,9 +57,8 @@ public class GamesCollectionController {
         User user = jdbcUserDao.getUserByUsername(userName);
         int userId = user.getId();
 
-        collectionList.setUserId(userId);
-        CollectionList addedTo = collectionListDao.addGameToCollection(collectionList, userId);
-        return addedTo;
+        collectionList.setUser_id(userId);
+        return collectionListDao.addGameToCollection(collectionList, userId);
     }
 
 
