@@ -42,22 +42,20 @@ export default {
       nameFilter: "",
       games: [],
       currentPage: 1,
-      totalPages: 10, // Update this dynamically if needed
-      loading: false, // Loading state to prevent multiple requests
+      totalPages: 10,
+      loading: false,
+      searching: false,
     };
   },
 
   computed: {
     filteredGames() {
-      const filterText = this.nameFilter.toLowerCase();
-      return this.games.filter((game) => {
-        if (!game || !game.name) {
-          return false;
-        }
-        const gameTitle = game.name.toLowerCase();
-        return filterText === "" ? true : gameTitle.includes(filterText);
-      });
+      return this.games;
     },
+  },
+
+  watch: {
+    nameFilter: "performSearch",
   },
 
   created() {
@@ -76,14 +74,33 @@ export default {
   },
 
   methods: {
+    performSearch() {
+      if (this.nameFilter.trim()) {
+        // Search games if there is a search term
+        this.searching = true;
+        this.currentPage = 1; // Reset page for search
+        this.games = []; // Clear current games
+        this.loadGames(this.currentPage); // Load new games based on search
+      } else {
+        // If search term is empty, reset to default game list
+        this.searching = false;
+        this.currentPage = 1; // Reset page for normal load
+        this.games = []; // Clear current games
+        this.loadGames(this.currentPage); // Load default games
+      }
+    },
+
     loadGames(page) {
       if (this.loading) return; // Prevent multiple requests
 
       this.loading = true;
-      GameService.retrieveGames(page)
+      const loadMethod = this.searching ? GameService.searchGames : GameService.retrieveGames;
+
+      loadMethod(page, this.nameFilter)
         .then((response) => {
           console.log("Games retrieved successfully:", response.data.results);
           this.games = this.games.concat(response.data.results);
+          this.totalPages = Math.ceil(response.data.count / 12); // Adjust total pages
           this.loading = false;
         })
         .catch((error) => {
@@ -98,26 +115,16 @@ export default {
       const scrollTop = scrollContainer.scrollTop;
       const clientHeight = scrollContainer.clientHeight;
       const scrollPosition = (scrollTop + clientHeight) / scrollHeight;
-      console.log(
-        "Scroll position:", scrollTop,
-        "Scroll height:", scrollHeight,
-        "Client height:", clientHeight
-      );
-
-      console.log("Scroll percentage:", scrollPosition);
 
       if (scrollPosition >= 0.75 && this.currentPage < this.totalPages && !this.loading) {
         this.currentPage += 1;
-        this.loadGames(this.currentPage)
-
+        this.loadGames(this.currentPage);
       }
-      
-
-      
     },
   },
 };
 </script>
+
 
 <style scoped>
 .page-container {

@@ -37,7 +37,24 @@ export default {
       .catch((error) => {
         console.error("error retrieving collection", error);
       });
-  },
+
+    CollectionService.getCollections(2)
+      .then((response)=> {
+      this.playing =response.data? [response.data] : []
+    })
+    .catch((error)=>{
+      console.error("error retrieving",error);
+    });
+    CollectionService.getCollections(3)
+      .then((response)=> {
+      this.played =response.data? [response.data] : []
+    })
+    .catch((error)=>{
+      console.error("error retrieving",error);
+    });
+  
+  }
+   
 };
 </script>
   
