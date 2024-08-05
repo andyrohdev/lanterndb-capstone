@@ -11,14 +11,14 @@ export default {
   addToCollections(collectionId, userId, title, genre) {
     return axios.post(`${API_URL}collections/${collectionId}`, {userId, title, genre});
   },
-  updateCollection(collectionId, gameId, updatedGame) {
-    return axios.put(`${API_URL}collections/${collection}/games/${gameId}`, updatedGame);
-  },
+  // updateCollection(collectionId, gameId, updatedGame) {
+  //   return axios.put(`${API_URL}collections/${collectionId}/games/${gameId}`, updatedGame);
+  // },
 
-  deleteFromCollections(collectionId, gameId) {
-    return axios.delete(`${API_URL}collections/${collection}/games/${gameId}`);
-  }
-  // Add Game title and Game genre
+  // deleteFromCollections(collectionId, gameId) {
+  //   return axios.delete(`${API_URL}collections/${collectionId}/games/${gameId}`);
+  // }
+  // // Add Game title and Game genre
 
 };
 

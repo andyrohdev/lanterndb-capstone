@@ -12,6 +12,9 @@
     <Card v-bind:key="'playing'" title="Playing" :items="playing" />
     <Card v-bind:key="'played'" title="Played" :items="played" />
   </div>
+
+ 
+
 </template>
   
   <script>

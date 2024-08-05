@@ -3,6 +3,11 @@
     <h3>{{ title }}</h3>
     <ul>
       <li v-for="item in items" :key="item.collectionListId">{{ item.title }}</li>
+      <!-- <div class="btn-group float-right" role="group">
+          <button type="button" class="btn btn-secondary btn-sm" @click="$emit('move', game, title, 'Playing')">Move to Playing</button>
+          <button type="button" class="btn btn-secondary btn-sm" @click="$emit('move', game, title, 'Played')">Move to Played</button>
+          <button type="button" class="btn btn-danger btn-sm" @click="$emit('delete', game, title)">Delete</button>
+        </div> -->
     </ul>
   </div>
 </template>
