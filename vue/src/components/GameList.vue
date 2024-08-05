@@ -55,17 +55,19 @@ export default {
       return this.games;
     }
 
+    // Normalize the filterText and gameTitle for a more robust search
     return this.games.filter((game) => {
       if (!game || !game.name) {
         return false;
       }
       const gameTitle = game.name.trim().toLowerCase();
 
-      // Check if the filterText is contained within the gameTitle
+      // Check if the filterText is included in the gameTitle
       return gameTitle.includes(filterText);
     });
   },
 },
+
 
 
   watch: {

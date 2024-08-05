@@ -21,7 +21,6 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#" @click="addToCollection('wishlist')">Add to Wishlist</a></li>
@@ -34,7 +33,6 @@
   </div>
 </template>
 
-
 <script>
 import CollectionService from '../services/CollectionService';
 
@@ -44,17 +42,20 @@ export default {
   },
   methods: {
     addToCollection(collectionType) {
+      const gameData = {
+        title: this.game.name,
+        genre: this.game.genre,  // Make sure genre is available in game object
+        collectionType,
+        userId: this.userId // Ensure userId is defined or retrieved
+      };
 
-      const title = this.game.name;
-      const genre = this.game.genre;
-
-      CollectionService.addToCollections(title, this.userId, genre, collectionType).then((response) => {
-        console.log(`Game added to ${collectionType} collection`)
-
-      })
-      .catch((error) => {
-        console.error(`Error adding game to ${collectionType} collection`, error)
-      });
+      CollectionService.addToCollections(gameData)
+        .then((response) => {
+          console.log(`Game added to ${collectionType} collection`, response);
+        })
+        .catch((error) => {
+          console.error(`Error adding game to ${collectionType} collection`, error);
+        });
     }
   }
 };
