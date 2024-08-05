@@ -1,8 +1,9 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS collections;
 DROP TABLE IF EXISTS collection_list;
+DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE users (
 	user_id SERIAL,
