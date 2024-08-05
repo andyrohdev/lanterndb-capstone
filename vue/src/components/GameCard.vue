@@ -7,13 +7,11 @@
         class="game-image"
         loading="lazy"
       />
-
       <div class="card-content">
         <div class="text-content">
           <h2 class="game-title">{{ game.name || "Unknown Title" }}</h2>
           <p class="game-rating">Rating: {{ game.rating || "N/A" }}</p>
         </div>
-
         <div class="dropdown">
           <button
             class="btn btn-secondary dropdown-toggle"
@@ -39,15 +37,24 @@ import CollectionService from '../services/CollectionService';
 export default {
   props: {
     game: Object,
+    userId: String, // Ensure userId is passed as a prop
   },
   methods: {
     addToCollection(collectionType) {
+      console.log("Game object:", this.game);
+
+      // Extract the first genre name from the genres array
+      const genre = this.game.genres && this.game.genres.length > 0
+        ? this.game.genres[0].name
+        : 'Unknown Genre';
+
       const gameData = {
         title: this.game.name,
-        genre: this.game.genre,  // Make sure genre is available in game object
+        genre: genre,
         collectionType,
-        userId: this.userId // Ensure userId is defined or retrieved
       };
+
+      console.log("Sending data to backend:", gameData);
 
       CollectionService.addToCollections(gameData)
         .then((response) => {

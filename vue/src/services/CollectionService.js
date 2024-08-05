@@ -7,7 +7,16 @@ export default {
     return axios.get(`${API_URL}collections/${collectionId}`);
   },
   
-  addToCollections({ user_id, title, genre, collection_id }) {
-    return axios.post(`${API_URL}collections`, { user_id, title, genre, collection_id });
+  addToCollections(gameData) {
+    console.log("POST request data:", gameData);
+    return axios.post(`${API_URL}collections`, gameData)
+      .then(response => {
+        console.log("POST request successful:", response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error("POST request error:", error);
+        throw error;
+      });
   }
 };
