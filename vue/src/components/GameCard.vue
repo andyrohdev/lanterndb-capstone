@@ -5,6 +5,7 @@
         :src="game.background_image || 'default-image.jpg'"
         alt="Game image"
         class="game-image"
+        loading="lazy"
       />
 
       <div class="card-content">
@@ -75,9 +76,9 @@ export default {
   /* Ensure content doesn't overflow */
   position: relative;
 
-  /* margin-left: 2%;
+  margin-left: 2%;
   margin-right: 2%;
-  margin-bottom: 2%; */
+  margin-bottom: 2%;
 
   border: 1px solid red;
 }

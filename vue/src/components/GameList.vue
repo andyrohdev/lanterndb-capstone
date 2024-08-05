@@ -23,7 +23,7 @@
       </div>
 
       <!-- Loading Spinner -->
-      <div v-if="loading" class="loading-spinner">Loading...</div>
+      <!-- <div v-if="loading" class="loading-spinner">Loading...</div> -->
     </div>
   </div>
 </template>
@@ -62,6 +62,9 @@ export default {
 
   created() {
     this.loadGames(this.currentPage);
+    this.$nextTick(() => {
+      this.$refs.scrollContainer.addEventListener("scroll", this.checkScroll);
+    });
   },
 
   mounted() {
@@ -91,14 +94,26 @@ export default {
 
     checkScroll() {
       const scrollContainer = this.$refs.scrollContainer;
-      const bottom =
-        scrollContainer.scrollHeight <=
-        scrollContainer.scrollTop + scrollContainer.clientHeight + 1;
+      const scrollHeight = scrollContainer.scrollHeight;
+      const scrollTop = scrollContainer.scrollTop;
+      const clientHeight = scrollContainer.clientHeight;
+      const scrollPosition = (scrollTop + clientHeight) / scrollHeight;
+      console.log(
+        "Scroll position:", scrollTop,
+        "Scroll height:", scrollHeight,
+        "Client height:", clientHeight
+      );
 
-      if (bottom && this.currentPage < this.totalPages) {
+      console.log("Scroll percentage:", scrollPosition);
+
+      if (scrollPosition >= 0.75 && this.currentPage < this.totalPages && !this.loading) {
         this.currentPage += 1;
-        this.loadGames(this.currentPage);
+        this.loadGames(this.currentPage)
+
       }
+      
+
+      
     },
   },
 };
