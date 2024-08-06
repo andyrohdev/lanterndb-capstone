@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import GamesListView from '../views/GamesListView.vue';
 import DashboardView from  '../views/DashboardView.vue';
+import AdminPageView from '../views/AdminPageView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -62,6 +63,14 @@ const routes = [
     path:"/dashboard",
     name:"dashboard",
     component: DashboardView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path:"/admin",
+    name:"admin",
+    component: AdminPageView,
     meta: {
       requiresAuth: true
     }
