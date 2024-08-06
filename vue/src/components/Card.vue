@@ -20,7 +20,7 @@
               <a class="dropdown-item" href="#" @click="moveToCollection(3, item)">Move to Played</a>
             </li>
             <li v-if="title === 'Wishlist'">
-              <a class="dropdown-item" href="#" @click="deleteFromCollection(item)">Delete</a>
+              <a class="dropdown-item" href="#" @click="deleteFromCollection(1, item)">Delete</a>
             </li>
 
             <li v-if="title === 'Playing'">
@@ -30,7 +30,7 @@
               <a class="dropdown-item" href="#" @click="moveToCollection(3, item)">Move to Played</a>
             </li>
             <li v-if="title === 'Playing'">
-              <a class="dropdown-item" href="#" @click="deleteFromCollection(item)">Delete</a>
+              <a class="dropdown-item" href="#" @click="deleteFromCollection(2, item)">Delete</a>
             </li>
 
             <li v-if="title === 'Played'">
@@ -40,7 +40,7 @@
               <a class="dropdown-item" href="#" @click="moveToCollection(2, item)">Move to Playing</a>
             </li>
             <li v-if="title === 'Played'">
-              <a class="dropdown-item" href="#" @click="deleteFromCollection(item)">Delete</a>
+              <a class="dropdown-item" href="#" @click="deleteFromCollection(3, item)">Delete</a>
             </li>
           </ul>
         </div>
@@ -86,8 +86,13 @@ export default {
           console.error(`Error adding game to ${collection_id} collection`, error);
         });
     },
-    deleteFromCollection(item) {
-      const gameData = { collection_list_id: item.collection_list_id };
+    deleteFromCollection(collection_id, item) {
+      const genre = item.genre ? item.genre : 'Unknown Genre';
+      const gameData = {
+        title: item.title,
+        genre: genre,
+        collection_id,
+        collection_list_id: item.collection_list_id };
 
       CollectionService.deleteToCollections(gameData)
         .then((response) => {
