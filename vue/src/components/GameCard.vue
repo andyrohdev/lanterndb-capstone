@@ -21,9 +21,9 @@
           >
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" @click="addToCollection('wishlist')">Add to Wishlist</a></li>
-            <li><a class="dropdown-item" href="#" @click="addToCollection('playing')">Add to Playing</a></li>
-            <li><a class="dropdown-item" href="#" @click="addToCollection('played')">Add to Played</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection(1)">Add to Wishlist</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection(2)">Add to Playing</a></li>
+            <li><a class="dropdown-item" href="#" @click="addToCollection(3)">Add to Played</a></li>
           </ul>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default {
     userId: String, // Ensure userId is passed as a prop
   },
   methods: {
-    addToCollection(collectionType) {
+    addToCollection(collection_id) {
       console.log("Game object:", this.game);
 
       // Extract the first genre name from the genres array
@@ -51,17 +51,17 @@ export default {
       const gameData = {
         title: this.game.name,
         genre: genre,
-        collectionType,
+        collection_id,
       };
 
       console.log("Sending data to backend:", gameData);
 
       CollectionService.addToCollections(gameData)
         .then((response) => {
-          console.log(`Game added to ${collectionType} collection`, response);
+          console.log(`Game added to ${collection_id} collection`, response);
         })
         .catch((error) => {
-          console.error(`Error adding game to ${collectionType} collection`, error);
+          console.error(`Error adding game to ${collection_id} collection`, error);
         });
     }
   }
