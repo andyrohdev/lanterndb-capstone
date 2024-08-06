@@ -8,16 +8,13 @@
     </div>
   </div>
   <div class="dashboard">
-    <Card v-bind:key="'wishlist'" title="Wishlist" :items="wishlist" />
-    <Card v-bind:key="'playing'" title="Playing" :items="playing" />
-    <Card v-bind:key="'played'" title="Played" :items="played" />
+    <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
+    <Card :key="'playing'" title="Playing" :items="playingItems" />
+    <Card :key="'played'" title="Played" :items="playedItems" />
   </div>
-
- 
-
 </template>
-  
-  <script>
+
+<script>
 import Card from "@/components/Card.vue";
 import CollectionService from "../services/CollectionService";
 
@@ -27,42 +24,46 @@ export default {
   },
   data() {
     return {
-      wishlist: [],
-      playing: [],
-      played: [],
+      allItems: [],
     };
   },
+  computed: {
+    wishlistItems() {
+      return this.allItems.filter(item => item.collection_id === 1);
+    },
+    playingItems() {
+      return this.allItems.filter(item => item.collection_id === 2);
+    },
+    playedItems() {
+      return this.allItems.filter(item => item.collection_id === 3);
+    },
+  },
   created() {
-    CollectionService.getCollections(1)
-      .then((response) => {
-        console.log("Wishlist Response:", response.data)
-        this.wishlist = response.data;
+    this.fetchCollections();
+  },
+  methods: {
+    fetchCollections() {
+      Promise.all([
+        CollectionService.getCollections(1),
+        CollectionService.getCollections(2),
+        CollectionService.getCollections(3)
+      ])
+      .then((responses) => {
+        this.allItems = [
+          ...responses[0].data,
+          ...responses[1].data,
+          ...responses[2].data
+        ];
       })
       .catch((error) => {
-        console.error("error retrieving collection", error);
+        console.error("Error retrieving collections", error);
       });
-
-    CollectionService.getCollections(2)
-      .then((response)=> {
-      this.playing = response.data;
-    })
-    .catch((error)=>{
-      console.error("error retrieving",error);
-    });
-    CollectionService.getCollections(3)
-      .then((response)=> {
-      this.played = response.data;
-    })
-    .catch((error)=>{
-      console.error("error retrieving",error);
-    });
-  
+    }
   }
-   
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .dashboard {
   display: flex;
   justify-content: space-around;
