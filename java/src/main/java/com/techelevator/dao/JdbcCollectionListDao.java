@@ -82,7 +82,7 @@ public class JdbcCollectionListDao implements CollectionListDao {
     }
 
     @Override
-    public int deleteCollection(int collection_list_id) {
+    public int deleteGameFromACollection(int collection_list_id) {
         int rows = 0;
         String sql = "DELETE FROM collection_list WHERE collection_list_id = ?;";
         try{

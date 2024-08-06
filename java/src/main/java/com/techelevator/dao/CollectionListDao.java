@@ -17,7 +17,7 @@ public interface CollectionListDao {
 
    CollectionList fetchCollectionById(int collection_list_id);
 
-   int deleteCollection(int collection_list_id);
+   int deleteGameFromACollection(int collection_list_id);
 
 
 }
