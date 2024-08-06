@@ -74,9 +74,35 @@ export default {
 
 <style scoped>
 .form-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1rem;
 }
+
 label {
   margin-right: 0.5rem;
+  width: 120px; /* Adjust this width as needed */
+  text-align: right;
+}
+
+input {
+  flex: 1;
+  padding: 0.5rem;
+  width: 200px; /* Adjust this width as needed */
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+#register {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>
