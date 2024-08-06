@@ -55,8 +55,16 @@ export default {
         .login(this.user)
         .then(response => {
           if (response.status == 200) {
+            
+            const user = response.data.user;
+            
+            const role = user.authorities.length > 0 ? user.authorities[0].name : null;
+            
+            user.role = role;
+
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            
             this.$router.push("/");
           }
         })
