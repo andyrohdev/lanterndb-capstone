@@ -83,12 +83,9 @@ export default {
   overflow: hidden;
   /* Ensure content doesn't overflow */
   position: relative;
-
   margin-left: 2%;
   margin-right: 2%;
   margin-bottom: 2%;
-
-  border: 1px solid red;
 }
 
 .game-image {
@@ -98,8 +95,6 @@ export default {
   /* Adjust height as needed */
   object-fit: cover;
   /* Ensure image covers the area */
-
-  border: 1px solid rgb(124, 170, 26);
 }
 
 .text-content {
@@ -114,8 +109,6 @@ export default {
   /* Align text to the left */
   background-color: rgba(240, 248, 255, 0);
   justify-content: space-around;
-
-  border: 1px solid rgb(106, 0, 255);
 }
 
 .game-title {
@@ -140,4 +133,14 @@ export default {
   right: 16px;
   /* Space from the right */
 }
+
+@media (max-width: 600px) {
+  .game-card {
+    width: 20%; /* Adjust width to 48% to allow for margins */
+    height: auto;
+    margin: 1%;
+  }
+
+}
 </style>
+
