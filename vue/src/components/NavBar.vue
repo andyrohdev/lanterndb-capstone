@@ -12,7 +12,7 @@
         </div>
         <div class="divider"></div>
         <div class="profile-link">
-            <router-link v-if="showProfileLink" to="/profile" class="navbar-link"><i class="bi bi-person-circle"></i></router-link>
+            <router-link v-if="showProfileLink" to="/dashboard" class="navbar-link"><i class="bi bi-person-circle"></i></router-link>
         </div>
       </div>
     </nav>
