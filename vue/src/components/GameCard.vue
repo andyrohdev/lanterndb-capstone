@@ -52,7 +52,6 @@ export default {
         title: this.game.name,
         genre: genre,
         collection_id,
-        userId: this.userId,
       };
 
       console.log("Sending data to backend:", gameData);
