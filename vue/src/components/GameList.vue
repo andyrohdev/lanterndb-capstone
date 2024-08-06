@@ -48,29 +48,24 @@ export default {
   },
 
   computed: {
-  filteredGames() {
-    const filterText = this.nameFilter.trim().toLowerCase();
-    if (filterText === "") {
-      return this.games;
-    }
-
-    // Normalize the filterText and gameTitle for a more robust search
-    return this.games.filter((game) => {
-      if (!game || !game.name) {
-        return false;
+    filteredGames() {
+      const filterText = this.nameFilter.trim().toLowerCase();
+      if (filterText === "") {
+        return this.games;
       }
-      const gameTitle = game.name.trim().toLowerCase();
 
-      // Check if the filterText is included in the gameTitle
-      return gameTitle.includes(filterText);
-    });
+      return this.games.filter((game) => {
+        if (!game || !game.name) {
+          return false;
+        }
+        const gameTitle = game.name.trim().toLowerCase();
+        return gameTitle.includes(filterText);
+      });
+    },
   },
-},
-
-
 
   watch: {
-    nameFilter: "performSearch",
+    nameFilter: "debouncedPerformSearch",
   },
 
   created() {
@@ -91,22 +86,24 @@ export default {
   methods: {
     performSearch() {
       if (this.nameFilter.trim()) {
-        // Search games if there is a search term
         this.searching = true;
-        this.currentPage = 1; // Reset page for search
-        this.games = []; // Clear current games
-        this.loadGames(this.currentPage); // Load new games based on search
+        this.currentPage = 1;
+        this.games = [];
+        this.loadGames(this.currentPage);
       } else {
-        // If search term is empty, reset to default game list
         this.searching = false;
-        this.currentPage = 1; // Reset page for normal load
-        this.games = []; // Clear current games
-        this.loadGames(this.currentPage); // Load default games
+        this.currentPage = 1;
+        this.games = [];
+        this.loadGames(this.currentPage);
       }
     },
 
+    debouncedPerformSearch: debounce(function() {
+      this.performSearch();
+    }, 300),
+
     loadGames(page) {
-      if (this.loading) return; // Prevent multiple requests
+      if (this.loading) return;
 
       this.loading = true;
       const loadMethod = this.searching
@@ -117,21 +114,13 @@ export default {
         .then((response) => {
           console.log("Games retrieved successfully:", response.data.results);
           this.games = this.games.concat(response.data.results);
-          this.totalPages = Math.ceil(response.data.count / 12); // Adjust total pages
+          this.totalPages = Math.ceil(response.data.count / 12);
           this.loading = false;
         })
         .catch((error) => {
           console.error("Error retrieving games:", error);
           this.loading = false;
         });
-    },
-
-    normalizeString(str) {
-      // Replace non-alphanumeric characters with spaces and convert to lower case
-      return str
-        .replace(/[^a-z0-9\s]/gi, "")
-        .replace(/\s+/g, " ")
-        .trim();
     },
 
     checkScroll() {
@@ -152,8 +141,20 @@ export default {
     },
   },
 };
-</script>
 
+// Debounce function
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func.apply(this, args); // Use func.apply to ensure correct 'this' context
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+</script>
 
 <style scoped>
 .page-container {
@@ -195,4 +196,11 @@ export default {
 .loading-spinner {
   margin: 20px;
 }
+
+@media (max-width: 600px) {
+  .game-card {
+    width: 48%; /* Adjust width to 48% to allow for margins */
+  }
+}
 </style>
+
