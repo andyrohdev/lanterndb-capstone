@@ -71,12 +71,12 @@ public class GamesCollectionController {
         collectionList.setUser_id(userId);
         return collectionListDao.updateCollection(collectionList, userId);
     }
-    @DeleteMapping("/collections/{id}")
-    public void deleteCollection(@PathVariable int id){
-        if(collectionListDao.fetchCollectionById(id) == null){
+    @DeleteMapping("/collections")
+    public void deleteGameFromACollection(@Valid @RequestBody CollectionList collectionList){
+        if(collectionListDao.fetchCollectionById(collectionList.getCollection_list_id()) == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        collectionListDao.deleteCollection(id);
+        collectionListDao.deleteGameFromACollection(collectionList.getCollection_list_id());
     }
 
 
