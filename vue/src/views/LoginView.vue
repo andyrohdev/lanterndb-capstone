@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div class="loging-container">
+    <div class="login-container">
       <form v-on:submit.prevent="login">
         <h1>Please Sign In</h1>
         <div role="alert" v-if="invalidCredentials">
@@ -13,7 +13,7 @@
           <label for="username">Username</label>
         </div>
         <div class="input-wrapper">
-          <input type="text" id="username" v-model="user.username" required autofocus />
+          <input type="text" id="username" v-model="user.username" required autofocus placeholder="Enter Your Username..." />
           <i class="bi bi-person icon" aria-hidden="true"></i>
         </div>
         <br/>
@@ -21,7 +21,7 @@
           <label for="password">Password</label>
         </div>
         <div class="input-wrapper">
-          <input type="password" id="password" v-model="user.password" required />
+          <input type="password" id="password" v-model="user.password" required placeholder="Enter Your Password..."/>
           <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
         </div>
         <br/>
@@ -95,15 +95,19 @@ label {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #333;
+  background: url('@/assets/art2.jpg') no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
   color: white;
+  overflow: hidden;
 }
 
 .login-container {
-  background-color: #2c2c2c;
-  padding: 2rem;
-  border-radius: 8px;
+  background-color: #29292943;
+  padding: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 7%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
