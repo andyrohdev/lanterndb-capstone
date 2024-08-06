@@ -1,10 +1,6 @@
 <template>
   <div class="dashboard-container">
     <div class="header">
-     
-      <div class="profile-icon">
-      
-      </div>
     </div>
   </div>
   <div class="dashboard">
