@@ -68,7 +68,7 @@ export default{
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 2%;
+    height: 1px;
     background: linear-gradient(45deg, rgba(255, 165, 0, 0.7), rgba(255, 255, 0, 0.7));
     transform: scaleX(0);
     transform-origin: bottom right;
