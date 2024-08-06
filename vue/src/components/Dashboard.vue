@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard-container">
     <div class="header">
-      <div class="title">Dashboard</div>
+     
       <div class="profile-icon">
-        <i class="bi bi-person-circle"></i>
+      
       </div>
     </div>
   </div>
