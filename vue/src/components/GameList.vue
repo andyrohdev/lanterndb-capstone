@@ -2,7 +2,6 @@
   <div class="page-container">
     <div class="content-container">
       <h1 class="header">Game Search</h1>
-
       <div class="search-box">
         <label for="gameName">Find Your Next Game</label>
         <input
