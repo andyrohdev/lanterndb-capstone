@@ -23,6 +23,8 @@ public class GamesCollectionController {
 
     @Autowired
     private CollectionListDao collectionListDao;
+    @Autowired
+    private UserDao userDao;
 
     public GamesCollectionController(JdbcCollectionListDao jdbcCollectionListDao, JdbcUserDao jdbcuserDao) {
         this.jdbcCollectionListDao = jdbcCollectionListDao;
@@ -79,6 +81,16 @@ public class GamesCollectionController {
         collectionListDao.deleteGameFromACollection(collectionList.getCollection_list_id());
     }
 
+    @GetMapping("/admin")
+    public List<User> fetchListOfAllUsers(){
+        List<User> foundUsers = jdbcUserDao.getUsers();
+        return foundUsers;
+    }
+
+    @DeleteMapping("/admin")
+    public void deleteUser(@Valid @RequestBody User user) {
+        userDao.deleteUser(user.getId());
+    }
 
 
 
