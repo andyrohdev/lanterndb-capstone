@@ -3,7 +3,7 @@
     <h3>{{ title }}</h3>
     <ul>
       <li v-for="item in items" :key="item.collectionListId">
-        {{ item.collection_list_id }}
+        
         {{ item.title }}
         <div class="dropdown">
           <button
