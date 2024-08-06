@@ -7,6 +7,12 @@
         </router-link>
       </div>
       <div class="navbar-right">
+
+        <div v-if="isAdmin" class="admin-button">
+            <router-link to="/admin" class="navbar-link">Admin</router-link>
+        </div>
+
+
         <div class="browser-button">
             <router-link v-if="ShowBrowserLink" to="/games" class="navbar-link">Browse</router-link>
         </div>
@@ -38,6 +44,16 @@ export default{
         showProfileLink: {
             type: Boolean,
             default: true
+        }
+    },
+    computed: {
+        isAdmin() {
+            const user = this.$store.state.user;
+            if (user.authorities && user.authorities.length > 0) {
+               return user.authorities[0].name === 'ROLE_ADMIN';
+            }
+            return false;
+            
         }
     }
 }
