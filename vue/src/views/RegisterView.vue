@@ -7,7 +7,6 @@
       </div>
       <div class="form-input-group">
         <label for="username">Username</label>
-        <!-- <input type="text" id="username" v-model="user.username" required autofocus /> -->
       </div>
       <div class="input-wrapper">
           <input type="text" id="username" v-model="user.username" required autofocus />
@@ -15,7 +14,6 @@
         </div>
       <div class="form-input-group">
         <label for="password">Password</label>
-        <!-- <input type="password" id="password" v-model="user.password" required /> -->
       </div>
       <div class="input-wrapper">
           <input type="password" id="password" v-model="user.password" required />
@@ -24,7 +22,6 @@
         <br/>
       <div class="form-input-group">
         <label for="confirmPassword">Confirm Password</label>
-        <!-- <input type="password" id="confirmPassword" v-model="user.confirmPassword" required /> -->
       </div>
       <div class="input-wrapper">
           <input type="password" id="password" v-model="user.password" required />
