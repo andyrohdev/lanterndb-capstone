@@ -20,17 +20,20 @@ public class JdbcReviewDao implements ReviewDao{
     @Autowired
     private final JdbcUserDao jdbcUserDao;
 
+    @Autowired
+    private UserDao userDao;
+
     public JdbcReviewDao(JdbcTemplate jdbcTemplate, JdbcUserDao jdbcUserDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcUserDao = jdbcUserDao;
     }
 
     @Override
-    public List <Review> getReviewsByGameId(int game_id) {
+    public List <Review> getReviewsByGameId(int game_id, int user_id) {
         List<Review> reviewsList = new ArrayList<>();
-        String sql = "SELECT review_id, game_id, review_text FROM reviews WHERE game_id = ?;";
+        String sql = "SELECT review_id, game_id, review_text FROM reviews WHERE game_id = ? AND user_id = ?;";
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id, user_id);
                     if(results.next()){
                         reviewsList.add(mapRowToReview(results));
                     }
@@ -47,8 +50,24 @@ public class JdbcReviewDao implements ReviewDao{
     }
 
     @Override
-    public Review addReview(Review review) {
-        return null;
+    public List <Review> addReview(Review review, int user_id) {
+        List<Review> addReviewToList = null;
+        String sql = "INSERT INTO reviews (game_id, user_id, review_text)\n" +
+                "VALUES (?, ?, ?)\n" +
+                "RETURNING game_id";
+
+        try{
+            int newId = jdbcTemplate.queryForObject(sql, int.class, review.getGame_id(), review.getUser_id(), review.getReview_text());
+            addReviewToList = getReviewsByGameId(newId, user_id);
+
+        }
+        catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+        return addReviewToList;
     }
 
     @Override

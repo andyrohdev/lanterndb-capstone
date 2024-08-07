@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ReviewDao {
 
-    List<Review> getReviewsByGameId(int game_id);
+    List<Review> getReviewsByGameId(int game_id, int user_id);
 
-    Review addReview(Review review);
+    List<Review> addReview(Review review, int user_id);
 
     Review updateAndEditReview(Review review);
 
