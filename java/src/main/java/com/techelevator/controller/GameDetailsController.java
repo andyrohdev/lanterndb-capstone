@@ -29,13 +29,23 @@ public class GameDetailsController {
     @Autowired
     private ReviewDao reviewDao;
 
+//    @GetMapping("/reviews/{id}")
+//    public List<Review> getReviewById(Principal principal, @PathVariable int id){
+//        String userName = principal.getName();
+//        User user = jdbcUserDao.getUserByUsername(userName);
+//        int userId = user.getId();
+//
+//        List<Review> reviewList= jdbcReviewDao.getReviewsByGameId(id, userId );
+//
+//        if(reviewList == null){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
+//        }
+//        return reviewList;
+//    }
     @GetMapping("/reviews/{id}")
-    public List<Review> getReviewById(Principal principal, @PathVariable int id){
-        String userName = principal.getName();
-        User user = jdbcUserDao.getUserByUsername(userName);
-        int userId = user.getId();
+    public List<Review> getReviewById(@PathVariable int id){
 
-        List<Review> reviewList= jdbcReviewDao.getReviewsByGameId(id, userId );
+        List<Review> reviewList= jdbcReviewDao.getReviewsByGameId(id);
 
         if(reviewList == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
@@ -52,6 +62,8 @@ public class GameDetailsController {
         review.setUser_id(userId);
         return reviewDao.addReview(review, userId);
     }
+
+
 
 
 
