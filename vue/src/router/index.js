@@ -72,7 +72,8 @@ const routes = [
     name:"admin",
     component: AdminPageView,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAdmin: true
     }
   },
   
@@ -93,11 +94,22 @@ router.beforeEach((to) => {
 
   // Determine if the route requires Authentication
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const requiresAdmin = to.matched.some(x => x.meta.requiresAdmin);
 
   // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && store.state.token === '') {
     return {name: "login"};
   }
+
+  if (requiresAdmin) {
+    const user = store.state.user;
+    const isAdmin = user && user.authorities && user.authorities.some(auth => auth.name === 'ROLE_ADMIN');
+    if (!isAdmin) {
+      return { name: 'home' };
+    }
+    
+  }
+
   // Otherwise, do nothing and they'll go to their next destination
 });
 
