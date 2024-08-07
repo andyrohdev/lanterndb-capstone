@@ -2,9 +2,11 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Review;
 
+import java.util.List;
+
 public interface ReviewDao {
 
-    Review getReviewsById(int review_id);
+    List<Review> getReviewsByGameId(int game_id);
 
     Review addReview(Review review);
 
