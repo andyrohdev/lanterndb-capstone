@@ -3,17 +3,35 @@ package com.techelevator.model;
 public class Review {
     private int review_id;
     private int game_id;
-
+    private String review_title;
     private String review_text;
+    private int user_id;
 
-    public Review(int review_id, int game_id, String review_text) {
+    public Review(int review_id, int game_id, String review_text, int user_id) {
         this.review_id = review_id;
         this.game_id = game_id;
         this.review_text = review_text;
+        this.user_id = user_id;
     }
 
     public Review() {
 
+    }
+
+    public String getReview_title() {
+        return review_title;
+    }
+
+    public void setReview_title(String review_title) {
+        this.review_title = review_title;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getReview_id() {

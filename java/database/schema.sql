@@ -33,7 +33,12 @@ CREATE TABLE collection_list (
 CREATE TABLE reviews (
 	review_id SERIAL PRIMARY KEY,
 	game_id INT NOT NULL,
-	review_text VARCHAR(255) NOT NULL
+	user_id INT NOT NULL,
+	review_title VARCHAR(255) NOT NULL,
+	review_text VARCHAR(255) NOT NULL,
+	CONSTRAINT FK_user FOREIGN KEY (user_id)
+		REFERENCES users (user_id)
+			ON DELETE CASCADE
 );
 
 

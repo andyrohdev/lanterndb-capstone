@@ -8,7 +8,7 @@ public interface ReviewDao {
 
     List<Review> getReviewsByGameId(int game_id);
 
-    Review addReview(Review review);
+    List<Review> addReview(Review review, int userId);
 
     Review updateAndEditReview(Review review);
 
