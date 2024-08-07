@@ -14,6 +14,11 @@
       </div>
 
       <div class="game-container" ref="scrollContainer">
+        <!-- Display "No games found" if there are no games -->
+        <div v-if="!loading && filteredGames.length === 0" class="no-games-message">
+          No games found.
+        </div>
+
         <game-card
           v-bind:game="game"
           v-bind:key="game.id"
@@ -193,6 +198,13 @@ function debounce(func, wait) {
   padding: 1rem; /* Add some padding for better spacing */
 }
 
+.no-games-message {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin: 20px 0;
+}
+
 .loading-spinner {
   margin: 20px;
 }
@@ -203,4 +215,5 @@ function debounce(func, wait) {
   }
 }
 </style>
+
 
