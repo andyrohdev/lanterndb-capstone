@@ -85,7 +85,7 @@ export default{
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(45deg, rgba(255, 165, 0, 0.7), rgba(255, 255, 0, 0.7));
+    background: linear-gradient(45deg, rgba(255, 165, 0, 0.7), rgb(233, 89, 28));
     transform: scaleX(0);
     transform-origin: bottom right;
     transition: transform 0.5s ease-in-out; 
@@ -132,7 +132,7 @@ export default{
     
 }
 .navbar-link:hover{
-    border-bottom: 2px solid orange;
+    border-bottom: 2px solid rgb(158, 54, 10);
 }
 .navbar-link::after{
     content: '';
@@ -141,7 +141,7 @@ export default{
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: orange;
+    background-color: rgb(158, 54, 10);
     transform: scaleX(0);
     transform-origin: bottom right;
     transition: transform 0.4s ease; 
