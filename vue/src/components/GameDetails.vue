@@ -158,7 +158,9 @@ export default {
   text-align: center;
   padding: 20px;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto; /* Make sure content is scrollable if needed */
+  display: flex;
+  flex-direction: column;
 }
 
 .banner-container {
@@ -205,6 +207,7 @@ h1 {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
+  flex: 1; /* Allow reviews container to take up available space */
 }
 
 .reviews-section {
@@ -280,4 +283,5 @@ h1 {
     font-size: 1.2rem;
   }
 }
+
 </style>
