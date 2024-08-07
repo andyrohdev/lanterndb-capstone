@@ -3,7 +3,7 @@ package com.techelevator.model;
 public class Review {
     private int review_id;
     private int game_id;
-
+    private String review_title;
     private String review_text;
     private int user_id;
 
@@ -16,6 +16,14 @@ public class Review {
 
     public Review() {
 
+    }
+
+    public String getReview_title() {
+        return review_title;
+    }
+
+    public void setReview_title(String review_title) {
+        this.review_title = review_title;
     }
 
     public int getUser_id() {
