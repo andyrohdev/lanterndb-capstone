@@ -9,6 +9,7 @@ import RegisterView from '../views/RegisterView.vue';
 import GamesListView from '../views/GamesListView.vue';
 import DashboardView from  '../views/DashboardView.vue';
 import AdminPageView from '../views/AdminPageView.vue'
+import GameDetailsView from '../views/GameDetailsView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -74,6 +75,14 @@ const routes = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true
+    }
+  },
+  {
+    path:"/game-details/:gameId",
+    name:"game-details",
+    component: GameDetailsView,
+    meta: {
+      requiresAuth: false
     }
   },
   
