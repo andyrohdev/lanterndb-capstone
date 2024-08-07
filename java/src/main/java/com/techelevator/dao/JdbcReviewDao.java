@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JdbcReviewDao implements ReviewDao{
 
@@ -23,13 +26,13 @@ public class JdbcReviewDao implements ReviewDao{
     }
 
     @Override
-    public Review getReviewsById(int review_id) {
-        Review reviews = null;
-        String sql = "SELECT review_id, game_id, review_text FROM reviews WHERE review_id = ?;";
+    public List <Review> getReviewsByGameId(int game_id) {
+        List<Review> reviewsList = new ArrayList<>();
+        String sql = "SELECT review_id, game_id, review_text FROM reviews WHERE game_id = ?;";
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, review_id);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id);
                     if(results.next()){
-                        reviews =  mapRowToReview(results);
+                        reviewsList.add(mapRowToReview(results));
                     }
 
 
@@ -40,7 +43,7 @@ public class JdbcReviewDao implements ReviewDao{
         catch(DataIntegrityViolationException e){
             throw new DaoException("Data integrity violation", e);
         }
-        return reviews;
+        return reviewsList;
     }
 
     @Override
