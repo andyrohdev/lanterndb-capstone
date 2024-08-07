@@ -34,7 +34,7 @@ public class JdbcReviewDao implements ReviewDao{
         String sql = "SELECT review_id, game_id, review_title, review_text FROM reviews WHERE game_id = ? AND user_id = ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id, user_id);
-                    if(results.next()){
+                    while(results.next()){
                         reviewsList.add(mapRowToReview(results));
                     }
 
