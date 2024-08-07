@@ -30,6 +30,11 @@ CREATE TABLE collection_list (
 		REFERENCES collections (collection_id)
         ON DELETE CASCADE
 );
+CREATE TABLE reviews (
+	review_id SERIAL PRIMARY KEY,
+	game_id INT NOT NULL,
+	review_text VARCHAR(255) NOT NULL
+);
 
 
 

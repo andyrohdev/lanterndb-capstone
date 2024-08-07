@@ -1,5 +1,6 @@
 <template>
-  <div id="register" class="register-container">
+  <div class="register-back">
+    <div id="register" class="register-container">
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
       <div role="alert" v-if="registrationErrors">
@@ -7,33 +8,35 @@
       </div>
       <div class="form-input-group">
         <label for="username">Username</label>
+        <!-- <input type="text" id="username" v-model="user.username" required autofocus /> -->
       </div>
       <div class="input-wrapper">
-        <input type="text" id="username" v-model="user.username" required autofocus />
-        <i class="bi bi-person icon" aria-hidden="true"></i>
-      </div>
+          <input type="text" id="username" v-model="user.username" required autofocus />
+          <i class="bi bi-person icon" aria-hidden="true"></i>
+        </div>
       <div class="form-input-group">
         <label for="password">Password</label>
+        <!-- <input type="password" id="password" v-model="user.password" required /> -->
       </div>
       <div class="input-wrapper">
-        <input type="password" id="password" v-model="user.password" required />
-        <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
-      </div>
-      <br />
+          <input type="password" id="password" v-model="user.password" required />
+          <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
+        </div>
+        <br/>
       <div class="form-input-group">
         <label for="confirmPassword">Confirm Password</label>
+        <!-- <input type="password" id="confirmPassword" v-model="user.confirmPassword" required /> -->
       </div>
       <div class="input-wrapper">
-        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
-        <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
-      </div>
-      <br />
+          <input type="password" id="password" v-model="user.password" required />
+          <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
+        </div>
+      <br/>
       <button type="submit">Create Account</button>
-      <br /> <br />
-      <p>
-        <router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link>
-      </p>
+      <br/> <br/>
+      <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
+  </div>
   </div>
 </template>
 
@@ -88,12 +91,13 @@ export default {
 
 <style scoped>
 .form-input-group {
+  
   margin-bottom: 1rem;
 }
 
 label {
   margin-right: 0.5rem;
-  display: block;
+ display: block;
 }
 
 input {
@@ -107,34 +111,39 @@ button {
   margin-top: 1rem;
 }
 
-#register {
+
+
+.register-container{
+  padding: 2rem;
+  border-radius: 0 8px 8px 0; /* Top-right and bottom-right corners rounded */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #333;
   margin: 0;
   color: white;
+  background-color: #44444483;
 }
-
-.register-container {
-  background-color: #2c2c2c;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
+.register-back{
+  align-items: center;
+  height: 100vh;
+  background: url('@/assets/art2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  color: white;
+  overflow: hidden;
 }
-
 h1 {
   margin-bottom: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
 }
-
 .create-account {
   background-color: rgba(238, 236, 232, 0.763);
-  padding: 0.75rem;
+  padding: .75rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -144,14 +153,13 @@ h1 {
   display: flex;
   margin: auto;
 }
-
-.input-wrapper {
+.input-wrapper{
   position: relative;
 }
 
 input {
   width: 100%;
-  padding: 0.75rem;
+  padding: .75rem;
   border-radius: 4px;
   border: 1px solid #444;
 }
@@ -164,10 +172,12 @@ input {
 
 .icon {
   position: absolute;
-  right: 0.75rem;
+  right: .75rem;
   top: 50%;
   transform: translateY(-50%);
   color: rgb(16, 16, 16);
   font-size: 20px;
 }
+
+
 </style>

@@ -80,7 +80,7 @@ public class GamesCollectionController {
         }
         collectionListDao.deleteGameFromACollection(collectionList.getCollection_list_id());
     }
-    
+
 
 
 
