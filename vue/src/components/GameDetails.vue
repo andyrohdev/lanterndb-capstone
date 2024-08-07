@@ -166,7 +166,6 @@
   background-color: #121212;
   color: #e0e0e0;
   text-align: center;
-  padding: 20px;
   height: 100vh;
   overflow-y: auto; /* Make sure content is scrollable if needed */
   display: flex;
