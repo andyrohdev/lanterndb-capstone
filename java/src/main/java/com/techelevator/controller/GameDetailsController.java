@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 public class GameDetailsController {
     @Autowired

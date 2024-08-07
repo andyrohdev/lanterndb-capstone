@@ -31,7 +31,7 @@ public class JdbcReviewDao implements ReviewDao{
     @Override
     public List <Review> getReviewsByGameId(int game_id, int user_id) {
         List<Review> reviewsList = new ArrayList<>();
-        String sql = "SELECT review_id, game_id, review_text FROM reviews WHERE game_id = ? AND user_id = ?;";
+        String sql = "SELECT review_id, game_id, review_title, review_text FROM reviews WHERE game_id = ? AND user_id = ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id, user_id);
                     if(results.next()){
@@ -52,12 +52,12 @@ public class JdbcReviewDao implements ReviewDao{
     @Override
     public List <Review> addReview(Review review, int user_id) {
         List<Review> addReviewToList = null;
-        String sql = "INSERT INTO reviews (game_id, user_id, review_text)\n" +
-                "VALUES (?, ?, ?)\n" +
+        String sql = "INSERT INTO reviews (game_id, user_id, review_title, review_text)\n" +
+                "VALUES (?, ?, ?, ?)\n" +
                 "RETURNING game_id";
 
         try{
-            int newId = jdbcTemplate.queryForObject(sql, int.class, review.getGame_id(), review.getUser_id(), review.getReview_text());
+            int newId = jdbcTemplate.queryForObject(sql, int.class, review.getGame_id(), review.getUser_id(), review.getReview_title(), review.getReview_text());
             addReviewToList = getReviewsByGameId(newId, user_id);
 
         }
@@ -84,6 +84,7 @@ public class JdbcReviewDao implements ReviewDao{
         Review review = new Review();
         review.setReview_id(rs.getInt("review_id"));
         review.setGame_id(rs.getInt("game_id"));
+        review.setReview_title(rs.getString("review_title"));
         review.setReview_text(rs.getString("review_text"));
         return review;
     }
