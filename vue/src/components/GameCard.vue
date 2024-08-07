@@ -14,7 +14,8 @@
         </div>
       </div>
     </router-link>
-    <div class="dropdown" @click.stop>
+    <!-- Show dropdown only if user is logged in -->
+    <div v-if="loggedIn" class="dropdown" @click.stop>
       <button
         class="btn btn-secondary dropdown-toggle"
         type="button"
@@ -37,7 +38,7 @@ import CollectionService from '../services/CollectionService';
 export default {
   props: {
     game: Object,
-    userId: String, // Ensure userId is passed as a prop
+    loggedIn: Boolean, // Add prop to check if user is logged in
   },
   methods: {
     addToCollection(collection_id) {
