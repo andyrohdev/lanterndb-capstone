@@ -30,5 +30,10 @@ export default {
         console.error("POST request error:", error);
         throw error;
       });
-  }
+  },
+
+  fetchUsers() {
+    return axios.get('/admin')
+  },
+
 };

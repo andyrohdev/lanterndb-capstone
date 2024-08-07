@@ -23,7 +23,9 @@
           <h2>Reviews</h2>
           <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-section">
             <div v-for="review in reviews" :key="review.review_id" class="review">
-              <p><strong>Anonymous:</strong> {{ review.review_title }} - {{ review.review_text }}</p>
+              <p>
+                <strong>{{ getUsernameById(review.user_id) }}:</strong> {{ review.review_title }} - {{ review.review_text }}
+              </p>
             </div>
           </div>
           <div v-else-if="!loading" class="no-reviews-message">No reviews found.</div>
@@ -49,105 +51,113 @@
   </template>
   
   <script>
-import { ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import GameService from "../services/GameService";
-
-export default {
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const game = ref({
-      genres: [],
-      background_image: "",
-      name: "",
-      rating: "N/A",
-    });
-    const reviews = ref([]);
-    const isUserLoggedIn = computed(() => !!store.state.token);
-    const loading = ref(true);
-    const showReviewForm = ref(false);
-    const newReviewTitle = ref("");
-    const newReviewContent = ref("");
-
-    const formattedGenres = computed(() => {
-      return Array.isArray(game.value.genres) && game.value.genres.length > 0
-        ? game.value.genres.map((genre) => genre.name).join(", ")
-        : "N/A";
-    });
-
-    onMounted(() => {
-      const game_id = route.params.gameId;
-      GameService.getGameDetails(game_id)
-        .then((response) => {
-          console.log("Game details response:", response.data);
-          game.value = response.data;
-          return GameService.getGameReviews(game_id);
-        })
-        .then((response) => {
-          console.log("Reviews response:", response.data);
-          reviews.value = Array.isArray(response.data) ? response.data : []; // Adjust based on actual response structure
-          loading.value = false;
-        })
-        .catch((error) => {
-          console.error("Error fetching game details or reviews:", error);
-          loading.value = false;
-        });
-    });
-
-    function openReviewForm() {
-      showReviewForm.value = true;
-    }
-
-    function closeReviewForm() {
-      showReviewForm.value = false;
-      newReviewTitle.value = "";
-      newReviewContent.value = "";
-    }
-
-    function submitReview() {
-      if (!newReviewTitle.value.trim() || !newReviewContent.value.trim()) {
-        alert("Please provide both a title and content for your review.");
-        return;
+  import { ref, onMounted, computed } from "vue";
+  import { useRoute } from "vue-router";
+  import { useStore } from "vuex";
+  import GameService from "../services/GameService";
+  
+  export default {
+    setup() {
+      const store = useStore();
+      const route = useRoute();
+      const game = ref({
+        genres: [],
+        background_image: "",
+        name: "",
+        rating: "N/A",
+      });
+      const reviews = ref([]);
+      const users = ref([]); // Store users data
+      const isUserLoggedIn = computed(() => !!store.state.token);
+      const loading = ref(true);
+      const showReviewForm = ref(false);
+      const newReviewTitle = ref("");
+      const newReviewContent = ref("");
+  
+      const formattedGenres = computed(() => {
+        return Array.isArray(game.value.genres) && game.value.genres.length > 0
+          ? game.value.genres.map((genre) => genre.name).join(", ")
+          : "N/A";
+      });
+  
+      onMounted(() => {
+        const game_id = route.params.gameId;
+        GameService.getGameDetails(game_id)
+          .then((response) => {
+            game.value = response.data;
+            return GameService.getGameReviews(game_id);
+          })
+          .then((response) => {
+            reviews.value = Array.isArray(response.data) ? response.data : [];
+            return GameService.fetchUsers(); // Fetch users data
+          })
+          .then((response) => {
+            users.value = response.data;
+            loading.value = false;
+          })
+          .catch((error) => {
+            console.error("Error fetching game details or reviews:", error);
+            loading.value = false;
+          });
+      });
+  
+      function getUsernameById(userId) {
+        const user = users.value.find((user) => user.id === userId);
+        return user ? user.username : "Anonymous";
       }
-
-      const reviewData = {
-        game_id: route.params.gameId,
-        review_title: newReviewTitle.value,
-        review_text: newReviewContent.value,
+  
+      function openReviewForm() {
+        showReviewForm.value = true;
+      }
+  
+      function closeReviewForm() {
+        showReviewForm.value = false;
+        newReviewTitle.value = "";
+        newReviewContent.value = "";
+      }
+  
+      function submitReview() {
+        if (!newReviewTitle.value.trim() || !newReviewContent.value.trim()) {
+          alert("Please provide both a title and content for your review.");
+          return;
+        }
+  
+        const reviewData = {
+          game_id: route.params.gameId,
+          review_title: newReviewTitle.value,
+          review_text: newReviewContent.value,
+        };
+  
+        GameService.addReview(reviewData)
+          .then(() => {
+            return GameService.getGameReviews(route.params.gameId);
+          })
+          .then((response) => {
+            reviews.value = Array.isArray(response.data) ? response.data : [];
+            closeReviewForm();
+          })
+          .catch((error) => {
+            console.error("Error submitting review:", error);
+          });
+      }
+  
+      return {
+        game,
+        reviews,
+        formattedGenres,
+        isUserLoggedIn,
+        loading,
+        showReviewForm,
+        newReviewTitle,
+        newReviewContent,
+        getUsernameById, // Return the function
+        openReviewForm,
+        closeReviewForm,
+        submitReview,
       };
-
-      GameService.addReview(reviewData)
-        .then(() => {
-          // Reload reviews after adding a new review
-          return GameService.getGameReviews(route.params.gameId);
-        })
-        .then((response) => {
-          reviews.value = Array.isArray(response.data) ? response.data : []; // Adjust based on actual response structure
-          closeReviewForm();
-        })
-        .catch((error) => {
-          console.error("Error submitting review:", error);
-        });
-    }
-
-    return {
-      game,
-      reviews,
-      formattedGenres,
-      isUserLoggedIn,
-      loading,
-      showReviewForm,
-      newReviewTitle,
-      newReviewContent,
-      openReviewForm,
-      closeReviewForm,
-      submitReview,
-    };
-  },
-};
-</script>
+    },
+  };
+  </script>
 
   
   
