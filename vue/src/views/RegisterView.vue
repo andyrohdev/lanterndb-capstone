@@ -1,5 +1,6 @@
 <template>
-  <div id="register" class="register-container">
+  <div class="register-back">
+    <div id="register" class="register-container">
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
       <div role="alert" v-if="registrationErrors">
@@ -35,6 +36,7 @@
       <br/> <br/>
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
+  </div>
   </div>
 </template>
 
@@ -109,22 +111,30 @@ button {
   margin-top: 1rem;
 }
 
-#register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #333;
-  margin: 0;
-  color: white;
-}
+
+
 .register-container{
-  background-color: #2c2c2c;
   padding: 2rem;
   border-radius: 0 8px 8px 0; /* Top-right and bottom-right corners rounded */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: white;
+  background-color: #44444483;
+}
+.register-back{
+  align-items: center;
+  height: 100vh;
+  background: url('@/assets/art2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  color: white;
+  overflow: hidden;
 }
 h1 {
   margin-bottom: 1rem;
