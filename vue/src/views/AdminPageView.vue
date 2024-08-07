@@ -5,7 +5,13 @@
         <div v-for="user in users" :key="user.id" class="user-card">
           <h3>{{ user.username }}</h3>
           <p>{{ user.authorities[0].name }}</p>
-          <button @click="removeUser(user.id)">Delete</button>
+          <button 
+            :disabled="user.id === loggedInUserId" 
+            :class="{ disabled: user.id === loggedInUserId }"
+            @click="removeUser(user.id)"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -13,12 +19,19 @@
   
   <script>
   import adminService from "../services/AdminService";
+  import { mapState } from "vuex";
   
   export default {
     data() {
       return {
         users: []
       };
+    },
+    computed: {
+      ...mapState(["user"]),
+      loggedInUserId() {
+        return this.user.id;
+      }
     },
     created() {
       this.fetchUsers();
@@ -32,18 +45,18 @@
           .catch(error => {
             console.error("Error fetching users:", error);
           });
-      },
-      removeUser(userId) {
-        adminService.deleteUser(userId)
-          .then(() => {
-            this.users = this.users.filter(user => user.id !== userId);
-          })
-          .catch(error => {
-            console.error("Error deleting user:", error);
-          });
+        },
+        removeUser(userId) {
+          adminService.deleteUser(userId)
+            .then(() => {
+              this.users = this.users.filter(user => user.id !== userId);
+            })
+            .catch(error => {
+              console.error("Error deleting user:", error);
+            });
+        }
       }
-    }
-  };
+    };
   </script>
   
   <style scoped>
@@ -88,8 +101,13 @@
     cursor: pointer;
   }
   
-  .user-card button:hover {
+  .user-card button:hover:not(.disabled) {
     background-color: #c82333;
+  }
+  
+  .user-card button.disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
   }
   </style>
   
