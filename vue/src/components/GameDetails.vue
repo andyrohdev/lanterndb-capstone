@@ -40,7 +40,7 @@
         <div class="review-form-content">
           <h3>Submit Your Review</h3>
           <input v-model="newReviewTitle" placeholder="Review Title" class="review-title-input" />
-          <textarea v-model="newReviewContent" placeholder="Write your review here..." rows="4"></textarea>
+          <textarea v-model="newReviewContent" placeholder="Write your review here." rows="4"></textarea>
           <button @click="submitReview" class="btn btn-primary">Submit</button>
           <button @click="closeReviewForm" class="btn btn-secondary">Cancel</button>
         </div>

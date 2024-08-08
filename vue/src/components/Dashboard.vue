@@ -62,8 +62,16 @@ export default {
 <style scoped>
 .dashboard {
   display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap onto the next line */
   justify-content: space-around;
   padding: 20px;
   background: #ecf0f1;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>
