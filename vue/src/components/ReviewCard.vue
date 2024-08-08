@@ -34,7 +34,7 @@
       </div>
     </div>
   </template>
-    
+  
   <script>
   import GameService from "../services/GameService";
   
@@ -94,8 +94,23 @@
       },
       submitEdit() {
         console.log("Submit edit for review:", this.review.review_id);
-        // Logic to submit edited review
-        this.editModalVisible = false;
+        const updatedReview = {
+          review_id: this.review.review_id,
+          game_id: this.review.game_id,
+          review_title: this.editTitle,
+          review_text: this.editText,
+          user_id: this.review.user_id
+        };
+  
+        GameService.updateSpecificReview(updatedReview)
+          .then(response => {
+            console.log("Review updated successfully:", response.data);
+            this.$emit('update-review', updatedReview);
+            this.editModalVisible = false;
+          })
+          .catch(error => {
+            console.error("Error updating review:", error);
+          });
       },
       deleteReview() {
         console.log("Delete review:", this.review.review_id);
@@ -104,7 +119,7 @@
     },
   };
   </script>
-    
+  
   <style scoped>
   .review-card {
     background-color: #1e1e1e;
@@ -191,4 +206,3 @@
     margin-bottom: 10px;
   }
   </style>
-  

@@ -40,6 +40,8 @@ export default {
     return axios.get(`http://localhost:9000/user/reviews/${user_id}`)
   },
 
-  // updateSpecificReview(rev)
+  updateSpecificReview(reviewData) {
+    return axios.put('http://localhost:9000/user/reviews', reviewData)
+  }
 
 };

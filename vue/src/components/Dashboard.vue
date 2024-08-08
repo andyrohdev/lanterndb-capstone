@@ -12,7 +12,7 @@
         <h2>Reviews</h2>
         <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
           <div class="reviews-section">
-            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
+            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" @update-review="updateReview" />
           </div>
         </div>
         <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
@@ -85,6 +85,16 @@ export default {
           console.error("Error retrieving user reviews:", error);
           this.loadingReviews = false;
         });
+    },
+    updateReview(updatedReview) {
+      console.log("Updating review in the parent component:", updatedReview);
+      const index = this.reviews.findIndex(review => review.review_id === updatedReview.review_id);
+      if (index !== -1) {
+        this.$set(this.reviews, index, updatedReview);
+        console.log("Review updated in the array");
+      } else {
+        console.log("Review not found in the array");
+      }
     }
   }
 };
@@ -145,26 +155,6 @@ export default {
   color: #888;
   text-align: center;
   margin: 20px 0;
-}
-
-/* Custom scrollbar for reviews-scrollable */
-.reviews-scrollable::-webkit-scrollbar {
-  width: 12px;
-}
-
-.reviews-scrollable::-webkit-scrollbar-track {
-  background: #2e2e2e00;
-  border-radius: 6px;
-}
-
-.reviews-scrollable::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
-
-}
-
-.reviews-scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
 }
 
 @media (max-width: 900px) {
