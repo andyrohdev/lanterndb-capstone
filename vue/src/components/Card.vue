@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard-card">
     <h3>{{ title }}</h3>
-    <ul>
+    <ul v-if="items.length > 0">
       <li v-for="item in items" :key="item.collectionListId">
-        
         {{ item.title }}
         <div class="dropdown">
           <button
@@ -46,6 +45,9 @@
         </div>
       </li>
     </ul>
+    <div v-else class="no-games-message">
+      No games found in collection.
+    </div>
   </div>
 </template>
 
@@ -108,7 +110,6 @@ export default {
 </script>
 
 <style scoped>
-
 .dashboard-card {
   background-color: #1e1e1e;
   border: 1px solid #333;
@@ -117,7 +118,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 16px;
   width: 25%; /* Adjusted width */
-  height: 350px; /* Adjusted height */
+  height: 500px; /* Adjusted height */
   display: flex;
   flex-direction: column;
   overflow: visible; /* Allow dropdown to show outside the card */
@@ -139,6 +140,26 @@ export default {
   overflow-y: auto; /* Enables scrolling within the list */
   flex-grow: 1; /* Allows the list to take up the rest of the space in the card */
   position: relative;
+}
+
+/* Custom scrollbar for card ul */
+.dashboard-card ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-card ul::-webkit-scrollbar-track {
+  background: #2e2e2e00;
+  border-radius: 6px;
+}
+
+.dashboard-card ul::-webkit-scrollbar-thumb {
+  background-color: #88888800;
+  border-radius: 6px;
+  border: 2px solid #2e2e2e00;
+}
+
+.dashboard-card ul::-webkit-scrollbar-thumb:hover {
+  background-color: #55555500;
 }
 
 .dashboard-card .dropdown {
@@ -164,13 +185,17 @@ export default {
   border-bottom: none;
 }
 
-@media (max-width: 768px) {
+.no-games-message {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
   .dashboard-card {
     width: 90%; /* Full width on smaller screens */
     margin: 16px 0; /* Adjusted margin for vertical stacking */
   }
 }
-
-
-
 </style>

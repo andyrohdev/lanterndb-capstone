@@ -1,7 +1,7 @@
 
 <template>
   <div class="register-back">
-    
+   
       <div class="register-container">
         <form v-on:submit.prevent="register" class="form-container">
           <h1>Create Account</h1>
@@ -29,10 +29,11 @@
               <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
           </div>
-          
+         
           <button type="submit" class="submit-button">Create Account</button>
-          <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+          <p><router-link v-bind:to="{ name: 'login' }" id="hyper-link">Already have an account? Log in.</router-link></p>
         </form>
+
 
         <div class="benefits-container">
           <div class="rightside-div">
@@ -47,12 +48,15 @@
         </div>
       </div>
     </div>
-  
+ 
 </template>
+
+
 
 
 <script>
 import authService from '../services/AuthService';
+
 
 export default {
   data() {
@@ -100,7 +104,16 @@ export default {
 };
 </script>
 
+
 <style scoped>
+.submit-button:hover {
+  background-color: #d14b06;
+}
+input:focus {
+  outline: none;
+  border-color: #d14b06;
+  box-shadow: 0 0 5px #d14b06;
+}
 .register-back {
   display: flex;
   justify-content: center;
@@ -113,6 +126,7 @@ export default {
   overflow: hidden;
 }
 
+
 .register-content {
   display: flex;
   justify-content: center;
@@ -123,43 +137,50 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+
 .register-container {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   width: 48%;
-  background-color: #2c2c2c;
+  background-color: #29292943;
   border-radius: 8px;
   color: white;
   padding-left: 10px;
 }
+
 
 .form-container {
   width: 48%;
   text-align: center;
 }
 
+
 .benefits-container {
   height: 50;
   width: 48%;
-  background-color: #ad9f4ae5;
+  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943);
   border-radius: 8px;
   color: white;
   padding: 20px;
 }
 
+
 .form-input-group {
   margin-bottom: 1rem;
 }
+
 
 label {
   display: block;
   margin-bottom: 5px;
 }
 
+
 .input-icon-wrapper {
   position: relative;
 }
+
 
 input {
   width: 100%;
@@ -172,6 +193,7 @@ input {
   padding-left: 30px;
 }
 
+
 .icon {
   position: absolute;
   right: 0.75rem;
@@ -181,21 +203,29 @@ input {
   font-size: 20px;
 }
 
+
 .submit-button {
   padding: 0.5rem 1rem;
   margin-top: 1rem;
-  background-color: rgba(238, 236, 232, 0.763);
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
   display: block;
   margin: auto;
+  background-color:rgb(158, 54, 10) ;
 }
+#hyper-link{
+  color: rgb(158, 54, 10) ;
+  text-decoration: none;
+}
+
 
 .benefits-container h2 {
   margin-bottom: 1rem;
 }
+
 
 .benefits-container ul {
   list-style-type: disc;
@@ -203,15 +233,18 @@ input {
   text-align: left;
 }
 
+
 .benefits-container li {
   margin-bottom: 0.5rem;
 }
+
 
 @media (max-width: 768px) {
   .register-container {
     flex-direction: column;
     align-items: center;
   }
+
 
   .form-container,
   .benefits-container {

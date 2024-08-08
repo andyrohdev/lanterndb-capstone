@@ -14,6 +14,6 @@ public interface ReviewDao {
 
     List<Review> updateAndEditReview(Review review, int user_id);
 
-    Review deleteReview(int review_id);
+    int deleteMyReview(Review review, int user_id);
 
 }
