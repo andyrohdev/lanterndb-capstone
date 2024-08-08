@@ -118,7 +118,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 16px;
   width: 25%; /* Adjusted width */
-  height: 350px; /* Adjusted height */
+  height: 500px; /* Adjusted height */
   display: flex;
   flex-direction: column;
   overflow: visible; /* Allow dropdown to show outside the card */
@@ -148,18 +148,18 @@ export default {
 }
 
 .dashboard-card ul::-webkit-scrollbar-track {
-  background: #2e2e2e;
+  background: #2e2e2e00;
   border-radius: 6px;
 }
 
 .dashboard-card ul::-webkit-scrollbar-thumb {
-  background-color: #888;
+  background-color: #88888800;
   border-radius: 6px;
-  border: 2px solid #2e2e2e;
+  border: 2px solid #2e2e2e00;
 }
 
 .dashboard-card ul::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: #55555500;
 }
 
 .dashboard-card .dropdown {
