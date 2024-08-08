@@ -2,22 +2,16 @@
   <div class="page-container">
     <div class="video-background">
       <video autoplay muted loop class="video-back">
-      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4">
-    </video>
+        <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="content-container">
       <h1 class="header">LanternDB lights the way to your
-         next favorite game with our comprehensive search feature.</h1>
+        next favorite game with our comprehensive search feature.</h1>
       <div class="search-box">
         <label for="gameName"></label>
-        <input
-          type="text"
-          name="gameName"
-          id="gameName"
-          v-model="nameFilter"
-          autocomplete="off"
-          placeholder="Search for a game..."
-        />
+        <input type="text" name="gameName" id="gameName" v-model="nameFilter" autocomplete="off"
+          placeholder="Search for a game..." />
       </div>
 
       <div class="game-container" ref="scrollContainer">
@@ -25,16 +19,13 @@
         <div v-if="!loading && filteredGames.length === 0" class="no-games-message">
           No games found.
         </div>
-
-        <game-card
-          v-bind:game="game"
-          v-bind:key="game.id"
-          v-for="game in filteredGames"
-        />
+        <game-card v-bind:game="game" v-bind:key="game.id" v-for="game in filteredGames" />
       </div>
 
       <!-- Loading Spinner -->
       <!-- <div v-if="loading" class="loading-spinner">Loading...</div> -->
+    </div>
+    <div>
     </div>
   </div>
 </template>
@@ -110,7 +101,7 @@ export default {
       }
     },
 
-    debouncedPerformSearch: debounce(function() {
+    debouncedPerformSearch: debounce(function () {
       this.performSearch();
     }, 300),
 
@@ -157,7 +148,7 @@ export default {
 // Debounce function
 function debounce(func, wait) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     const later = () => {
       clearTimeout(timeout);
       func.apply(this, args); // Use func.apply to ensure correct 'this' context
@@ -169,23 +160,25 @@ function debounce(func, wait) {
 </script>
 
 <style scoped>
-
-html{
+html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
 }
+
 .page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh; /* Full height to allow scrolling */
+  height: 100vh;
+  /* Full height to allow scrolling */
   overflow: hidden;
-  color: white; /* Prevent page-level scrolling */
+  color: white;
+  /* Prevent page-level scrolling */
   padding-top: 3rem;
-  
+
 }
 
 .content-container {
@@ -198,10 +191,10 @@ html{
   overflow: hidden;
   position: relative;
   z-index: 1;
-  
-   /* Prevent content-level scrolling */
-  
-  }
+
+  /* Prevent content-level scrolling */
+
+}
 
 .search-box {
   width: 100%;
@@ -211,15 +204,16 @@ html{
   flex-direction: column;
   align-items: center;
   padding-bottom: 3%;
-  
+
 }
-.search-box label{
+
+.search-box label {
   font-size: 1rem;
   color: white;
   margin-bottom: 0.5rem;
 }
 
-.search-box input{
+.search-box input {
   width: 100%;
   max-width: 100%;
   padding: 0.5rem 1rem;
@@ -230,15 +224,17 @@ html{
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.21);
 }
 
-.search-box input::placeholder{
+.search-box input::placeholder {
   color: rgb(146, 140, 140);
 }
-.search-box input:hover{
+
+.search-box input:hover {
   color: white;
   transition: white 0.3s ease;
 }
+
 .search-box input:focus::placeholder,
-.search-box input:hover::placeholder{
+.search-box input:hover::placeholder {
   color: white;
 }
 
@@ -246,16 +242,18 @@ html{
 
 .game-container {
   width: 85%;
-  flex: 1; /* Grow to fill the available space */
-  overflow-y: auto; /* Scrollable content */
+  flex: 1;
+  /* Grow to fill the available space */
+  overflow-y: auto;
+  /* Scrollable content */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   /* Add some padding for better spacing */
   background-color: rgba(52, 48, 48, 0.151);
-  height:100vh;
+  height: 100vh;
   border-radius: 30px;
-  
+
 
 }
 
@@ -270,58 +268,102 @@ html{
   margin: 20px;
 }
 
-.video-background{
+.video-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1;
   background-size: cover;
 
 }
-.background-video{
+
+.background-video {
   position: absolute;
   top: 50%;
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  object-fit:contain;
+  object-fit: contain;
   transform: translate(-50%, -50%);
 }
+
 ::-webkit-scrollbar {
   width: 5px;
-  
+
 }
-::-webkit-scrollbar-track{
+
+::-webkit-scrollbar-track {
   background-color: #fffefe00;
   border-radius: 10px;
 }
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
   background: rgba(136, 136, 153, 0);
   border-radius: 10px;
 
 }
-::-webkit-scrollbar-thumb:hover{
+
+::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
-.header{
+
+.header {
   font-size: 2.0rem;
   margin-bottom: 2rem;
   text-align: center;
   margin-top: 2rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  
+
 }
 
+.custom-footer {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  background-color: rgba(10, 9, 8, 0);
+  ;
+  z-index: 1;
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(201, 95, 8, 0.562);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  padding-left: .5rem;
+  padding-right: .5rem;
+  font-size: 1rem;
+}
+
+.nav-link:hover {
+  color: orange;
+  text-decoration: underline;
+
+}
+
+.footer-text {
+  color: white;
+}
 
 
 @media (max-width: 600px) {
   .game-card {
-    width: 48%; /* Adjust width to 48% to allow for margins */
+    width: 48%;
+    /* Adjust width to 48% to allow for margins */
   }
-}
-</style>
+}</style>
 
 

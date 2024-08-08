@@ -25,3 +25,12 @@ export default{
   }
 }
 </script>
+<style scoped>
+#capstone-app{
+  background-color: #121212;
+  
+}
+.custom-footer{
+  background-color: rgba(127, 255, 212, 0);
+}
+</style>
