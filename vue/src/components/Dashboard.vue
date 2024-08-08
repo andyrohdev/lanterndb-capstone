@@ -10,8 +10,10 @@
       </div>
       <div class="reviews-container">
         <h2>Reviews</h2>
-        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-section">
-          <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
+        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
+          <div class="reviews-section">
+            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
+          </div>
         </div>
         <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
       </div>
@@ -107,20 +109,35 @@ export default {
 .dashboard {
   display: flex;
   flex-wrap: wrap; /* Allows cards to wrap onto the next line */
-  justify-content: space-around;
+  justify-content: center;
+  margin-bottom: 40px; /* Add space below the collections */
 }
 
 .reviews-container {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
+  background-color: inherit; /* Ensure background color is consistent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviews-scrollable {
+  max-height: 400px; /* Adjust the height as needed */
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center the reviews section horizontally */
 }
 
 .reviews-section {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
   gap: 20px;
   margin-top: 20px;
+  width: 100%;
+  max-width: 1200px; /* Center the reviews section */
 }
 
 .no-reviews-message {
@@ -130,13 +147,14 @@ export default {
   margin: 20px 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .dashboard {
     flex-direction: column;
     align-items: center;
   }
   .reviews-section {
     grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
+    max-width: 100%; /* Ensure it takes up full width on smaller screens */
   }
 }
 </style>

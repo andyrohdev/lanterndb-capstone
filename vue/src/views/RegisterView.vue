@@ -1,7 +1,7 @@
 
 <template>
   <div class="register-back">
-    <div class="register-content">
+    
       <div class="register-container">
         <form v-on:submit.prevent="register" class="form-container">
           <h1>Create Account</h1>
@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 
@@ -127,11 +127,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  width: 100%;
+  width: 48%;
   background-color: #2c2c2c;
   border-radius: 8px;
   color: white;
-  padding: 20px;
+  padding-left: 10px;
 }
 
 .form-container {
@@ -140,6 +140,7 @@ export default {
 }
 
 .benefits-container {
+  height: 50;
   width: 48%;
   background-color: #ad9f4ae5;
   border-radius: 8px;
@@ -168,6 +169,7 @@ input {
   margin-bottom: 0.5rem;
   box-shadow: 1px 4px 4px rgba(29, 29, 29, 0.904);
   padding-right: 30px;
+  padding-left: 30px;
 }
 
 .icon {

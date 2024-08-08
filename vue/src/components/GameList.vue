@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="video-background">
-      <video autoplay muted loop class="video-back">
-      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4">
+      <video autoplay muted loop playsinline class="video-back">
+      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4" style="background-size: cover ;">
     </video>
     </div>
     <div class="content-container">
@@ -194,6 +194,7 @@ html{
   padding: 3%;
   overflow: hidden;
   position: relative;
+  z-index: 1;
   
    /* Prevent content-level scrolling */
   
@@ -232,11 +233,10 @@ html{
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   z-index: -1;
-
 }
 .background-video{
   position: absolute;
@@ -244,7 +244,7 @@ html{
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  object-fit:cover;
+  object-fit:contain;
   transform: translate(-50%, -50%);
 }
 ::-webkit-scrollbar {
