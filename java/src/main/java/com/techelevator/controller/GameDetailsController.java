@@ -51,13 +51,10 @@ public class GameDetailsController {
         return reviewDao.addReview(review, userId);
     }
 
-    @GetMapping("/user/reviews")
-    public List<Review> getProfileReviews(@Valid @RequestBody Review review, Principal principal){
-        String userName = principal.getName();
-        User user = jdbcUserDao.getUserByUsername(userName);
-        int userId = user.getId();
+    @GetMapping("/user/reviews/{id}")
+    public List<Review> getProfileReviews(@PathVariable int id){
 
-        List<Review> reviews = jdbcReviewDao.getProfileReviews(userId);
+        List<Review> reviews = jdbcReviewDao.getProfileReviews(id);
         return reviews;
 
     }

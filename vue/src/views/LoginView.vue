@@ -2,7 +2,7 @@
   <div id="login">
     <div class="login-container">
       <form v-on:submit.prevent="login">
-        <h1>Please Sign In</h1>
+        <h1>Sign In</h1>
         <div role="alert" v-if="invalidCredentials">
           Invalid username and password!
         </div>

@@ -110,8 +110,8 @@ export default {
 <style scoped>
 
 .dashboard-card {
-  background-color: #ffffff;
-  border: 1px solid #dcdcdc;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -127,7 +127,6 @@ export default {
 
 .dashboard-card h3 {
   margin-top: 0;
-  color: black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -135,7 +134,6 @@ export default {
 }
 
 .dashboard-card ul {
-  color: black;
   list-style-type: none;
   padding-left: 0;
   overflow-y: auto; /* Enables scrolling within the list */
