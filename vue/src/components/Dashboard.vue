@@ -62,8 +62,17 @@ export default {
 <style scoped>
 .dashboard {
   display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap onto the next line */
   justify-content: space-around;
   padding: 20px;
-  background: #ecf0f1;
+  background: #121212; /* Dark background like GameDetails */
+  color: #e0e0e0; /* Light text for contrast */
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

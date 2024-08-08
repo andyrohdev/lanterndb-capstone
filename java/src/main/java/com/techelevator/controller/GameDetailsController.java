@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.*;
 import com.techelevator.model.Review;
 import com.techelevator.model.User;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -29,19 +30,6 @@ public class GameDetailsController {
     @Autowired
     private ReviewDao reviewDao;
 
-//    @GetMapping("/reviews/{id}")
-//    public List<Review> getReviewById(Principal principal, @PathVariable int id){
-//        String userName = principal.getName();
-//        User user = jdbcUserDao.getUserByUsername(userName);
-//        int userId = user.getId();
-//
-//        List<Review> reviewList= jdbcReviewDao.getReviewsByGameId(id, userId );
-//
-//        if(reviewList == null){
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
-//        }
-//        return reviewList;
-//    }
     @GetMapping("/reviews/{id}")
     public List<Review> getReviewById(@PathVariable int id){
 
@@ -62,6 +50,29 @@ public class GameDetailsController {
         review.setUser_id(userId);
         return reviewDao.addReview(review, userId);
     }
+
+    @GetMapping("/user/reviews")
+    public List<Review> getProfileReviews(@Valid @RequestBody Review review, Principal principal){
+        String userName = principal.getName();
+        User user = jdbcUserDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        List<Review> reviews = jdbcReviewDao.getProfileReviews(userId);
+        return reviews;
+
+    }
+
+    @PutMapping("/user/reviews")
+    public List<Review> updateAndEditReview(@Valid @RequestBody Review review, Principal principal){
+        String userName = principal.getName();
+        User user = jdbcUserDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        review.setUser_id(userId);
+        return reviewDao.updateAndEditReview(review, userId);
+    }
+
+
 
 
 

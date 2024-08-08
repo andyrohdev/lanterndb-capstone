@@ -27,7 +27,7 @@
         <br/>
         <button type="submit" class="submit-button">Sign in</button>
         <p class="signup-button">
-          <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link>
+          <router-link v-bind:to="{ name: 'register' }" id="hyper-link">Need an account? Sign up.</router-link>
         </p>
       </form>
     </div>
@@ -83,6 +83,7 @@ export default {
 <style scoped>
 .form-input-group {
   margin-bottom: 1rem;
+  
 }
 
 label {
@@ -112,6 +113,13 @@ label {
   width: 100%;
   max-width: 400px;
 }
+input::placeholder{
+  color: white;
+}
+#hyper-link{
+  color: rgb(158, 54, 10) ;
+  text-decoration: none;
+}
 
 h1 {
   margin-bottom: 1rem;
@@ -120,7 +128,7 @@ h1 {
 }
 
 .submit-button {
-  background-color: rgba(238, 236, 232, 0.763);
+  color: white;
   padding: .75rem;
   border: none;
   border-radius: 4px;
@@ -130,9 +138,11 @@ h1 {
   margin-bottom: 1rem;
   display: flex;
   margin: auto;
+  background-color:rgb(158, 54, 10) ;
 }
 .input-wrapper{
   position: relative;
+  color: white;
 }
 
 input {
@@ -140,12 +150,16 @@ input {
   padding: .75rem;
   border-radius: 4px;
   border: 1px solid #444;
+  background-color: #4444446f;
+  
 }
+
 
 .signup-button {
   display: flex;
   margin-top: 10px;
   justify-content: center;
+  
 }
 
 .icon {
@@ -153,7 +167,7 @@ input {
   right: .75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(16, 16, 16);
+  color: rgb(158, 54, 10) ;
   font-size: 20px;
 }
 

@@ -108,6 +108,7 @@ export default {
 </script>
 
 <style scoped>
+
 .dashboard-card {
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
@@ -115,19 +116,63 @@ export default {
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 16px;
+  width: 25%; /* Adjusted width */
+  height: 350px; /* Adjusted height */
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* Allow dropdown to show outside the card */
+  position: relative; /* Establishes a positioning context for dropdown */
+  z-index: 1; /* Ensure card is above normal content but below active dropdown */
 }
+
 .dashboard-card h3 {
   margin-top: 0;
+  color: black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0; /* Prevent the title from shrinking */
 }
+
 .dashboard-card ul {
+  color: black;
   list-style-type: none;
   padding-left: 0;
+  overflow-y: auto; /* Enables scrolling within the list */
+  flex-grow: 1; /* Allows the list to take up the rest of the space in the card */
+  position: relative;
 }
+
+.dashboard-card .dropdown {
+  position: static; /* Reset position to allow dropdown to escape overflow */
+}
+
+.dashboard-card .dropdown-menu {
+  position: absolute; /* Position absolute relative to nearest positioned ancestor */
+  z-index: 1000; /* High z-index to ensure dropdown is on top of other elements */
+  width: 100%; /* Match width of button */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* Add some shadow for better visibility */
+}
+
 .dashboard-card li {
   padding: 8px 0;
   border-bottom: 1px solid #dcdcdc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .dashboard-card li:last-child {
   border-bottom: none;
 }
+
+@media (max-width: 768px) {
+  .dashboard-card {
+    width: 90%; /* Full width on smaller screens */
+    margin: 16px 0; /* Adjusted margin for vertical stacking */
+  }
+}
+
+
+
 </style>
