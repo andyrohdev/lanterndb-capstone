@@ -147,7 +147,7 @@ export default {
   margin: 20px 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .dashboard {
     flex-direction: column;
     align-items: center;
