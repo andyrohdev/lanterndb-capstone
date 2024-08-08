@@ -1,5 +1,10 @@
 <template>
   <div class="page-container">
+    <div class="video-background">
+      <video autoplay muted loop class="video-back">
+      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4">
+    </video>
+    </div>
     <div class="content-container">
       <h1 class="header">Game Search</h1>
       <div class="search-box">
@@ -162,13 +167,22 @@ function debounce(func, wait) {
 </script>
 
 <style scoped>
+
+html{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
 .page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh; /* Full height to allow scrolling */
-  overflow: hidden; /* Prevent page-level scrolling */
+  overflow: hidden;
+  color: white; /* Prevent page-level scrolling */
+  
 }
 
 .content-container {
@@ -178,8 +192,12 @@ function debounce(func, wait) {
   align-items: center;
   margin: 0 auto;
   padding: 3%;
-  overflow: hidden; /* Prevent content-level scrolling */
-}
+  overflow: hidden;
+  position: relative;
+  
+   /* Prevent content-level scrolling */
+  
+  }
 
 .search-box {
   display: flex;
@@ -196,11 +214,12 @@ function debounce(func, wait) {
   flex-wrap: wrap;
   justify-content: center;
   padding: 1rem; /* Add some padding for better spacing */
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .no-games-message {
   font-size: 1.2rem;
-  color: #888;
+  color: #fffefe;
   text-align: center;
   margin: 20px 0;
 }
@@ -208,6 +227,44 @@ function debounce(func, wait) {
 .loading-spinner {
   margin: 20px;
 }
+
+.video-background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+
+}
+.background-video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit:cover;
+  transform: translate(-50%, -50%);
+}
+::-webkit-scrollbar {
+  width: 5px;
+  
+}
+::-webkit-scrollbar-track{
+  background-color: #fffefe;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb{
+  background: #889;
+  border-radius: 10px;
+
+}
+::-webkit-scrollbar-thumb:hover{
+  background-color: #555;
+}
+
+
 
 @media (max-width: 600px) {
   .game-card {
