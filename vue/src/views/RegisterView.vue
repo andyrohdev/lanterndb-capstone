@@ -151,7 +151,7 @@ export default {
 .benefits-container {
   height: 50;
   width: 48%;
-  background-image: linear-gradient(to left, red, #29292943);
+  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943);
   border-radius: 8px;
   color: white;
   padding: 20px;
