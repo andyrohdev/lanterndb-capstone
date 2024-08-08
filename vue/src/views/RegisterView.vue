@@ -1,7 +1,7 @@
 
 <template>
   <div class="register-back">
-    <div class="register-content">
+    
       <div class="register-container">
         <form v-on:submit.prevent="register" class="form-container">
           <h1>Create Account</h1>
@@ -33,9 +33,9 @@
           <button type="submit" class="submit-button">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
-
+      </div>   
        <div class="benefits-container">
-        <div class="rightside-div">
+        
           <h2>Benefits of Registering</h2>
           <ul>
             <li>Access exclusive content</li>
@@ -43,11 +43,11 @@
             <li>Save your favorite items</li>
             <li>Get regular updates</li>
           </ul>
-        </div>
-        </div> 
-      </div>
         
-    </div>
+        </div> 
+      
+        
+    
   </div>
 </template>
 
@@ -133,17 +133,20 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  
+  width: 25%;
+  margin-right: 10%;
+  margin-left: 25px;
 }
 
 .benefits-container {
   
   background-color: #ad9f4ae5;
-  border-radius: 40px 40px 40px 40px;
+  border-radius: 40px 40px 40px 8px;
   color: white;
-  width: 50%;
-  height: 100%;
+  width: 48%;
+  height: 48%;
+  margin-right: 50px;
+  margin-left: 20px;
 }
 .form-input-group {
   margin-bottom: 1rem;
@@ -165,6 +168,7 @@ input{
   margin-bottom: 0.5rem;
   box-shadow: 1px 4px 4px rgba(29, 29, 29, 0.904);
   padding-right: 30px;
+  padding-left: 30px;
 }
 .icon {
   position: absolute;
