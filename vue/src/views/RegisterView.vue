@@ -106,6 +106,14 @@ export default {
 
 
 <style scoped>
+.submit-button:hover {
+  background-color: #d14b06;
+}
+input:focus {
+  outline: none;
+  border-color: #d14b06;
+  box-shadow: 0 0 5px #d14b06;
+}
 .register-back {
   display: flex;
   justify-content: center;
