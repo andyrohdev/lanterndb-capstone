@@ -1,20 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="dashboard-container">
-    <div class="header"></div>
-    <div class="dashboard-content">
-      <h2>Collections</h2>
-      <div class="dashboard">
-        <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-        <Card :key="'playing'" title="Playing" :items="playingItems" />
-        <Card :key="'played'" title="Played" :items="playedItems" />
-      </div>
-      <div class="reviews-container">
-        <h2>Reviews</h2>
-        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
-          <div class="reviews-section">
-            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" @update-review="updateReview" />
-=======
   <body class="body-dashboard">
     <div class="dashboard-container">
       <div class="header"></div>
@@ -31,7 +15,6 @@
             <div class="reviews-section">
               <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
             </div>
->>>>>>> 7681999518b6b0b4083c4abd7f21b7267ff556d0
           </div>
           <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
         </div>
@@ -203,9 +186,5 @@ export default {
     max-width: 100%;
     /* Ensure it takes up full width on smaller screens */
   }
-<<<<<<< HEAD
 }
 </style>
-=======
-}</style>
->>>>>>> 7681999518b6b0b4083c4abd7f21b7267ff556d0
