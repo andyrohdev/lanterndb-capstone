@@ -31,7 +31,7 @@
           </div>
           
           <button type="submit" class="submit-button">Create Account</button>
-          <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+          <p><router-link v-bind:to="{ name: 'login' }" id="hyper-link">Already have an account? Log in.</router-link></p>
         </form>
 
         <div class="benefits-container">
@@ -191,6 +191,10 @@ input {
   font-size: 1rem;
   display: block;
   margin: auto;
+}
+#hyper-link{
+  color: rgb(158, 54, 10) ;
+  text-decoration: none;
 }
 
 .benefits-container h2 {
