@@ -6,7 +6,7 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      
+      reviews: [] // Ensure reviews is part of the state
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -24,6 +24,29 @@ export function createStore(currentToken, currentUser) {
         state.token = '';
         state.user = {};
         axios.defaults.headers.common = {};
+      },
+      SET_REVIEWS(state, reviews) {
+        state.reviews = reviews;
+      },
+      UPDATE_REVIEW(state, updatedReview) {
+        const index = state.reviews.findIndex(review => review.review_id === updatedReview.review_id);
+        if (index !== -1) {
+          state.reviews.splice(index, 1, updatedReview);
+        }
+      }
+    },
+    actions: {
+      fetchReviews({ commit }, user_id) {
+        return axios.get(`http://localhost:9000/user/reviews/${user_id}`)
+          .then(response => {
+            commit('SET_REVIEWS', response.data);
+          });
+      },
+      updateReview({ commit }, updatedReview) {
+        return axios.put('http://localhost:9000/user/reviews', updatedReview)
+          .then(response => {
+            commit('UPDATE_REVIEW', updatedReview);
+          });
       }
     },
   });

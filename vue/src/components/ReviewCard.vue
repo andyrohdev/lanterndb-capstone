@@ -4,7 +4,7 @@
       <p class="game-title">Game: {{ gameTitle }}</p>
       <p class="review-text">{{ review.review_text }}</p>
       <p class="review-username">Reviewed by: {{ username }}</p>
-      
+  
       <div v-if="isReviewAuthor" class="review-actions">
         <button @click="toggleEditModal" class="btn btn-secondary">Edit</button>
         <button @click="deleteReview" class="btn btn-danger">Delete</button>
@@ -36,6 +36,7 @@
   </template>
   
   <script>
+  import { mapActions } from 'vuex';
   import GameService from "../services/GameService";
   
   export default {
@@ -63,6 +64,7 @@
       this.resetEditForm();
     },
     methods: {
+      ...mapActions(['updateReview']),
       fetchUsername(userId) {
         GameService.fetchUsers()
           .then((response) => {
@@ -102,11 +104,12 @@
           user_id: this.review.user_id
         };
   
-        GameService.updateSpecificReview(updatedReview)
-          .then(response => {
-            console.log("Review updated successfully:", response.data);
-            this.$emit('update-review', updatedReview);
+        this.updateReview(updatedReview)
+          .then(() => {
+            console.log("Review updated successfully");
             this.editModalVisible = false;
+            this.$emit('review-updated');
+            console.log('review emitted');
           })
           .catch(error => {
             console.error("Error updating review:", error);
@@ -119,6 +122,9 @@
     },
   };
   </script>
+  
+  
+  
   
   <style scoped>
   .review-card {
@@ -206,3 +212,4 @@
     margin-bottom: 10px;
   }
   </style>
+  
