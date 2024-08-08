@@ -153,14 +153,14 @@ export default {
 }
 
 .reviews-scrollable::-webkit-scrollbar-track {
-  background: #2e2e2e;
+  background: #2e2e2e00;
   border-radius: 6px;
 }
 
 .reviews-scrollable::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 6px;
-  border: 3px solid #2e2e2e;
+
 }
 
 .reviews-scrollable::-webkit-scrollbar-thumb:hover {
