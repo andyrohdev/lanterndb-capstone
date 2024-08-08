@@ -6,7 +6,7 @@
       </video>
     </div>
     <div class="content-container">
-      <h1 class="header">LanternDB lights the way to your
+      <h1 class="header">Lantern<span class="flame">DB</span> lights the way <br/> to your
         next favorite game with our comprehensive search feature.</h1>
       <div class="search-box">
         <label for="gameName"></label>
@@ -197,8 +197,8 @@ html {
 }
 
 .search-box {
-  width: 100%;
-  max-width: 600px;
+  width: 90%;
+  max-width: 800px;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
@@ -215,7 +215,7 @@ html {
 
 .search-box input {
   width: 100%;
-  max-width: 100%;
+  min-height: 70px;
   padding: 0.5rem 1rem;
   border: 1px solid #0c0c0c;
   background-color: #55504bb2;
@@ -243,13 +243,10 @@ html {
 .game-container {
   width: 85%;
   flex: 1;
-  /* Grow to fill the available space */
   overflow-y: auto;
-  /* Scrollable content */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* Add some padding for better spacing */
   background-color: rgba(52, 48, 48, 0.151);
   height: 100vh;
   border-radius: 30px;
@@ -316,9 +313,42 @@ html {
   text-align: center;
   margin-top: 2rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
+  
+}
+.flame{
+  
+  animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
+  
+}
+@keyframes colorFlow {
+  0% {
+    color: #ff4400; /* Dark Orange */
+  }
+  25% {
+    color: #d32406; /* Tomato Red */
+  }
+  50% {
+    color: #f85b00; /* Light Orange */
+  }
+  75% {
+    color: #fa8704; /* Darker Orange */
+  }
+  100% {
+    color: #ff4400; /* Back to Dark Orange */
+  }
 }
 
+@keyframes scaleFlow {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Slightly enlarged */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .custom-footer {
   padding-top: 1rem;
   padding-bottom: 1.5rem;

@@ -1,21 +1,23 @@
 <template>
-  <div class="dashboard-container">
-    <div class="header"></div>
-    <div class="dashboard-content">
-      <h2>Collections</h2>
-      <div class="dashboard">
-        <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-        <Card :key="'playing'" title="Playing" :items="playingItems" />
-        <Card :key="'played'" title="Played" :items="playedItems" />
-      </div>
-      <div class="reviews-container">
-        <h2>Reviews</h2>
-        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
-          <div class="reviews-section">
-            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" @review-updated="fetchUserReviews" />
-          </div>
+  <div class="body-dashboard">
+    <div class="dashboard-container">
+      <div class="header"></div>
+      <div class="dashboard-content">
+        <h2>Collections</h2>
+        <div class="dashboard">
+          <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
+          <Card :key="'playing'" title="Playing" :items="playingItems" />
+          <Card :key="'played'" title="Played" :items="playedItems" />
         </div>
-        <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
+        <div class="reviews-container">
+          <h2>Reviews</h2>
+          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
+            <div class="reviews-section">
+              <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" @review-updated="fetchUserReviews" />
+            </div>
+          </div>
+          <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -89,10 +91,6 @@ export default {
   }
 };
 </script>
-
-
-
-
 
 <style scoped>
 .dashboard-container {
