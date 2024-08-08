@@ -6,9 +6,10 @@
     </video>
     </div>
     <div class="content-container">
-      <h1 class="header">Game Search</h1>
+      <h1 class="header">LanternDB lights the way to your
+         next favorite game with our comprehensive search feature.</h1>
       <div class="search-box">
-        <label for="gameName">Find Your Next Game</label>
+        <label for="gameName"></label>
         <input
           type="text"
           name="gameName"
@@ -304,6 +305,14 @@ html{
 }
 ::-webkit-scrollbar-thumb:hover{
   background-color: #555;
+}
+.header{
+  font-size: 2.0rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  
 }
 
 
