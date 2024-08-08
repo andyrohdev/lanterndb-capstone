@@ -8,9 +8,12 @@ public interface ReviewDao {
 
     List<Review> getReviewsByGameId(int game_id);
 
+    List<Review> getProfileReviews(int user_id);
+
     List<Review> addReview(Review review, int userId);
 
-    Review updateAndEditReview(Review review);
+    List<Review> updateAndEditReview(Review review, int user_id);
 
     Review deleteReview(int review_id);
+
 }

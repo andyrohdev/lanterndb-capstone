@@ -19,37 +19,37 @@
             <label for="password">Password</label>
             <div class="input-icon-wrapper">
               <input type="password" id="password" v-model="user.password" required />
-            <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
+              <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
           </div>
           <div class="form-input-group">
             <label for="confirmPassword">Confirm Password</label>
             <div class="input-icon-wrapper">
               <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
-            <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
+              <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
           </div>
           
           <button type="submit" class="submit-button">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
-      </div>   
-       <div class="benefits-container">
-        
-          <h2>Benefits of Registering</h2>
-          <ul>
-            <li>Access exclusive content</li>
-            <li>Personalized recommendations</li>
-            <li>Save your favorite items</li>
-            <li>Get regular updates</li>
-          </ul>
-        
-        </div> 
-      
-        
-    
+
+        <div class="benefits-container">
+          <div class="rightside-div">
+            <h2>Benefits of Registering</h2>
+            <ul>
+              <li>Access exclusive content</li>
+              <li>Personalized recommendations</li>
+              <li>Save your favorite items</li>
+              <li>Get regular updates</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <script>
 import authService from '../services/AuthService';
@@ -116,38 +116,37 @@ export default {
 .register-content {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   width: 70%;
   background-color: #e0c5c5c2;
-  border-radius: 8px;
+  border-radius: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 40px 40px 40px 40px;
 }
-.benefits-container{
-  padding: 2rem;
-}
+
 .register-container {
-  border-radius: 8px 40px 40px 8px;
-  background-color: #2c2c2c;
-  color: white;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 25%;
-  margin-right: 10%;
-  margin-left: 25px;
+  align-items: stretch;
+  width: 100%;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+  color: white;
+  padding: 20px;
+}
+
+.form-container {
+  width: 48%;
+  text-align: center;
 }
 
 .benefits-container {
-  
-  background-color: #ad9f4ae5;
-  border-radius: 40px 40px 40px 8px;
-  color: white;
   width: 48%;
-  height: 48%;
-  margin-right: 50px;
-  margin-left: 20px;
+  background-color: #ad9f4ae5;
+  border-radius: 8px;
+  color: white;
+  padding: 20px;
 }
+
 .form-input-group {
   margin-bottom: 1rem;
 }
@@ -156,12 +155,13 @@ label {
   display: block;
   margin-bottom: 5px;
 }
-.input-icon-wrapper{
+
+.input-icon-wrapper {
   position: relative;
-  width: 100%;
 }
-input{
-  width: calc(100%-30px);
+
+input {
+  width: 100%;
   padding: 0.75rem;
   border-radius: 15px;
   border: 1px solid #444;
@@ -170,14 +170,16 @@ input{
   padding-right: 30px;
   padding-left: 30px;
 }
+
 .icon {
   position: absolute;
-  right: 10%;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: white;
+  color: rgb(16, 16, 16);
   font-size: 20px;
 }
+
 .submit-button {
   padding: 0.5rem 1rem;
   margin-top: 1rem;
@@ -188,7 +190,6 @@ input{
   font-size: 1rem;
   display: block;
   margin: auto;
- 
 }
 
 .benefits-container h2 {
@@ -199,23 +200,22 @@ input{
   list-style-type: disc;
   padding-left: 1rem;
   text-align: left;
-  
 }
 
 .benefits-container li {
   margin-bottom: 0.5rem;
- 
 }
-.form-container{
-  text-align: center;
-  width: 50%;
-  padding-top: 20px;
-}
-.form-container button{
-  margin: auto;
-  margin-bottom: 1rem;
-}
-.rightside-div{
-  text-align: center;
+
+@media (max-width: 768px) {
+  .register-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-container,
+  .benefits-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 </style>

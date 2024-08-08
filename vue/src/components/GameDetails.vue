@@ -40,7 +40,7 @@
         <div class="review-form-content">
           <h3>Submit Your Review</h3>
           <input v-model="newReviewTitle" placeholder="Review Title" class="review-title-input" />
-          <textarea v-model="newReviewContent" placeholder="Write your review here..." rows="4"></textarea>
+          <textarea v-model="newReviewContent" placeholder="Write your review here." rows="4"></textarea>
           <button @click="submitReview" class="btn btn-primary">Submit</button>
           <button @click="closeReviewForm" class="btn btn-secondary">Cancel</button>
         </div>
@@ -219,7 +219,16 @@ h1 {
 }
 
 .reviews-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+    grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
+  }
 }
 
 .review {
