@@ -199,13 +199,14 @@ input {
 .submit-button {
   padding: 0.5rem 1rem;
   margin-top: 1rem;
-  background-color: rgba(238, 236, 232, 0.763);
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
   display: block;
   margin: auto;
+  background-color:rgb(158, 54, 10) ;
 }
 #hyper-link{
   color: rgb(158, 54, 10) ;
