@@ -10,9 +10,11 @@
           </div>
           <div class="form-input-group">
             <label for="username">Username</label>
+            <div class="input-icon-wrapper">
             <input type="text" id="username" v-model="user.username" required autofocus />
             <i class="bi bi-person icon" aria-hidden="true"></i>
           </div>
+        </div>
           <div class="form-input-group">
             <label for="password">Password</label>
             <div class="input-icon-wrapper">
@@ -26,8 +28,8 @@
               <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
             <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
-            
           </div>
+          
           <button type="submit" class="submit-button">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>

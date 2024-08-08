@@ -8,6 +8,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class JdbcReviewDao implements ReviewDao{
         return reviewsList;
     }
 
+
     @Override
     public List <Review> addReview(Review review, int userId) {
         List<Review> addReviewToList = null;
@@ -69,10 +71,49 @@ public class JdbcReviewDao implements ReviewDao{
         }
         return addReviewToList;
     }
+    @Override
+    public List<Review> getProfileReviews(int user_id) {
+        List<Review> reviewList = new ArrayList<>();
+        String sql = "SELECT review_id, game_id, user_id, review_title, review_text FROM reviews WHERE user_id = ?;";
+
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, user_id);
+            while(results.next()){
+                reviewList.add(mapRowToReview(results));
+            }
+        }
+        catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+        return reviewList;
+    }
 
     @Override
-    public Review updateAndEditReview(Review review) {
-        return null;
+    public List<Review> updateAndEditReview(Review review, int user_id) {
+        List<Review> updateReviews = null;
+        String sql = "UPDATE reviews\n" +
+                "SET review_title = ?, review_text = ?\n" +
+                "WHERE user_id = ? AND game_id = ?;";
+        try{
+            int rowsUpdate = jdbcTemplate.update(sql, review.getReview_title(), review.getReview_text(), review.getUser_id(), review.getGame_id());
+            if(rowsUpdate == 0){
+                throw new DaoException("Zero rows affected, expected at least one!");
+            }
+            else{
+                updateReviews = getProfileReviews(review.getUser_id());
+            }
+        }
+        catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return updateReviews;
     }
 
     @Override
