@@ -4,19 +4,23 @@
     
     <div id="nav">
       <NavBar/>
-      
     </div>
     <router-view />
-    <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+    <div>
+      <Footer></Footer>
+    </div>
+    
   </div>
 </template>
 
 
 <script>
 import NavBar from './components/NavBar.vue';
+import Footer from './components/Footer.vue'
 export default{
   components: {
-    NavBar
+    NavBar,
+    Footer
     
   }
 }

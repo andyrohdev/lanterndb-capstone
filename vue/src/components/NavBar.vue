@@ -63,12 +63,18 @@ export default{
 <style scoped>
 .navbar{
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(5, 5, 5);
     color: white;
     padding: 10px;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    z-index: 1000;
+    
 }
 .logo-container{
     text-decoration: none;
@@ -77,6 +83,7 @@ export default{
     align-items: center;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 }
 .logo-container::before{
     content: '';
@@ -129,6 +136,7 @@ export default{
     color: white;
     border-bottom: 2px solid transparent;
     transition: border-color 0.3s ease;
+    z-index: 2;
     
 }
 .navbar-link:hover{

@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="video-background">
-      <video autoplay muted loop playsinline class="video-back">
-      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4" style="background-size: cover ;">
+      <video autoplay muted loop class="video-back">
+      <source src="../assets/Ember_Overlay_with_Blur_1.mp4" type="video/mp4">
     </video>
     </div>
     <div class="content-container">
@@ -15,6 +15,7 @@
           id="gameName"
           v-model="nameFilter"
           autocomplete="off"
+          placeholder="Search for a game..."
         />
       </div>
 
@@ -182,6 +183,7 @@ html{
   height: 100vh; /* Full height to allow scrolling */
   overflow: hidden;
   color: white; /* Prevent page-level scrolling */
+  padding-top: 3rem;
   
 }
 
@@ -201,21 +203,59 @@ html{
   }
 
 .search-box {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 3%;
+  
+}
+.search-box label{
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 0.5rem;
 }
 
-.game-container {
+.search-box input{
   width: 100%;
+  max-width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #0c0c0c;
+  background-color: #55504bb2;
+  color: white;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.21);
+}
+
+.search-box input::placeholder{
+  color: rgb(146, 140, 140);
+}
+.search-box input:hover{
+  color: white;
+  transition: white 0.3s ease;
+}
+.search-box input:focus::placeholder,
+.search-box input:hover::placeholder{
+  color: white;
+}
+
+
+
+.game-container {
+  width: 85%;
   flex: 1; /* Grow to fill the available space */
   overflow-y: auto; /* Scrollable content */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 1rem; /* Add some padding for better spacing */
-  background-color: rgba(0, 0, 0, 0);
+  /* Add some padding for better spacing */
+  background-color: rgba(52, 48, 48, 0.151);
+  height:100vh;
+  border-radius: 30px;
+  
+
 }
 
 .no-games-message {
@@ -237,6 +277,8 @@ html{
   height: 100vh;
   overflow: hidden;
   z-index: -1;
+  background-size: cover;
+
 }
 .background-video{
   position: absolute;
@@ -252,11 +294,11 @@ html{
   
 }
 ::-webkit-scrollbar-track{
-  background-color: #fffefe;
+  background-color: #fffefe00;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb{
-  background: #889;
+  background: rgba(136, 136, 153, 0);
   border-radius: 10px;
 
 }

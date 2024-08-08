@@ -21,7 +21,7 @@
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
-      >
+      ><i class="bi bi-menu-button"></i>
       </button>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#" @click="addToCollection(1)">Add to Wishlist</a></li>
@@ -75,10 +75,11 @@ export default {
 </script>
 
 <style scoped>
+
+
 .game-card {
   width: 200px;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -86,6 +87,8 @@ export default {
   margin-left: 2%;
   margin-right: 2%;
   margin-bottom: 2%;
+  background-color: #28272900;
+
 }
 
 .game-link {
@@ -98,7 +101,7 @@ export default {
 
 .game-image {
   width: 100%;
-  height: 300px;
+  height: 220px;
   object-fit: cover;
 }
 
@@ -110,7 +113,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: rgba(240, 248, 255, 0);
   justify-content: space-around;
 }
 
