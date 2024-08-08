@@ -40,6 +40,6 @@ export default {
     return axios.get(`http://localhost:9000/user/reviews/${user_id}`)
   },
 
-  
+  updateSpecificReview(rev)
 
 };
