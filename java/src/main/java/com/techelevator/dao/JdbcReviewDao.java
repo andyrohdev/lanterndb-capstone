@@ -116,9 +116,37 @@ public class JdbcReviewDao implements ReviewDao{
         return updateReviews;
     }
 
+
+//    @Override
+//    public int deleteGameFromACollection(int collection_list_id) {
+//        int rows = 0;
+//        String sql = "DELETE FROM collection_list WHERE collection_list_id = ?;";
+//        try{
+//            rows = jdbcTemplate.update(sql, collection_list_id);
+//        }
+//        catch (CannotGetJdbcConnectionException e) {
+//            throw new DaoException("Unable to connect to server or database", e);
+//        } catch (DataIntegrityViolationException e) {
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//        return rows;
+//    }
+
     @Override
-    public Review deleteReview(int review_id) {
-        return null;
+    public int deleteMyReview(Review review, int user_id) {
+
+        int rows = 0;
+        String sql = "DELETE FROM reviews WHERE review_id = ? AND user_id = ?;";
+        try{
+            rows = jdbcTemplate.update(sql, review.getReview_id(), review.getUser_id());
+        }
+        catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rows;
+
     }
 
     private Review mapRowToReview(SqlRowSet rs){

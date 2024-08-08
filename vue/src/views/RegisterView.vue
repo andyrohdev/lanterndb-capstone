@@ -1,7 +1,7 @@
 
 <template>
   <div class="register-back">
-    <div class="register-content">
+   
       <div class="register-container">
         <form v-on:submit.prevent="register" class="form-container">
           <h1>Create Account</h1>
@@ -10,9 +10,11 @@
           </div>
           <div class="form-input-group">
             <label for="username">Username</label>
+            <div class="input-icon-wrapper">
             <input type="text" id="username" v-model="user.username" required autofocus />
             <i class="bi bi-person icon" aria-hidden="true"></i>
           </div>
+        </div>
           <div class="form-input-group">
             <label for="password">Password</label>
             <div class="input-icon-wrapper">
@@ -27,16 +29,13 @@
               <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
           </div>
+         
           <button type="submit" class="submit-button">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
 
-        <div v-if="showWelcome" class="welcome-container">
-          <h2>Welcome to Our Service!</h2>
-          <p>We are excited to have you here.</p>
-        </div>
 
-        <div v-else class="benefits-container">
+        <div class="benefits-container">
           <div class="rightside-div">
             <h2>Benefits of Registering</h2>
             <ul>
@@ -49,11 +48,15 @@
         </div>
       </div>
     </div>
-  </div>
+ 
 </template>
+
+
+
 
 <script>
 import authService from '../services/AuthService';
+
 
 export default {
   data() {
@@ -66,25 +69,18 @@ export default {
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
-      showWelcome: true, // Controls whether the welcome page is shown
     };
-  },
-  mounted() {
-    // Transition to the benefits page after 30 seconds
-    setTimeout(() => {
-      this.showWelcome = false;
-    }, 30000);
   },
   methods: {
     register() {
-      if (this.user.password !== this.user.confirmPassword) {
+      if (this.user.password != this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
         authService
           .register(this.user)
           .then((response) => {
-            if (response.status === 201) {
+            if (response.status == 201) {
               this.$router.push({
                 path: '/login',
                 query: { registration: 'success' },
@@ -108,6 +104,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .register-back {
   display: flex;
@@ -121,73 +118,73 @@ export default {
   overflow: hidden;
 }
 
+
 .register-content {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   width: 70%;
   background-color: #e0c5c5c2;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 .register-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  border-radius: 8px 40px 40px 8px;
-  background-color: #2c2c2c;
+  align-items: stretch;
+  width: 48%;
+  background-color: #29292943;
+  border-radius: 8px;
   color: white;
+  padding-left: 10px;
 }
 
-.welcome-container, .benefits-container {
-  width: 50%;
-  padding: 2rem;
+
+.form-container {
+  width: 48%;
   text-align: center;
 }
 
-.welcome-container {
-  background-color: #ad9f4ae5;
-  border-radius: 40px 0 0 40px;
-  color: white;
-}
 
 .benefits-container {
-  background-color: #ad9f4ae5;
-  border-radius: 40px 40px 40px 0;
+  height: 50;
+  width: 48%;
+  background-image: linear-gradient(to left, red, #29292943);
+  border-radius: 8px;
   color: white;
-  height: 100%;
-}
-
-.form-container {
-  width: 50%;
   padding: 20px;
 }
+
 
 .form-input-group {
   margin-bottom: 1rem;
 }
+
 
 label {
   display: block;
   margin-bottom: 5px;
 }
 
+
 .input-icon-wrapper {
   position: relative;
 }
 
+
 input {
-  width: calc(100% - 30px);
+  width: 100%;
   padding: 0.75rem;
   border-radius: 15px;
   border: 1px solid #444;
   margin-bottom: 0.5rem;
   box-shadow: 1px 4px 4px rgba(29, 29, 29, 0.904);
   padding-right: 30px;
+  padding-left: 30px;
 }
+
 
 .icon {
   position: absolute;
@@ -197,6 +194,7 @@ input {
   color: rgb(16, 16, 16);
   font-size: 20px;
 }
+
 
 .submit-button {
   padding: 0.5rem 1rem;
@@ -210,9 +208,11 @@ input {
   margin: auto;
 }
 
+
 .benefits-container h2 {
   margin-bottom: 1rem;
 }
+
 
 .benefits-container ul {
   list-style-type: disc;
@@ -220,7 +220,23 @@ input {
   text-align: left;
 }
 
+
 .benefits-container li {
   margin-bottom: 0.5rem;
+}
+
+
+@media (max-width: 768px) {
+  .register-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .form-container,
+  .benefits-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 </style>

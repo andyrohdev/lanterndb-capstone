@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard-card">
     <h3>{{ title }}</h3>
-    <ul>
+    <ul v-if="items.length > 0">
       <li v-for="item in items" :key="item.collectionListId">
-        
         {{ item.title }}
         <div class="dropdown">
           <button
@@ -46,6 +45,9 @@
         </div>
       </li>
     </ul>
+    <div v-else class="no-games-message">
+      No games found in collection.
+    </div>
   </div>
 </template>
 
@@ -108,7 +110,6 @@ export default {
 </script>
 
 <style scoped>
-
 .dashboard-card {
   background-color: #1e1e1e;
   border: 1px solid #333;
@@ -164,13 +165,17 @@ export default {
   border-bottom: none;
 }
 
-@media (max-width: 768px) {
+.no-games-message {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
   .dashboard-card {
     width: 90%; /* Full width on smaller screens */
     margin: 16px 0; /* Adjusted margin for vertical stacking */
   }
 }
-
-
-
 </style>
