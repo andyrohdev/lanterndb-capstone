@@ -96,9 +96,9 @@ public class JdbcReviewDao implements ReviewDao{
         List<Review> updateReviews = null;
         String sql = "UPDATE reviews\n" +
                 "SET review_title = ?, review_text = ?\n" +
-                "WHERE user_id = ? AND game_id = ?;";
+                "WHERE user_id = ? AND review_id = ?;";
         try{
-            int rowsUpdate = jdbcTemplate.update(sql, review.getReview_title(), review.getReview_text(), review.getUser_id(), review.getGame_id());
+            int rowsUpdate = jdbcTemplate.update(sql, review.getReview_title(), review.getReview_text(), review.getUser_id(), review.getReview_id());
             if(rowsUpdate == 0){
                 throw new DaoException("Zero rows affected, expected at least one!");
             }

@@ -110,9 +110,9 @@
     background-color: #1e1e1e;
     border: 1px solid #333;
     border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 16px;
     color: #e0e0e0;
+    margin: 16px;
   }
   
   .review-title {

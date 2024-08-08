@@ -147,6 +147,26 @@ export default {
   margin: 20px 0;
 }
 
+/* Custom scrollbar for reviews-scrollable */
+.reviews-scrollable::-webkit-scrollbar {
+  width: 12px;
+}
+
+.reviews-scrollable::-webkit-scrollbar-track {
+  background: #2e2e2e00;
+  border-radius: 6px;
+}
+
+.reviews-scrollable::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+
+}
+
+.reviews-scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 @media (max-width: 900px) {
   .dashboard {
     flex-direction: column;
