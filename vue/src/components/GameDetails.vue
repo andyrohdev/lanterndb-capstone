@@ -219,7 +219,16 @@ h1 {
 }
 
 .reviews-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .reviews-section {
+    grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
+  }
 }
 
 .review {
