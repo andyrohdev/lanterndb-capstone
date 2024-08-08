@@ -247,9 +247,14 @@ input {
   margin: auto;
   background-color:rgb(158, 54, 10) ;
 }
+#hyper-link:hover{
+    color: orange;
+    text-decoration: underline;
+    
+}
+
 #hyper-link{
-  color: rgb(158, 54, 10) ;
-  text-decoration: none;
+  color: white;
 }
 
 
