@@ -128,7 +128,7 @@ export default {
   justify-content: space-between;
   align-items: stretch;
   width: 48%;
-  background-color: #2c2c2c;
+  background-color: #29292943;
   border-radius: 8px;
   color: white;
   padding-left: 10px;
@@ -142,7 +142,7 @@ export default {
 .benefits-container {
   height: 50;
   width: 48%;
-  background-color: #ad9f4ae5;
+  background-image: linear-gradient(to left, red, #29292943);
   border-radius: 8px;
   color: white;
   padding: 20px;
