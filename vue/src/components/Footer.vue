@@ -12,16 +12,20 @@
 </template>
 
 <script>
-
+    export default{
+        name: 'Footer',
+    };
 </script>
-
+    
 <style scoped>
 .custom-footer{
 padding-top: 1rem;
 padding-bottom: 1.5rem;
 margin-top: 1.5rem;
 text-align: center;
-background-color: rgba(26, 18, 12, 0);;
+background-color: rgb(99, 88, 78);;
+z-index: 100;
+position: relative;
 }
 .nav-list{
     list-style-type: none;
