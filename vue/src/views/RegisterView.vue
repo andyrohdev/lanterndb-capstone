@@ -1,7 +1,7 @@
 
 <template>
   <div class="register-back">
-    
+   
       <div class="register-container">
         <form v-on:submit.prevent="register" class="form-container">
           <h1>Create Account</h1>
@@ -29,10 +29,11 @@
               <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
             </div>
           </div>
-          
+         
           <button type="submit" class="submit-button">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
+
 
         <div class="benefits-container">
           <div class="rightside-div">
@@ -47,12 +48,15 @@
         </div>
       </div>
     </div>
-  
+ 
 </template>
+
+
 
 
 <script>
 import authService from '../services/AuthService';
+
 
 export default {
   data() {
@@ -100,6 +104,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .register-back {
   display: flex;
@@ -113,6 +118,7 @@ export default {
   overflow: hidden;
 }
 
+
 .register-content {
   display: flex;
   justify-content: center;
@@ -122,6 +128,7 @@ export default {
   border-radius: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 .register-container {
   display: flex;
@@ -134,10 +141,12 @@ export default {
   padding-left: 10px;
 }
 
+
 .form-container {
   width: 48%;
   text-align: center;
 }
+
 
 .benefits-container {
   height: 50;
@@ -148,18 +157,22 @@ export default {
   padding: 20px;
 }
 
+
 .form-input-group {
   margin-bottom: 1rem;
 }
+
 
 label {
   display: block;
   margin-bottom: 5px;
 }
 
+
 .input-icon-wrapper {
   position: relative;
 }
+
 
 input {
   width: 100%;
@@ -172,6 +185,7 @@ input {
   padding-left: 30px;
 }
 
+
 .icon {
   position: absolute;
   right: 0.75rem;
@@ -180,6 +194,7 @@ input {
   color: rgb(16, 16, 16);
   font-size: 20px;
 }
+
 
 .submit-button {
   padding: 0.5rem 1rem;
@@ -193,9 +208,11 @@ input {
   margin: auto;
 }
 
+
 .benefits-container h2 {
   margin-bottom: 1rem;
 }
+
 
 .benefits-container ul {
   list-style-type: disc;
@@ -203,15 +220,18 @@ input {
   text-align: left;
 }
 
+
 .benefits-container li {
   margin-bottom: 0.5rem;
 }
+
 
 @media (max-width: 768px) {
   .register-container {
     flex-direction: column;
     align-items: center;
   }
+
 
   .form-container,
   .benefits-container {
