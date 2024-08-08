@@ -142,6 +142,26 @@ export default {
   position: relative;
 }
 
+/* Custom scrollbar for card ul */
+.dashboard-card ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-card ul::-webkit-scrollbar-track {
+  background: #2e2e2e;
+  border-radius: 6px;
+}
+
+.dashboard-card ul::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+  border: 2px solid #2e2e2e;
+}
+
+.dashboard-card ul::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 .dashboard-card .dropdown {
   position: static; /* Reset position to allow dropdown to escape overflow */
 }
