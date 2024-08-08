@@ -65,7 +65,8 @@ export default {
   flex-wrap: wrap; /* Allows cards to wrap onto the next line */
   justify-content: space-around;
   padding: 20px;
-  background: #ecf0f1;
+  background: #121212; /* Dark background like GameDetails */
+  color: #e0e0e0; /* Light text for contrast */
 }
 
 @media (max-width: 768px) {

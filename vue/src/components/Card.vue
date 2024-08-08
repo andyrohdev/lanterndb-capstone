@@ -120,11 +120,14 @@ export default {
   height: 350px; /* Adjusted height */
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Ensures nothing leaks outside the card */
+  overflow: visible; /* Allow dropdown to show outside the card */
+  position: relative; /* Establishes a positioning context for dropdown */
+  z-index: 1; /* Ensure card is above normal content but below active dropdown */
 }
 
 .dashboard-card h3 {
   margin-top: 0;
+  color: black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -132,10 +135,23 @@ export default {
 }
 
 .dashboard-card ul {
+  color: black;
   list-style-type: none;
   padding-left: 0;
   overflow-y: auto; /* Enables scrolling within the list */
   flex-grow: 1; /* Allows the list to take up the rest of the space in the card */
+  position: relative;
+}
+
+.dashboard-card .dropdown {
+  position: static; /* Reset position to allow dropdown to escape overflow */
+}
+
+.dashboard-card .dropdown-menu {
+  position: absolute; /* Position absolute relative to nearest positioned ancestor */
+  z-index: 1000; /* High z-index to ensure dropdown is on top of other elements */
+  width: 100%; /* Match width of button */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* Add some shadow for better visibility */
 }
 
 .dashboard-card li {
@@ -156,6 +172,7 @@ export default {
     margin: 16px 0; /* Adjusted margin for vertical stacking */
   }
 }
+
 
 
 </style>

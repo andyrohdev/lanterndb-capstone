@@ -36,4 +36,10 @@ export default {
     return axios.get('/admin')
   },
 
+  getReviewsForUser(user_id) {
+    return axios.get(`${API_URL}/user/reviews`)
+  },
+
+  
+
 };
