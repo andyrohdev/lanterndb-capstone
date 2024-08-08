@@ -1,4 +1,5 @@
 
+
 <template>
   <div class="register-back">
    
@@ -35,6 +36,8 @@
         </form>
 
 
+
+
         <div class="benefits-container">
           <div class="rightside-div">
             <h2>Benefits of Registering</h2>
@@ -54,8 +57,14 @@
 
 
 
+
+
+
+
 <script>
 import authService from '../services/AuthService';
+
+
 
 
 export default {
@@ -105,6 +114,8 @@ export default {
 </script>
 
 
+
+
 <style scoped>
 .submit-button:hover {
   background-color: #d14b06;
@@ -127,6 +138,8 @@ input:focus {
 }
 
 
+
+
 .register-content {
   display: flex;
   justify-content: center;
@@ -138,16 +151,20 @@ input:focus {
 }
 
 
+
+
 .register-container {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   width: 48%;
-  background-color: #29292943;
+  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943, #29292943);
   border-radius: 8px;
   color: white;
   padding-left: 10px;
 }
+
+
 
 
 .form-container {
@@ -156,19 +173,25 @@ input:focus {
 }
 
 
+
+
 .benefits-container {
   height: 50;
   width: 48%;
-  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943);
+  background-image: linear-gradient(to left,  rgb(158, 54, 10));
   border-radius: 8px;
   color: white;
   padding: 20px;
 }
 
 
+
+
 .form-input-group {
   margin-bottom: 1rem;
 }
+
+
 
 
 label {
@@ -177,9 +200,13 @@ label {
 }
 
 
+
+
 .input-icon-wrapper {
   position: relative;
 }
+
+
 
 
 input {
@@ -194,6 +221,8 @@ input {
 }
 
 
+
+
 .icon {
   position: absolute;
   right: 0.75rem;
@@ -202,6 +231,8 @@ input {
   color: rgb(16, 16, 16);
   font-size: 20px;
 }
+
+
 
 
 .submit-button {
@@ -222,9 +253,13 @@ input {
 }
 
 
+
+
 .benefits-container h2 {
   margin-bottom: 1rem;
 }
+
+
 
 
 .benefits-container ul {
@@ -234,9 +269,13 @@ input {
 }
 
 
+
+
 .benefits-container li {
   margin-bottom: 0.5rem;
 }
+
+
 
 
 @media (max-width: 768px) {
@@ -244,6 +283,8 @@ input {
     flex-direction: column;
     align-items: center;
   }
+
+
 
 
   .form-container,
