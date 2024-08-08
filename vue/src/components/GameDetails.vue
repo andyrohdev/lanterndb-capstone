@@ -11,7 +11,7 @@
         <h1>{{ game.name || 'Unknown Title' }}</h1>
         <p class="game-genres">Genres: {{ formattedGenres }}</p>
         <p class="game-rating">Rating: {{ game.rating || 'N/A' }}</p>
-        <!-- Add button to add to collection -->
+  
         <div v-if="isUserLoggedIn" class="add-to-collection">
           <button @click="addToCollection(1)" class="btn btn-primary">Add to Wishlist</button>
           <button @click="addToCollection(2)" class="btn btn-primary">Add to Playing</button>
@@ -22,22 +22,20 @@
         <div class="reviews-container">
           <h2>Reviews</h2>
           <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-section">
-            <div v-for="review in reviews" :key="review.review_id" class="review">
-              <p>
-                <strong>{{ getUsernameById(review.user_id) }}:</strong> {{ review.review_title }} - {{ review.review_text }}
-              </p>
-            </div>
+            <ReviewCard
+              v-for="review in reviews"
+              :key="review.review_id"
+              :review="review"
+            />
           </div>
           <div v-else-if="!loading" class="no-reviews-message">No reviews found.</div>
   
-          <!-- Add Review Button -->
           <div v-if="isUserLoggedIn" class="add-review-button">
             <button @click="openReviewForm" class="btn btn-primary">Add Review</button>
           </div>
         </div>
       </div>
   
-      <!-- Review Form Modal -->
       <div v-if="showReviewForm" class="review-form-modal">
         <div class="review-form-content">
           <h3>Submit Your Review</h3>
@@ -51,117 +49,112 @@
   </template>
   
   <script>
-import { mapState } from 'vuex';
-import GameService from "../services/GameService";
-import CollectionService from "../services/CollectionService.js";
-
-export default {
-  data() {
-    return {
-      game: {
-        genres: [],
-        background_image: "",
-        name: "",
-        rating: "N/A",
+  import { mapState } from 'vuex';
+  import GameService from "../services/GameService";
+  import CollectionService from "../services/CollectionService.js";
+  import ReviewCard from './ReviewCard.vue';
+  
+  export default {
+    components: {
+      ReviewCard,
+    },
+    data() {
+      return {
+        game: {
+          genres: [],
+          background_image: "",
+          name: "",
+          rating: "N/A",
+        },
+        reviews: [],
+        loading: true,
+        showReviewForm: false,
+        newReviewTitle: "",
+        newReviewContent: ""
+      };
+    },
+    computed: {
+      ...mapState(['token']),
+      isUserLoggedIn() {
+        return !!this.token;
       },
-      reviews: [],
-      users: [],
-      loading: true,
-      showReviewForm: false,
-      newReviewTitle: "",
-      newReviewContent: ""
-    };
-  },
-  computed: {
-    ...mapState(['token']),
-    isUserLoggedIn() {
-      return !!this.token;
-    },
-    formattedGenres() {
-      return Array.isArray(this.game.genres) && this.game.genres.length > 0
-        ? this.game.genres.map((genre) => genre.name).join(", ")
-        : "N/A";
-    }
-  },
-  mounted() {
-    const game_id = this.$route.params.gameId;
-    GameService.getGameDetails(game_id)
-      .then((response) => {
-        this.game = response.data;
-        return GameService.getGameReviews(game_id);
-      })
-      .then((response) => {
-        this.reviews = Array.isArray(response.data) ? response.data : [];
-        return GameService.fetchUsers();
-      })
-      .then((response) => {
-        this.users = response.data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.error("Error fetching game details or reviews:", error);
-        this.loading = false;
-      });
-  },
-  methods: {
-    getUsernameById(userId) {
-      const user = this.users.find((user) => user.id === userId);
-      return user ? user.username : "Anonymous";
-    },
-    addToCollection(collection_id) {
-      const genre = this.game.genres && this.game.genres.length > 0
-        ? this.game.genres[0].name
-        : 'Unknown Genre';
-
-      const gameData = {
-        title: this.game.name,
-        genre: genre,
-        collection_id,
-      };
-
-      CollectionService.addToCollections(gameData)
-        .then((response) => {
-          console.log(`Game added to ${collection_id} collection`, response);
-        })
-        .catch((error) => {
-          console.error(`Error adding game to ${collection_id} collection`, error);
-        });
-    },
-    openReviewForm() {
-      this.showReviewForm = true;
-    },
-    closeReviewForm() {
-      this.showReviewForm = false;
-      this.newReviewTitle = "";
-      this.newReviewContent = "";
-    },
-    submitReview() {
-      if (!this.newReviewTitle.trim() || !this.newReviewContent.trim()) {
-        alert("Please provide both a title and content for your review.");
-        return;
+      formattedGenres() {
+        return Array.isArray(this.game.genres) && this.game.genres.length > 0
+          ? this.game.genres.map((genre) => genre.name).join(", ")
+          : "N/A";
       }
-
-      const reviewData = {
-        game_id: this.$route.params.gameId,
-        review_title: this.newReviewTitle,
-        review_text: this.newReviewContent,
-      };
-
-      GameService.addReview(reviewData)
-        .then(() => {
-          return GameService.getGameReviews(this.$route.params.gameId);
+    },
+    mounted() {
+      const game_id = this.$route.params.gameId;
+      GameService.getGameDetails(game_id)
+        .then((response) => {
+          this.game = response.data;
+          return GameService.getGameReviews(game_id);
         })
         .then((response) => {
           this.reviews = Array.isArray(response.data) ? response.data : [];
-          this.closeReviewForm();
+          this.loading = false;
         })
         .catch((error) => {
-          console.error("Error submitting review:", error);
+          console.error("Error fetching game details or reviews:", error);
+          this.loading = false;
         });
+    },
+    methods: {
+      addToCollection(collection_id) {
+        const genre = this.game.genres && this.game.genres.length > 0
+          ? this.game.genres[0].name
+          : 'Unknown Genre';
+  
+        const gameData = {
+          title: this.game.name,
+          genre: genre,
+          collection_id,
+        };
+  
+        CollectionService.addToCollections(gameData)
+          .then((response) => {
+            console.log(`Game added to ${collection_id} collection`, response);
+          })
+          .catch((error) => {
+            console.error(`Error adding game to ${collection_id} collection`, error);
+          });
+      },
+      openReviewForm() {
+        this.showReviewForm = true;
+      },
+      closeReviewForm() {
+        this.showReviewForm = false;
+        this.newReviewTitle = "";
+        this.newReviewContent = "";
+      },
+      submitReview() {
+        if (!this.newReviewTitle.trim() || !this.newReviewContent.trim()) {
+          alert("Please provide both a title and content for your review.");
+          return;
+        }
+  
+        const reviewData = {
+          game_id: this.$route.params.gameId,
+          review_title: this.newReviewTitle,
+          review_text: this.newReviewContent,
+        };
+  
+        GameService.addReview(reviewData)
+          .then(() => {
+            return GameService.getGameReviews(this.$route.params.gameId);
+          })
+          .then((response) => {
+            this.reviews = Array.isArray(response.data) ? response.data : [];
+            this.closeReviewForm();
+          })
+          .catch((error) => {
+            console.error("Error submitting review:", error);
+          });
+      }
     }
-  }
-};
-</script>
+  };
+  </script>
   
   <style scoped>
   .game-details {
