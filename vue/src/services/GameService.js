@@ -37,7 +37,7 @@ export default {
   },
 
   getReviewsForUser(user_id) {
-    return axios.get(`${API_URL}/user/reviews`)
+    return axios.get(`http://localhost:9000/user/reviews`, {user_id})
   },
 
   
