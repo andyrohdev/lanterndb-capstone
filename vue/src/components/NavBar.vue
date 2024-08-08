@@ -21,6 +21,7 @@
             <router-link v-if="showProfileLink" to="/dashboard" class="navbar-link"><i class="bi bi-person-circle"></i></router-link>
         </div>
       </div>
+      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
     </nav>
 </template>
 
