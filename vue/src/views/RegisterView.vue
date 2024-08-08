@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 
@@ -127,11 +127,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  width: 100%;
+  width: 48%;
   background-color: #2c2c2c;
   border-radius: 8px;
   color: white;
-  padding: 20px;
+  padding-left: 10px;
 }
 
 .form-container {
@@ -140,6 +140,7 @@ export default {
 }
 
 .benefits-container {
+  height: 50;
   width: 48%;
   background-color: #ad9f4ae5;
   border-radius: 8px;
