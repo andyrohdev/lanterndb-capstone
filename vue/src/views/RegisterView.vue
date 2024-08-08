@@ -158,7 +158,7 @@ input:focus {
   justify-content: space-between;
   align-items: stretch;
   width: 48%;
-  background-color: #29292943;
+  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943, #29292943);
   border-radius: 8px;
   color: white;
   padding-left: 10px;
@@ -178,7 +178,7 @@ input:focus {
 .benefits-container {
   height: 50;
   width: 48%;
-  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943);
+  background-image: linear-gradient(to left,  rgb(158, 54, 10));
   border-radius: 8px;
   color: white;
   padding: 20px;
