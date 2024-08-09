@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="register-back">
    
@@ -299,3 +297,4 @@ input {
   }
 }
 </style>
+
