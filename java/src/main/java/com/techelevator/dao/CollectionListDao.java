@@ -19,5 +19,7 @@ public interface CollectionListDao {
 
    int deleteGameFromACollection(int collection_list_id);
 
+   List <CollectionList> adminFetchCollectionByType(CollectionList collectionList);
+
 
 }
