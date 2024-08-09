@@ -114,7 +114,7 @@
             console.error("Error updating review:", error);
           });
       },
-      removeReview() {  // Renamed the method here
+      removeReview() {
         console.log("Delete review:", this.review.review_id);
         this.deleteReview(this.review.review_id)
           .then(() => {
