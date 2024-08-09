@@ -180,7 +180,7 @@ export default {
 }
 
 .navbar-link:hover {
-    border-bottom: 2px solid rgb(158, 54, 10);
+    border-bottom: 2px solid rgb(251, 77, 3);
 }
 
 .navbar-link::after {
@@ -190,10 +190,10 @@ export default {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: rgb(158, 54, 10);
+    background-color: rgb(251, 77, 3);
     transform: scaleX(0);
     transform-origin: bottom right;
-    transition: transform 0.4s ease;
+    transition: transform 1s ease-in-out;
 }
 
 .navbar-link:hover::after {
@@ -223,6 +223,9 @@ export default {
 .profile-link i {
     font-size: 24px;
     transition: transform 0.3s ease;
+}
+.profile-link:hover{
+    transform: scale(1.1);
 }
 
 .dropdown-menu {
