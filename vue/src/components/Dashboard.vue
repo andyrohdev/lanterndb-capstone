@@ -1,5 +1,5 @@
 <template>
-  <div class="body-dashboard">
+  <body class="body-dashboard">
     <div class="dashboard-container">
       <div class="header"></div>
       <div class="dashboard-content">
@@ -13,21 +13,21 @@
           <h2>Reviews</h2>
           <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
             <div class="reviews-section">
-              <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" @review-updated="fetchUserReviews" />
+              <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
             </div>
           </div>
           <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
         </div>
       </div>
     </div>
-  </div>
+  </body>
 </template>
 
 <script>
 import Card from "@/components/Card.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
 import CollectionService from "../services/CollectionService";
-import { mapState, mapActions } from 'vuex';
+import GameService from "../services/GameService";
 
 export default {
   components: {
@@ -37,11 +37,11 @@ export default {
   data() {
     return {
       allItems: [],
+      reviews: [],
       loadingReviews: true,
     };
   },
   computed: {
-    ...mapState(['reviews']),
     wishlistItems() {
       return this.allItems.filter(item => item.collection_id === 1);
     },
@@ -57,30 +57,30 @@ export default {
     this.fetchUserReviews();
   },
   methods: {
-    ...mapActions(['fetchReviews']),
     fetchCollections() {
       Promise.all([
         CollectionService.getCollections(1),
         CollectionService.getCollections(2),
         CollectionService.getCollections(3)
       ])
-      .then((responses) => {
-        this.allItems = [
-          ...responses[0].data,
-          ...responses[1].data,
-          ...responses[2].data
-        ];
-      })
-      .catch((error) => {
-        console.error("Error retrieving collections", error);
-      });
+        .then((responses) => {
+          this.allItems = [
+            ...responses[0].data,
+            ...responses[1].data,
+            ...responses[2].data
+          ];
+        })
+        .catch((error) => {
+          console.error("Error retrieving collections", error);
+        });
     },
     fetchUserReviews() {
-      console.log('fetching user reviews');
       const user_id = this.$store.state.user.id;
       console.log("Fetching reviews for user ID:", user_id);
-      this.fetchReviews(user_id)
-        .then(() => {
+      GameService.getReviewsForUser(user_id)
+        .then((response) => {
+          console.log("Reviews data received:", response.data);
+          this.reviews = response.data;
           this.loadingReviews = false;
         })
         .catch((error) => {
@@ -88,17 +88,35 @@ export default {
           this.loadingReviews = false;
         });
     },
+    updateReview(updatedReview) {
+      console.log("Updating review in the parent component:", updatedReview);
+      const index = this.reviews.findIndex(review => review.review_id === updatedReview.review_id);
+      if (index !== -1) {
+        this.$set(this.reviews, index, updatedReview);
+        console.log("Review updated in the array");
+      } else {
+        console.log("Review not found in the array");
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
 .dashboard-container {
-  min-height: 100vh; /* Full height of the viewport */
+  min-height: 100vh;
+  /* Full height of the viewport */
   display: flex;
   flex-direction: column;
-  background: #121212; /* Dark background like GameDetails */
-  color: #e0e0e0; /* Light text for contrast */
+  background: #121212;
+  /* Dark background like GameDetails */
+  color: #e0e0e0;
+  /* Light text for contrast */
+}
+.body-dashboard{
+  padding: 0;
+  margin: 0;
+  background-color: #121212;
 }
 
 .dashboard-content {
@@ -110,36 +128,43 @@ export default {
 
 .dashboard {
   display: flex;
-  flex-wrap: wrap; /* Allows cards to wrap onto the next line */
+  flex-wrap: wrap;
+  /* Allows cards to wrap onto the next line */
   justify-content: center;
-  margin-bottom: 40px; /* Add space below the collections */
+  margin-bottom: 40px;
+  /* Add space below the collections */
 }
 
 .reviews-container {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
-  background-color: inherit; /* Ensure background color is consistent */
+  background-color: inherit;
+  /* Ensure background color is consistent */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .reviews-scrollable {
-  max-height: 400px; /* Adjust the height as needed */
+  max-height: 400px;
+  /* Adjust the height as needed */
   overflow-y: auto;
   width: 100%;
   display: flex;
-  justify-content: center; /* Center the reviews section horizontally */
+  justify-content: center;
+  /* Center the reviews section horizontally */
 }
 
 .reviews-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Responsive grid */
   gap: 20px;
   margin-top: 20px;
   width: 100%;
-  max-width: 1200px; /* Center the reviews section */
+  max-width: 1200px;
+  /* Center the reviews section */
 }
 
 .no-reviews-message {
@@ -154,9 +179,12 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+
   .reviews-section {
-    grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
-    max-width: 100%; /* Ensure it takes up full width on smaller screens */
+    grid-template-columns: 1fr;
+    /* Switch to a single column on smaller screens */
+    max-width: 100%;
+    /* Ensure it takes up full width on smaller screens */
   }
 }
 </style>
