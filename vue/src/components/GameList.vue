@@ -6,12 +6,14 @@
       </video>
     </div>
     <div class="content-container">
-      <h1 class="header">Lantern<span class="flame">DB</span> lights the way <br/> to your
+      <h1 class="header"><span class="lantern-color">Lantern</span><span class="flame">DB</span> lights the way <br/> to your
         next favorite game with our comprehensive search feature.</h1>
-      <div class="search-box">
-        <label for="gameName"></label>
-        <input type="text" name="gameName" id="gameName" v-model="nameFilter" autocomplete="off"
-          placeholder="Search for a game..." />
+      <div class="search-box-container">
+        <div class="search-box">
+          <label for="gameName"></label>
+          <input type="text" name="gameName" id="gameName" v-model="nameFilter" autocomplete="off"
+            placeholder="Search for a game..." />
+        </div>
       </div>
 
       <div class="game-container" ref="scrollContainer">
@@ -24,8 +26,6 @@
 
       <!-- Loading Spinner -->
       <!-- <div v-if="loading" class="loading-spinner">Loading...</div> -->
-    </div>
-    <div>
     </div>
   </div>
 </template>
@@ -173,10 +173,8 @@ html {
   align-items: center;
   width: 100%;
   height: 100vh;
-  /* Full height to allow scrolling */
   overflow: hidden;
   color: white;
-  /* Prevent page-level scrolling */
   padding-top: 3rem;
 
 }
@@ -196,17 +194,20 @@ html {
 
 }
 
-.search-box {
-  width: 90%;
-  max-width: 800px;
-  margin-bottom: 2rem;
+.search-box-container {
   display: flex;
-  flex-direction: column;
+  width: 90%;
+  max-width: 1000px;
+  margin-bottom: 2rem;
   align-items: center;
-  padding-bottom: 3%;
+  gap: 10px;
 
 }
-
+.search-box{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .search-box label {
   font-size: 1rem;
   color: white;
@@ -313,28 +314,39 @@ html {
   text-align: center;
   margin-top: 2rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  
+
 }
-.flame{
-  
+
+.flame {
+
   animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
-  
+
 }
+
 @keyframes colorFlow {
   0% {
-    color: #ff4400; /* Dark Orange */
+    color: #ff4400;
+    /* Dark Orange */
   }
+
   25% {
-    color: #d32406; /* Tomato Red */
+    color: #d32406;
+    /* Tomato Red */
   }
+
   50% {
-    color: #f85b00; /* Light Orange */
+    color: #f85b00;
+    /* Light Orange */
   }
+
   75% {
-    color: #fa8704; /* Darker Orange */
+    color: #fa8704;
+    /* Darker Orange */
   }
+
   100% {
-    color: #ff4400; /* Back to Dark Orange */
+    color: #ff4400;
+    /* Back to Dark Orange */
   }
 }
 
@@ -342,13 +354,17 @@ html {
   0% {
     transform: scale(1);
   }
+
   50% {
-    transform: scale(1.1); /* Slightly enlarged */
+    transform: scale(1.1);
+    /* Slightly enlarged */
   }
+
   100% {
     transform: scale(1);
   }
 }
+
 .custom-footer {
   padding-top: 1rem;
   padding-bottom: 1.5rem;
@@ -388,6 +404,9 @@ html {
   color: white;
 }
 
+.lantern-color {
+  color: #F5C277;
+}
 
 @media (max-width: 600px) {
   .game-card {
