@@ -1,17 +1,7 @@
 <template>
   <div class="home-page">
     <!-- Header Section -->
-    <header class="header">
-      <div class="brand">
-        <img src="path_to_logo" alt="Brand Logo" class="logo" />
-        <span class="brand-name">Brand Name</span>
-      </div>
-      <div class="nav-links">
-        <button class="btn">Browse</button>
-        <button class="btn">Profile</button>
-        <button class="btn">Login</button>
-      </div>
-    </header>
+    
 
     <!-- Hero Section -->
     <section id="hero-1946">
