@@ -1,8 +1,14 @@
 <template>
   <div class="game-card">
-    <router-link :to="{ name: 'game-details', params: { gameId: game.id } }" class="game-link">
+    <router-link
+      :to="{ name: 'game-details', params: { gameId: game.id } }"
+      class="game-link"
+    >
       <img
-        :src="game.background_image || 'https://via.placeholder.com/300x400.png?text=No+Image+Available'"
+        :src="
+          game.background_image ||
+          'https://via.placeholder.com/300x400.png?text=No+Image+Available'
+        "
         alt="Game image"
         class="game-image"
         loading="lazy"
@@ -19,56 +25,64 @@
       <button class="button-menu" @click="toggleDropDown">
         <i class="bi bi-menu-button"></i>
       </button>
-      <div class="dropdown-menu" :class="{'dropdown-menu-show' : isDropDownOpen}">
+      <div
+        class="dropdown-menu"
+        :class="{ 'dropdown-menu-show': isDropDownOpen }"
+      >
         <div class="dropdown-item" @click="addToCollection(1)">
-          <i class="bi bi-heart" style="color: rgb(244, 130, 9)"></i> Add to Wishlist
+          <i class="bi bi-heart" style="color: rgb(244, 130, 9)"></i> Add to
+          Wishlist
         </div>
         <div class="divider-horizontal"></div>
         <div class="dropdown-item" @click="addToCollection(2)">
-          <i class="bi bi-play-circle" style="color: rgb(244, 130, 9)"></i> Add to Playing
+          <i class="bi bi-play-circle" style="color: rgb(244, 130, 9)"></i> Add
+          to Playing
         </div>
         <div class="divider-horizontal"></div>
         <div class="dropdown-item" @click="addToCollection(3)">
-          <i class="bi bi-check-circle" style="color: rgb(244, 130, 9)"></i> Add to Played
+          <i class="bi bi-check-circle" style="color: rgb(244, 130, 9)"></i> Add
+          to Played
         </div>
       </div>
-      
     </div>
   </div>
 </template>
 
 <script>
-import CollectionService from '../services/CollectionService';
+import CollectionService from "../services/CollectionService";
 
 export default {
   props: {
-    game: Object
+    game: Object,
   },
-  data(){
-    return{
-      isDropDownOpen: false
+  data() {
+    return {
+      isDropDownOpen: false,
     };
   },
   computed: {
     isLoggedIn() {
       const user = this.$store.state.user;
       return !!user && !!user.id; // Check if user is logged in
-    }
+    },
   },
-  methods:{
-
-    toggleDropDown(){
+  methods: {
+    toggleDropDown() {
       this.isDropDownOpen = !this.isDropDownOpen;
     },
-  
-   
+    closeDropDown() {
+      this.isDropDownOpen = false;
+    },
+    handleClickOutside(event) {
+      if (this.isDropDownOpen && !this.$el.contains(event.target)) {
+        this.closeDropDown();
+      }
+    },
     addToCollection(collection_id) {
-      console.log("Game object:", this.game);
-
-      // Extract the first genre name from the genres array
-      const genre = this.game.genres && this.game.genres.length > 0
-        ? this.game.genres[0].name
-        : 'Unknown Genre';
+      const genre =
+        this.game.genres && this.game.genres.length > 0
+          ? this.game.genres[0].name
+          : "Unknown Genre";
 
       const gameData = {
         title: this.game.name,
@@ -76,23 +90,30 @@ export default {
         collection_id,
       };
 
-      console.log("Sending data to backend:", gameData);
-
       CollectionService.addToCollections(gameData)
         .then((response) => {
           console.log(`Game added to ${collection_id} collection`, response);
+          this.closeDropDown(); // Close the dropdown after adding to the collection
         })
         .catch((error) => {
-          console.error(`Error adding game to ${collection_id} collection`, error);
+          console.error(
+            `Error adding game to ${collection_id} collection`,
+            error
+          );
+          this.closeDropDown(); // Close the dropdown even if there's an error
         });
-    }
-  }
+    },
+  },
+  mounted() {
+    document.addEventListener("click", this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.handleClickOutside);
+  },
 };
 </script>
 
 <style scoped>
-
-
 .game-card {
   width: 200px;
   box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.1);
@@ -145,28 +166,31 @@ export default {
   right: 10px;
   z-index: 1003;
 }
-.button-menu{
+
+.button-menu {
   background: #333;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   padding: 7px;
-  font-size: 1.0rem;
+  font-size: 1rem;
   transition: #333 0.3s, transform 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgb(244, 130, 9);
-
 }
-.button-menu:hover{
+
+.button-menu:hover {
   background-color: #1b1919;
   transform: scale(1.1);
 }
-.button-menu:focus{
+
+.button-menu:focus {
   outline: none;
 }
-.dropdown-menu{
+
+.dropdown-menu {
   position: absolute;
   bottom: 100%;
   right: 0;
@@ -179,10 +203,12 @@ export default {
   z-index: 1000;
   overflow: visible;
 }
-.dropdown-menu-show{
+
+.dropdown-menu-show {
   display: block;
 }
-.dropdown-item{
+
+.dropdown-item {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -190,13 +216,15 @@ export default {
   cursor: pointer;
   color: white;
 }
-.dropdown-item i{
+
+.dropdown-item i {
   margin-right: 8px;
 }
+
 .divider-horizontal {
-    height: 1px;
-    background-color: #00000033;
-    margin: 5px 0;
+  height: 1px;
+  background-color: #00000033;
+  margin: 5px 0;
 }
 
 @media (max-width: 600px) {
