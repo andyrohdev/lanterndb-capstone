@@ -30,14 +30,28 @@ CREATE TABLE collection_list (
 		REFERENCES collections (collection_id)
         ON DELETE CASCADE
 );
+CREATE TABLE ratings (
+	rating_id SERIAL PRIMARY KEY,
+	rating_score INT NOT NULL,
+	user_id INT NOT NULL,
+	game_id INT NOT NULL,
+	game_title VARCHAR(255) NOT NULL,
+	CONSTRAINT FK_user FOREIGN KEY (user_id)
+		REFERENCES users (user_id)
+			ON DELETE CASCADE
+);
 CREATE TABLE reviews (
 	review_id SERIAL PRIMARY KEY,
 	game_id INT NOT NULL,
 	user_id INT NOT NULL,
+	rating_id INT, 
 	review_title VARCHAR(255) NOT NULL,
 	review_text VARCHAR(255) NOT NULL,
 	CONSTRAINT FK_user FOREIGN KEY (user_id)
 		REFERENCES users (user_id)
+			ON DELETE CASCADE,
+	CONSTRAINT FK_rating FOREIGN KEY (rating_id)
+		REFERENCES ratings (rating_id)
 			ON DELETE CASCADE
 );
 
