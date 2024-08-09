@@ -16,18 +16,23 @@
     </router-link>
     <!-- Show the dropdown only if the user is logged in -->
     <div v-if="isLoggedIn" class="dropdown" @click.stop>
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      ><i class="bi bi-menu-button"></i>
+      <button class="button-menu" @click="toggleDropDown">
+        <i class="bi bi-menu-button"></i>
       </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#" @click="addToCollection(1)">Add to Wishlist</a></li>
-        <li><a class="dropdown-item" href="#" @click="addToCollection(2)">Add to Playing</a></li>
-        <li><a class="dropdown-item" href="#" @click="addToCollection(3)">Add to Played</a></li>
-      </ul>
+      <div class="dropdown-menu" :class="{'dropdown-menu-show' : isDropDownOpen}">
+        <div class="dropdown-item" @click="addToCollection(1)">
+          <i class="bi bi-heart" style="color: rgb(244, 130, 9)"></i> Add to Wishlist
+        </div>
+        <div class="divider-horizontal"></div>
+        <div class="dropdown-item" @click="addToCollection(2)">
+          <i class="bi bi-play-circle" style="color: rgb(244, 130, 9)"></i> Add to Playing
+        </div>
+        <div class="divider-horizontal"></div>
+        <div class="dropdown-item" @click="addToCollection(3)">
+          <i class="bi bi-check-circle" style="color: rgb(244, 130, 9)"></i> Add to Played
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -39,13 +44,24 @@ export default {
   props: {
     game: Object
   },
+  data(){
+    return{
+      isDropDownOpen: false
+    };
+  },
   computed: {
     isLoggedIn() {
       const user = this.$store.state.user;
       return !!user && !!user.id; // Check if user is logged in
     }
   },
-  methods: {
+  methods:{
+
+    toggleDropDown(){
+      this.isDropDownOpen = !this.isDropDownOpen;
+    },
+  
+   
     addToCollection(collection_id) {
       console.log("Game object:", this.game);
 
@@ -84,11 +100,8 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  margin-left: 2%;
-  margin-right: 2%;
-  margin-bottom: 2%;
+  margin: 2%;
   background-color: #28272900;
-
 }
 
 .game-link {
@@ -128,8 +141,62 @@ export default {
 
 .dropdown {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1003;
+}
+.button-menu{
+  background: #333;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 1.0rem;
+  transition: #333 0.3s, transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(244, 130, 9);
+
+}
+.button-menu:hover{
+  background-color: #1b1919;
+  transform: scale(1.1);
+}
+.button-menu:focus{
+  outline: none;
+}
+.dropdown-menu{
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: #393434;
+  color: white;
+  border: 1px solid black;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  width: 180px;
+  display: none;
+  z-index: 1000;
+  overflow: visible;
+}
+.dropdown-menu-show{
+  display: block;
+}
+.dropdown-item{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+}
+.dropdown-item i{
+  margin-right: 8px;
+}
+.divider-horizontal {
+    height: 1px;
+    background-color: #00000033;
+    margin: 5px 0;
 }
 
 @media (max-width: 600px) {
