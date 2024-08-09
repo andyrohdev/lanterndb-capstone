@@ -1,23 +1,13 @@
 <template>
   <div class="home-page">
     <!-- Header Section -->
-    <header class="header">
-      <div class="brand">
-        <img src="path_to_logo" alt="Brand Logo" class="logo" />
-        <span class="brand-name">Brand Name</span>
-      </div>
-      <div class="nav-links">
-        <button class="btn">Browse</button>
-        <button class="btn">Profile</button>
-        <button class="btn">Login</button>
-      </div>
-    </header>
+    
 
     <!-- Hero Section -->
     <section id="hero-1946">
       <div class="cs-container">
         <div class="cs-content">
-          <h2 class="cs-title">LanternDB</h2>
+          <h2 class="cs-title">LanternDB Hero Thingymajig</h2>
           <div class="cs-flex">
             <p class="cs-text">
               The Baltimore Ravens were established in 1996 after Art Modell, then owner of the Cleveland Browns, announced plans in 1995 to relocate the franchise from Cleveland to Baltimore.[10] As part of a settlement between the league and the city of Cleveland, Modell was required to leave the Browns' history, team colors, and records in Cleveland for a replacement team and replacement personnel that would resume play in 1999. In return, he was allowed to take his own personnel and team to Baltimore, where such personnel would form an expansion team. The team is owned by Steve Bisciotti and was valued at $4.63 billion in 2023, making them the 28th-most valuable sports franchise globally.[11]
