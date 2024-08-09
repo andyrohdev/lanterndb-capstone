@@ -61,7 +61,12 @@ export default {
         showProfileLink: {
             type: Boolean,
             default: true
-        }
+        },
+        showDivider: {
+            type: Boolean,
+            default: true
+        },
+        
     },
     data() {
         return {
