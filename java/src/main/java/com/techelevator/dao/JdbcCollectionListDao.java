@@ -28,6 +28,24 @@ public class JdbcCollectionListDao implements CollectionListDao {
     }
 
     @Override
+    public List <CollectionList> adminFetchCollectionByType(CollectionList collectionList) {
+        List<CollectionList> collectionLists = new ArrayList<>();
+
+        String sql = "SELECT collection_list_id, user_id, collection_id, title, genre " +
+                "FROM collection_list " +
+                "WHERE collection_id = ? AND user_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionList.getCollection_id(), collectionList.getUser_id() );
+            while (results.next()) {
+                collectionLists.add( mapRowToCollectionList(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return collectionLists;
+    }
+
+    @Override
     public List <CollectionList> fetchCollectionByType(int collection_id, int userId) {
         List<CollectionList> collectionLists = new ArrayList<>();
 
