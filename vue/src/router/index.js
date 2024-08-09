@@ -10,6 +10,7 @@ import GamesListView from '../views/GamesListView.vue';
 import DashboardView from  '../views/DashboardView.vue';
 import AdminPageView from '../views/AdminPageView.vue'
 import GameDetailsView from '../views/GameDetailsView.vue'
+import AdminUserProfileView from '../views/AdminUserProfileView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -83,6 +84,16 @@ const routes = [
     component: GameDetailsView,
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: "/admin/user-profile/:userId",
+    name: "admin-user-profile",
+    component: AdminUserProfileView,
+    props: true,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
     }
   },
   
