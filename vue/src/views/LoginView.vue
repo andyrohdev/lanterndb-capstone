@@ -104,7 +104,7 @@ label {
 }
 
 .login-container {
-  background-color: #29292943;
+  background-color: #52505043;
   padding: 40px;
   padding-left: 20px;
   padding-right: 20px;
@@ -113,13 +113,21 @@ label {
   width: 100%;
   max-width: 400px;
 }
+
 input::placeholder{
   color: white;
 }
-#hyper-link{
-  color: rgb(158, 54, 10) ;
-  text-decoration: none;
+
+#hyper-link:hover{
+    color: orange;
+    text-decoration: underline;
+    
 }
+
+#hyper-link{
+  color: white;
+}
+
 
 h1 {
   margin-bottom: 1rem;
@@ -140,6 +148,9 @@ h1 {
   margin: auto;
   background-color:rgb(158, 54, 10) ;
 }
+.submit-button:hover {
+  background-color: #d14b06;
+}
 .input-wrapper{
   position: relative;
   color: white;
@@ -150,8 +161,13 @@ input {
   padding: .75rem;
   border-radius: 4px;
   border: 1px solid #444;
-  background-color: #4444446f;
+  background-color: white;
   
+}
+input:focus {
+  outline: none;
+  border-color: #d14b06;
+  box-shadow: 0 0 5px #d14b06;
 }
 
 
@@ -167,7 +183,7 @@ input {
   right: .75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(158, 54, 10) ;
+  color: rgb(16, 16, 16);
   font-size: 20px;
 }
 
