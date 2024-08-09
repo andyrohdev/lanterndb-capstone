@@ -2,7 +2,7 @@
     <nav class="navbar">
         <div class="navbar-left">
             <router-link to="/" class="logo-container" v-if="showLogo || showSiteName">
-                <img v-if="showLogo" src="../assets/logoPlaceholder.png" alt="Logo" class="logo">
+                <img v-if="showLogo" src="../assets/lantern3.png" alt="Logo" class="logo">
                 <span class="website-name" v-if="showSiteName">LanternDB</span>
             </router-link>
         </div>
