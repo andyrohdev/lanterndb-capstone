@@ -21,12 +21,15 @@
         <!-- Reviews Section -->
         <div class="reviews-container">
           <h2>Reviews</h2>
-          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-section">
-            <ReviewCard
-              v-for="review in reviews"
-              :key="review.review_id"
-              :review="review"
-            />
+          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
+            <div class="reviews-section">
+              <ReviewCard
+                v-for="review in reviews"
+                :key="review.review_id"
+                :review="review"
+                @review-updated="fetchReviews"
+              />
+            </div>
           </div>
           <div v-else-if="!loading" class="no-reviews-message">No reviews found.</div>
   
@@ -85,22 +88,33 @@
       }
     },
     mounted() {
-      const game_id = this.$route.params.gameId;
-      GameService.getGameDetails(game_id)
-        .then((response) => {
-          this.game = response.data;
-          return GameService.getGameReviews(game_id);
-        })
-        .then((response) => {
-          this.reviews = Array.isArray(response.data) ? response.data : [];
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.error("Error fetching game details or reviews:", error);
-          this.loading = false;
-        });
+      this.fetchGameDetails();
     },
     methods: {
+      fetchGameDetails() {
+        const game_id = this.$route.params.gameId;
+        GameService.getGameDetails(game_id)
+          .then((response) => {
+            this.game = response.data;
+            return this.fetchReviews();
+          })
+          .catch((error) => {
+            console.error("Error fetching game details or reviews:", error);
+            this.loading = false;
+          });
+      },
+      fetchReviews() {
+        const game_id = this.$route.params.gameId;
+        GameService.getGameReviews(game_id)
+          .then((response) => {
+            this.reviews = Array.isArray(response.data) ? response.data : [];
+            this.loading = false;
+          })
+          .catch((error) => {
+            console.error("Error fetching reviews:", error);
+            this.loading = false;
+          });
+      },
       addToCollection(collection_id) {
         const genre = this.game.genres && this.game.genres.length > 0
           ? this.game.genres[0].name
@@ -142,10 +156,9 @@
   
         GameService.addReview(reviewData)
           .then(() => {
-            return GameService.getGameReviews(this.$route.params.gameId);
+            return this.fetchReviews();
           })
-          .then((response) => {
-            this.reviews = Array.isArray(response.data) ? response.data : [];
+          .then(() => {
             this.closeReviewForm();
           })
           .catch((error) => {
@@ -158,148 +171,159 @@
   
   <style scoped>
   .game-details {
-  background-color: #121212;
-  color: #e0e0e0;
-  text-align: center;
-  /* Removed fixed height */
-  min-height: 100vh; /* Ensures the background color covers at least the viewport height */
-  display: flex;
-  flex-direction: column;
-}
-
-.banner-container {
-  position: relative;
-  width: 100%;
-  height: 400px; /* Fixed height for the banner */
-  overflow: hidden;
-  margin-bottom: 20px;
-  flex-shrink: 0; /* Prevent shrinking */
-}
-
-.game-banner {
-  width: 100%;
-  height: 100%; /* Ensure the image covers the entire container */
-  object-fit: cover;
-}
-
-.details-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-  flex-grow: 1; /* Ensure this section grows to fill the remaining space */
-}
-
-h1 {
-  font-size: 3rem;
-  margin: 10px 0;
-  font-weight: 700;
-}
-
-.game-genres,
-.game-rating {
-  font-size: 1.5rem;
-  margin: 5px 0;
-  font-weight: 300;
-}
-
-.add-to-collection {
-  margin-top: 20px;
-}
-
-.btn-primary {
-  margin: 5px;
-}
-
-.reviews-container {
-  margin-top: 40px;
-  border-top: 2px solid #444;
-  padding-top: 20px;
-  background-color: inherit; /* Ensure background color is consistent */
-}
-
-.reviews-section {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 20px;
-}
-
-@media (max-width: 768px) {
-  .reviews-section {
-    grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
+    background-color: #121212;
+    color: #e0e0e0;
+    text-align: center;
+    min-height: 100vh; /* Ensures the background color covers at least the viewport height */
+    display: flex;
+    flex-direction: column;
   }
-}
-
-.review {
-  margin: 10px 0;
-}
-
-.no-reviews-message {
-  font-size: 1.2rem;
-  color: #888;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.add-review-button {
-  margin-top: 20px;
-}
-
-.review-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.review-form-content {
-  background: #fff;
-  color: #000;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 600px;
-  text-align: left;
-}
-
-.review-form-content h3 {
-  margin-top: 0;
-}
-
-.review-form-content input,
-.review-form-content textarea {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.review-title-input {
-  margin-bottom: 10px;
-}
-
-.btn-primary {
-  margin-right: 10px;
-}
-
-@media (max-width: 768px) {
-  .game-details {
-    padding: 10px;
+  
+  .banner-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Fixed height for the banner */
+    overflow: hidden;
+    margin-bottom: 20px;
+    flex-shrink: 0; /* Prevent shrinking */
   }
-
+  
+  .game-banner {
+    width: 100%;
+    height: 100%; /* Ensure the image covers the entire container */
+    object-fit: cover;
+  }
+  
+  .details-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-grow: 1; /* Ensure this section grows to fill the remaining space */
+  }
+  
   h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    margin: 10px 0;
+    font-weight: 700;
   }
-
+  
   .game-genres,
   .game-rating {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    margin: 5px 0;
+    font-weight: 300;
   }
-}
-
+  
+  .add-to-collection {
+    margin-top: 20px;
+  }
+  
+  .btn-primary {
+    margin: 5px;
+  }
+  
+  .reviews-container {
+    margin-top: 40px;
+    border-top: 2px solid #444;
+    padding-top: 20px;
+    background-color: inherit; /* Ensure background color is consistent */
+  }
+  
+  .reviews-scrollable {
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center the reviews section horizontally */
+  }
+  
+  .reviews-section {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    ); /* Responsive grid */
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 1200px; /* Center the reviews section */
+  }
+  
+  .no-reviews-message {
+    font-size: 1.2rem;
+    color: #888;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .reviews-section {
+      grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
+    }
+  }
+  
+  .review {
+    margin: 10px 0;
+  }
+  
+  .add-review-button {
+    margin-top: 20px;
+  }
+  
+  .review-form-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .review-form-content {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    text-align: left;
+  }
+  
+  .review-form-content h3 {
+    margin-top: 0;
+  }
+  
+  .review-form-content input,
+  .review-form-content textarea {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .review-title-input {
+    margin-bottom: 10px;
+  }
+  
+  .btn-primary {
+    margin-right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .game-details {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 2.5rem;
+    }
+  
+    .game-genres,
+    .game-rating {
+      font-size: 1.2rem;
+    }
+  }
   </style>
   

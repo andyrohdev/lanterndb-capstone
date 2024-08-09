@@ -1,33 +1,40 @@
 <template>
-  <body class="body-dashboard">
-    <div class="dashboard-container">
-      <div class="header"></div>
-      <div class="dashboard-content">
-        <h2>Collections</h2>
-        <div class="dashboard">
-          <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-          <Card :key="'playing'" title="Playing" :items="playingItems" />
-          <Card :key="'played'" title="Played" :items="playedItems" />
-        </div>
-        <div class="reviews-container">
-          <h2>Reviews</h2>
-          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
-            <div class="reviews-section">
-              <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review" />
-            </div>
+  <div class="dashboard-container">
+    <div class="dashboard-content">
+      <h2>Collections</h2>
+      <div class="dashboard">
+        <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
+        <Card :key="'playing'" title="Playing" :items="playingItems" />
+        <Card :key="'played'" title="Played" :items="playedItems" />
+      </div>
+      <div class="reviews-container">
+        <h2>Reviews</h2>
+        <div
+          v-if="Array.isArray(reviews) && reviews.length > 0"
+          class="reviews-scrollable"
+        >
+          <div class="reviews-section">
+            <ReviewCard
+              v-for="review in reviews"
+              :key="review.review_id"
+              :review="review"
+              @review-updated="fetchUserReviews"
+            />
           </div>
-          <div v-else-if="!loadingReviews" class="no-reviews-message">No reviews found.</div>
+        </div>
+        <div v-else-if="!loadingReviews" class="no-reviews-message">
+          No reviews found.
         </div>
       </div>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
 import Card from "@/components/Card.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
 import CollectionService from "../services/CollectionService";
-import GameService from "../services/GameService";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -42,14 +49,15 @@ export default {
     };
   },
   computed: {
+    ...mapState(["reviews"]),
     wishlistItems() {
-      return this.allItems.filter(item => item.collection_id === 1);
+      return this.allItems.filter((item) => item.collection_id === 1);
     },
     playingItems() {
-      return this.allItems.filter(item => item.collection_id === 2);
+      return this.allItems.filter((item) => item.collection_id === 2);
     },
     playedItems() {
-      return this.allItems.filter(item => item.collection_id === 3);
+      return this.allItems.filter((item) => item.collection_id === 3);
     },
   },
   created() {
@@ -57,17 +65,18 @@ export default {
     this.fetchUserReviews();
   },
   methods: {
+    ...mapActions(["fetchReviews"]),
     fetchCollections() {
       Promise.all([
         CollectionService.getCollections(1),
         CollectionService.getCollections(2),
-        CollectionService.getCollections(3)
+        CollectionService.getCollections(3),
       ])
         .then((responses) => {
           this.allItems = [
             ...responses[0].data,
             ...responses[1].data,
-            ...responses[2].data
+            ...responses[2].data,
           ];
         })
         .catch((error) => {
@@ -76,11 +85,8 @@ export default {
     },
     fetchUserReviews() {
       const user_id = this.$store.state.user.id;
-      console.log("Fetching reviews for user ID:", user_id);
-      GameService.getReviewsForUser(user_id)
-        .then((response) => {
-          console.log("Reviews data received:", response.data);
-          this.reviews = response.data;
+      this.fetchReviews(user_id)
+        .then(() => {
           this.loadingReviews = false;
         })
         .catch((error) => {
@@ -88,17 +94,7 @@ export default {
           this.loadingReviews = false;
         });
     },
-    updateReview(updatedReview) {
-      console.log("Updating review in the parent component:", updatedReview);
-      const index = this.reviews.findIndex(review => review.review_id === updatedReview.review_id);
-      if (index !== -1) {
-        this.$set(this.reviews, index, updatedReview);
-        console.log("Review updated in the array");
-      } else {
-        console.log("Review not found in the array");
-      }
-    }
-  }
+  },
 };
 </script>
 
@@ -158,8 +154,10 @@ export default {
 
 .reviews-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  /* Responsive grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Responsive grid */
   gap: 20px;
   margin-top: 20px;
   width: 100%;
