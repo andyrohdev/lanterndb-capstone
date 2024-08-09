@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       allItems: [],
+      reviews: [],
       loadingReviews: true,
     };
   },
@@ -99,11 +100,19 @@ export default {
 
 <style scoped>
 .dashboard-container {
-  min-height: 100vh; /* Full height of the viewport */
+  min-height: 100vh;
+  /* Full height of the viewport */
   display: flex;
   flex-direction: column;
-  background: #121212; /* Dark background like GameDetails */
-  color: #e0e0e0; /* Light text for contrast */
+  background: #121212;
+  /* Dark background like GameDetails */
+  color: #e0e0e0;
+  /* Light text for contrast */
+}
+.body-dashboard{
+  padding: 0;
+  margin: 0;
+  background-color: #121212;
 }
 
 .dashboard-content {
@@ -115,27 +124,32 @@ export default {
 
 .dashboard {
   display: flex;
-  flex-wrap: wrap; /* Allows cards to wrap onto the next line */
+  flex-wrap: wrap;
+  /* Allows cards to wrap onto the next line */
   justify-content: center;
-  margin-bottom: 40px; /* Add space below the collections */
+  margin-bottom: 40px;
+  /* Add space below the collections */
 }
 
 .reviews-container {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
-  background-color: inherit; /* Ensure background color is consistent */
+  background-color: inherit;
+  /* Ensure background color is consistent */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .reviews-scrollable {
-  max-height: 400px; /* Adjust the height as needed */
+  max-height: 400px;
+  /* Adjust the height as needed */
   overflow-y: auto;
   width: 100%;
   display: flex;
-  justify-content: center; /* Center the reviews section horizontally */
+  justify-content: center;
+  /* Center the reviews section horizontally */
 }
 
 .reviews-section {
@@ -147,7 +161,8 @@ export default {
   gap: 20px;
   margin-top: 20px;
   width: 100%;
-  max-width: 1200px; /* Center the reviews section */
+  max-width: 1200px;
+  /* Center the reviews section */
 }
 
 .no-reviews-message {
@@ -162,9 +177,12 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+
   .reviews-section {
-    grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
-    max-width: 100%; /* Ensure it takes up full width on smaller screens */
+    grid-template-columns: 1fr;
+    /* Switch to a single column on smaller screens */
+    max-width: 100%;
+    /* Ensure it takes up full width on smaller screens */
   }
 }
 </style>
