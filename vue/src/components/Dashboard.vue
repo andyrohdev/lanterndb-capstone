@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       allItems: [],
-      reviews: [],
+     
       loadingReviews: true,
     };
   },
@@ -184,5 +184,12 @@ export default {
     max-width: 100%;
     /* Ensure it takes up full width on smaller screens */
   }
+
 }
+
+.dashboard-content h2 {
+  text-align: center;
+  width: 100%; /* Ensure it takes the full width to center the text */
+}
+
 </style>

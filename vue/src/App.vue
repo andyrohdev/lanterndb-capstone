@@ -1,36 +1,33 @@
 <template>
   <div id="capstone-app">
-
-    
     <div id="nav">
       <NavBar/>
     </div>
-    <router-view />
-    <div>
-      <Footer></Footer>
+    <div id="main-content">
+      <router-view />
     </div>
-    
+    <Footer></Footer>
   </div>
 </template>
 
-
 <script>
 import NavBar from './components/NavBar.vue';
-import Footer from './components/Footer.vue'
-export default{
+import Footer from './components/Footer.vue';
+
+export default {
   components: {
     NavBar,
-    Footer
-    
-  }
-}
+    Footer,
+  },
+};
 </script>
+
 <style scoped>
-#capstone-app{
+#capstone-app {
   background-color: #121212;
-  
 }
-.custom-footer{
-  background-color: rgba(127, 255, 212, 0);
-}
+
+
+
+
 </style>

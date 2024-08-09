@@ -14,7 +14,7 @@
                 <router-link v-if="ShowBrowserLink" to="/games" class="navbar-link">Browse</router-link>
             </div>
             <div class="divider"></div>
-            <div class="profile-link" @click="toggleDropDown">
+            <div class="profile-link" @click.stop="toggleDropDown">
                 <i class="bi bi-person-circle"></i>
                 <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]">
                     <div class="dropdown-item user-info">
@@ -66,37 +66,53 @@ export default {
     data() {
         return {
             isDropDownOpen: false,
-            userName: 'User Name' // Replace with actual user name from store or props
         };
-    },
-    methods: {
-        toggleDropDown() {
-            this.isDropDownOpen = !this.isDropDownOpen;
-        }
     },
     computed: {
         isAdmin() {
             const user = this.$store.state.user;
             return user.authorities && user.authorities.length > 0 && user.authorities[0].name === 'ROLE_ADMIN';
+        },
+        userName() {
+            return this.$store.state.user.username || 'User Name';
         }
+    },
+    methods: {
+        toggleDropDown() {
+            this.isDropDownOpen = !this.isDropDownOpen;
+        },
+        closeDropDown() {
+            this.isDropDownOpen = false;
+        },
+        handleClickOutside(event) {
+            if (this.isDropDownOpen && !this.$el.contains(event.target)) {
+                this.closeDropDown();
+            }
+        }
+    },
+    mounted() {
+        document.addEventListener('click', this.handleClickOutside);
+    },
+    beforeDestroy() {
+        document.removeEventListener('click', this.handleClickOutside);
     }
 }
 </script>
 
 <style scoped>
 .navbar {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(5, 5, 5);
-    color: white;
-    padding: 10px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    z-index: 1000;
+  display: flex;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(5, 5, 5);
+  color: white;
+  padding: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  z-index: 1000;
 }
 
 .logo-container {
@@ -203,7 +219,8 @@ export default {
     position: relative;
     padding: 10px;
 }
-.profile-link i{
+
+.profile-link i {
     font-size: 24px;
     transition: transform 0.3s ease;
 }
@@ -238,25 +255,28 @@ export default {
     margin-right: 8px;
 }
 
-
 .divider-horizontal {
     height: 1px;
     background-color: #ffffff;
     margin: 5px 0;
 }
-.user-info{
-    cursor: none;
+
+.user-info {
     font-weight: bold;
     background-color: transparent;
-
+    user-select: none;
+    pointer-events: none; /* Disable hover and click */
 }
-.title-lantern{
+
+.title-lantern {
     color: #F5C277;
 }
-.DB-title{
+
+.DB-title {
     color: #F97401;
 }
-.user-info:hover{
-    background-color:transparent
+
+.user-info:hover {
+    background-color: transparent;
 }
 </style>
