@@ -1,7 +1,7 @@
 <template>
-  <div class="body-dashboard">
+  
     <div class="dashboard-container">
-      <div class="header"></div>
+      
       <div class="dashboard-content">
         <h2>Collections</h2>
         <div class="dashboard">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>

@@ -26,6 +26,7 @@
               v-for="review in reviews"
               :key="review.review_id"
               :review="review"
+              @review-updated="fetchReviews"
             />
           </div>
           <div v-else-if="!loading" class="no-reviews-message">No reviews found.</div>
@@ -85,22 +86,33 @@
       }
     },
     mounted() {
-      const game_id = this.$route.params.gameId;
-      GameService.getGameDetails(game_id)
-        .then((response) => {
-          this.game = response.data;
-          return GameService.getGameReviews(game_id);
-        })
-        .then((response) => {
-          this.reviews = Array.isArray(response.data) ? response.data : [];
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.error("Error fetching game details or reviews:", error);
-          this.loading = false;
-        });
+      this.fetchGameDetails();
     },
     methods: {
+      fetchGameDetails() {
+        const game_id = this.$route.params.gameId;
+        GameService.getGameDetails(game_id)
+          .then((response) => {
+            this.game = response.data;
+            return this.fetchReviews();
+          })
+          .catch((error) => {
+            console.error("Error fetching game details or reviews:", error);
+            this.loading = false;
+          });
+      },
+      fetchReviews() {
+        const game_id = this.$route.params.gameId;
+        GameService.getGameReviews(game_id)
+          .then((response) => {
+            this.reviews = Array.isArray(response.data) ? response.data : [];
+            this.loading = false;
+          })
+          .catch((error) => {
+            console.error("Error fetching reviews:", error);
+            this.loading = false;
+          });
+      },
       addToCollection(collection_id) {
         const genre = this.game.genres && this.game.genres.length > 0
           ? this.game.genres[0].name
@@ -142,10 +154,9 @@
   
         GameService.addReview(reviewData)
           .then(() => {
-            return GameService.getGameReviews(this.$route.params.gameId);
+            return this.fetchReviews();
           })
-          .then((response) => {
-            this.reviews = Array.isArray(response.data) ? response.data : [];
+          .then(() => {
             this.closeReviewForm();
           })
           .catch((error) => {
@@ -222,6 +233,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  justify-content: center;
   margin-top: 20px;
 }
 
