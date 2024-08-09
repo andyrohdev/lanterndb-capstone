@@ -1,20 +1,20 @@
 <template>
     <div class="admin-user-profile">
-      <h1>User Profile</h1>
+      <h1 class="admin-user-heading">User Profile</h1>
       <div v-if="user">
-        <h2>{{ user.username }}</h2>
-        <p><strong>Role:</strong> {{ user.authorities[0].name }}</p>
-        <h3>{{ user.id }}</h3>
+        <h2 class="admin-user-heading">{{ user.username }}</h2>
+        <p class="admin-user-heading"><span>ROLE: </span> {{ user.authorities[0].name }}</p>
+        <h3 class="admin-user-heading">{{ user.id }}</h3>
   
         <div class="dashboard-content">
-          <h2>Collections</h2>
+          <h2 class="admin-user-heading">Collections</h2>
           <div class="dashboard">
             <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
             <Card :key="'playing'" title="Playing" :items="playingItems" />
             <Card :key="'played'" title="Played" :items="playedItems" />
           </div>
           <div class="reviews-container">
-            <h2>Reviews</h2>
+            <h2 class="admin-user-heading">Reviews</h2>
             <div
               v-if="Array.isArray(reviews) && reviews.length > 0"
               class="reviews-scrollable"
@@ -155,13 +155,22 @@
     margin-top: 20px;
     width: 100%;
     max-width: 1200px;
+    
   }
   .no-reviews-message {
     font-size: 1.2rem;
-    color: #888;
+    color: #fff8f8;
     text-align: center;
     margin: 20px 0;
   }
+
+  .admin-user-heading{
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media (max-width: 900px) {
     .dashboard {
       flex-direction: column;
