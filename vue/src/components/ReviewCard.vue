@@ -7,7 +7,7 @@
   
       <div v-if="isReviewAuthor" class="review-actions">
         <button @click="toggleEditModal" class="btn btn-secondary">Edit</button>
-        <button @click="deleteReview" class="btn btn-danger">Delete</button>
+        <button @click="removeReview" class="btn btn-danger">Delete</button>
       </div>
   
       <!-- Edit Review Modal -->
@@ -64,7 +64,7 @@
       this.resetEditForm();
     },
     methods: {
-      ...mapActions(['updateReview']),
+      ...mapActions(['updateReview', 'deleteReview']),
       fetchUsername(userId) {
         GameService.fetchUsers()
           .then((response) => {
@@ -109,22 +109,26 @@
             console.log("Review updated successfully");
             this.editModalVisible = false;
             this.$emit('review-updated');
-            console.log('review emitted');
           })
           .catch(error => {
             console.error("Error updating review:", error);
           });
       },
-      deleteReview() {
+      removeReview() {  // Renamed the method here
         console.log("Delete review:", this.review.review_id);
-        // Logic to handle deleting the review
-      },
+        this.deleteReview(this.review.review_id)
+          .then(() => {
+            console.log("Review deleted successfully");
+            this.$emit('review-updated');
+          })
+          .catch(error => {
+            console.error("Error deleting review:", error);
+          });
+      }
     },
   };
   </script>
-  
-  
-  
+
   
   <style scoped>
   .review-card {
