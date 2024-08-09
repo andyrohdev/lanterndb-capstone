@@ -219,7 +219,7 @@ html {
   min-height: 70px;
   padding: 0.5rem 1rem;
   border: 1px solid #0c0c0c;
-  background-color: #55504bb2;
+  background-color:rgba(55, 55, 53, 0.711);
   color: white;
   font-size: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.21);
