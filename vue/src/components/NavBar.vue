@@ -2,8 +2,8 @@
     <nav class="navbar">
         <div class="navbar-left">
             <router-link to="/" class="logo-container" v-if="showLogo || showSiteName">
-                <img v-if="showLogo" src="../assets/lantern3.png" alt="Logo" class="logo">
-                <span class="website-name" v-if="showSiteName">LanternDB</span>
+                <img v-if="showLogo" src="../assets/lantern3.png" alt="Logo" class="logo" >
+                <span class="website-name" v-if="showSiteName"><span class="title-lantern">Lantern</span><span class="DB-title">DB</span></span>
             </router-link>
         </div>
         <div class="navbar-right">
@@ -202,19 +202,21 @@ export default {
     cursor: pointer;
     position: relative;
     padding: 10px;
-
-    border: 1 solid #8a3838;
+}
+.profile-link i{
+    font-size: 24px;
+    transition: transform 0.3s ease;
 }
 
 .dropdown-menu {
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: rgba(37, 36, 36, 0.897);
-    color: black;
-    border: 1px solid #ff7300;
+    background-color: rgba(55, 55, 53, 0.711);
+    color: rgb(253, 250, 250);
+    border: 2px solid #ffffff;
     border-radius: 4px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 8px 16px rgba(35, 34, 34, 0.907);
     width: 200px;
     display: none;
     z-index: 1000;
@@ -236,22 +238,25 @@ export default {
     margin-right: 8px;
 }
 
-.dropdown-item:hover {
-    background-color: #eb5b22;
-}
 
 .divider-horizontal {
     height: 1px;
-    background-color: #ff7300;
+    background-color: #ffffff;
     margin: 5px 0;
 }
 .user-info{
     cursor: none;
     font-weight: bold;
-    
+    background-color: transparent;
 
 }
+.title-lantern{
+    color: #F5C277;
+}
+.DB-title{
+    color: #F97401;
+}
 .user-info:hover{
-    background-color: rgba(210, 180, 140, 0);
+    background-color:transparent
 }
 </style>
