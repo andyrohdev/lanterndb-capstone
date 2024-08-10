@@ -32,9 +32,20 @@ export default {
       });
   },
 
+  addRating(ratingData) {
+    console.log("POST request data:", ratingData);
+    return axios.post(`${API_URL}rating`, ratingData)
+      .then(response => {
+        console.log("POST request successful:", response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error("POST request error:", error);
+        throw error;
+      });
+  },
+
   fetchUsers() {
     return axios.get('/admin')
   },
-
-
 };

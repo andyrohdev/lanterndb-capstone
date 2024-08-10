@@ -6,7 +6,7 @@
       </video>
     </div>
     <div class="content-container">
-      <h1 class="header"><span class="lantern-color">Lantern</span><span class="flame">DB</span> lights the way <br/> to your
+      <h1 class="header"><span class="lantern-color">Lantern</span><span class="flame">DB</span> lights the way. <br/> Find your
         next favorite game with our comprehensive search feature.</h1>
       <div class="search-box-container">
         <div class="search-box">

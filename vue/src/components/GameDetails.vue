@@ -2,26 +2,38 @@
     <div class="game-details">
       <div class="banner-container">
         <img
-          :src="game.background_image || 'https://via.placeholder.com/1200x400.png?text=No+Image+Available'"
+          :src="
+            game.background_image ||
+            'https://via.placeholder.com/1200x400.png?text=No+Image+Available'
+          "
           alt="Game banner"
           class="game-banner"
         />
       </div>
       <div class="details-content">
-        <h1>{{ game.name || 'Unknown Title' }}</h1>
+        <h1>{{ game.name || "Unknown Title" }}</h1>
         <p class="game-genres">Genres: {{ formattedGenres }}</p>
-        <p class="game-rating">Rating: {{ game.rating || 'N/A' }}</p>
+        <p class="game-rating">Rating: {{ game.rating || "N/A" }}</p>
   
         <div v-if="isUserLoggedIn" class="add-to-collection">
-          <button @click="addToCollection(1)" class="btn btn-primary">Add to Wishlist</button>
-          <button @click="addToCollection(2)" class="btn btn-primary">Add to Playing</button>
-          <button @click="addToCollection(3)" class="btn btn-primary">Add to Played</button>
+          <button @click="addToCollection(1)" class="btn btn-primary">
+            Add to Wishlist
+          </button>
+          <button @click="addToCollection(2)" class="btn btn-primary">
+            Add to Playing
+          </button>
+          <button @click="addToCollection(3)" class="btn btn-primary">
+            Add to Played
+          </button>
         </div>
   
         <!-- Reviews Section -->
         <div class="reviews-container">
           <h2>Reviews</h2>
-          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
+          <div
+            v-if="Array.isArray(reviews) && reviews.length > 0"
+            class="reviews-scrollable"
+          >
             <div class="reviews-section">
               <ReviewCard
                 v-for="review in reviews"
@@ -31,31 +43,68 @@
               />
             </div>
           </div>
-          <div v-else-if="!loading" class="no-reviews-message">No reviews found.</div>
+          <div v-else-if="!loading" class="no-reviews-message">
+            No reviews found.
+          </div>
   
-          <div v-if="isUserLoggedIn" class="add-review-button">
-            <button @click="openReviewForm" class="btn btn-primary">Add Review</button>
+          <div v-if="isUserLoggedIn" class="add-review-rating-buttons">
+            <button @click="openReviewForm" class="btn btn-primary">
+              Add Review
+            </button>
+            <button @click="openRatingForm" class="btn btn-primary">
+              Add Rating
+            </button>
           </div>
         </div>
       </div>
   
+      <!-- Rating Form Modal -->
+      <div v-if="showRatingForm" class="rating-form-modal">
+        <div class="rating-form-content">
+          <h3>Submit Your Rating</h3>
+          <div class="rating-flames">
+            <i
+              v-for="flame in 5"
+              :key="flame"
+              :class="['bi', 'bi-fire', { 'filled': flame <= hoverRating || flame <= newRating }]"
+              @mouseover="hoverRating = flame"
+              @mouseleave="hoverRating = 0"
+              @click="newRating = flame"
+            ></i>
+          </div>
+          <button @click="submitRating" class="btn btn-primary">Submit</button>
+          <button @click="closeRatingForm" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+  
+      <!-- Review Form Modal -->
       <div v-if="showReviewForm" class="review-form-modal">
         <div class="review-form-content">
           <h3>Submit Your Review</h3>
-          <input v-model="newReviewTitle" placeholder="Review Title" class="review-title-input" />
-          <textarea v-model="newReviewContent" placeholder="Write your review here." rows="4"></textarea>
+          <input
+            v-model="newReviewTitle"
+            placeholder="Review Title"
+            class="review-title-input"
+          />
+          <textarea
+            v-model="newReviewContent"
+            placeholder="Write your review here."
+            rows="4"
+          ></textarea>
           <button @click="submitReview" class="btn btn-primary">Submit</button>
-          <button @click="closeReviewForm" class="btn btn-secondary">Cancel</button>
+          <button @click="closeReviewForm" class="btn btn-secondary">
+            Cancel
+          </button>
         </div>
       </div>
     </div>
   </template>
   
   <script>
-  import { mapState } from 'vuex';
+  import { mapState } from "vuex";
   import GameService from "../services/GameService";
   import CollectionService from "../services/CollectionService.js";
-  import ReviewCard from './ReviewCard.vue';
+  import ReviewCard from "./ReviewCard.vue";
   
   export default {
     components: {
@@ -73,11 +122,14 @@
         loading: true,
         showReviewForm: false,
         newReviewTitle: "",
-        newReviewContent: ""
+        newReviewContent: "",
+        showRatingForm: false,
+        newRating: null,
+        hoverRating: 0,
       };
     },
     computed: {
-      ...mapState(['token']),
+      ...mapState(["token", "user"]),
       isUserLoggedIn() {
         return !!this.token;
       },
@@ -85,7 +137,7 @@
         return Array.isArray(this.game.genres) && this.game.genres.length > 0
           ? this.game.genres.map((genre) => genre.name).join(", ")
           : "N/A";
-      }
+      },
     },
     mounted() {
       this.fetchGameDetails();
@@ -102,6 +154,7 @@
             console.error("Error fetching game details or reviews:", error);
             this.loading = false;
           });
+        console.log("Game details fetched for game ID:", game_id);
       },
       fetchReviews() {
         const game_id = this.$route.params.gameId;
@@ -116,9 +169,10 @@
           });
       },
       addToCollection(collection_id) {
-        const genre = this.game.genres && this.game.genres.length > 0
-          ? this.game.genres[0].name
-          : 'Unknown Genre';
+        const genre =
+          this.game.genres && this.game.genres.length > 0
+            ? this.game.genres[0].name
+            : "Unknown Genre";
   
         const gameData = {
           title: this.game.name,
@@ -131,7 +185,10 @@
             console.log(`Game added to ${collection_id} collection`, response);
           })
           .catch((error) => {
-            console.error(`Error adding game to ${collection_id} collection`, error);
+            console.error(
+              `Error adding game to ${collection_id} collection`,
+              error
+            );
           });
       },
       openReviewForm() {
@@ -164,8 +221,41 @@
           .catch((error) => {
             console.error("Error submitting review:", error);
           });
-      }
-    }
+      },
+      openRatingForm() {
+        this.showRatingForm = true;
+      },
+      closeRatingForm() {
+        this.showRatingForm = false;
+        this.newRating = null;
+        this.hoverRating = 0;
+      },
+      submitRating() {
+        if (this.newRating === null) {
+          alert("Please provide a rating.");
+          return;
+        }
+  
+        const ratingData = {
+          rating_score: this.newRating,
+          user_id: this.$store.state.user.id,
+          game_id: this.$route.params.gameId,
+          game_title: this.game.name,
+        };
+  
+        console.log("Submitting rating:", ratingData);
+  
+        GameService.addRating(ratingData)
+          .then(() => {
+            console.log("Rating submitted successfully");
+            this.closeRatingForm();
+            this.fetchGameDetails();
+          })
+          .catch((error) => {
+            console.error("Error submitting rating:", error);
+          });
+      },
+    },
   };
   </script>
   
@@ -174,23 +264,30 @@
     background-color: #121212;
     color: #e0e0e0;
     text-align: center;
-    min-height: 100vh; /* Ensures the background color covers at least the viewport height */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+  
+  .add-review-rating-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
   }
   
   .banner-container {
     position: relative;
     width: 100%;
-    height: 400px; /* Fixed height for the banner */
+    height: 400px;
     overflow: hidden;
     margin-bottom: 20px;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
   }
   
   .game-banner {
     width: 100%;
-    height: 100%; /* Ensure the image covers the entire container */
+    height: 100%;
     object-fit: cover;
   }
   
@@ -199,7 +296,7 @@
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
-    flex-grow: 1; /* Ensure this section grows to fill the remaining space */
+    flex-grow: 1;
   }
   
   h1 {
@@ -227,27 +324,49 @@
     margin-top: 40px;
     border-top: 2px solid #444;
     padding-top: 20px;
-    background-color: inherit; /* Ensure background color is consistent */
+    background-color: inherit;
   }
   
   .reviews-scrollable {
-    max-height: 400px; /* Adjust the height as needed */
+    max-height: 400px;
     overflow-y: auto;
     width: 100%;
     display: flex;
-    justify-content: center; /* Center the reviews section horizontally */
+    justify-content: center;
+    scrollbar-width: thin;
+    scrollbar-color: #4a4a4a #121212;
+  }
+  
+  .reviews-scrollable::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .reviews-scrollable::-webkit-scrollbar-track {
+    background: #121212;
+  }
+  
+  .reviews-scrollable::-webkit-scrollbar-thumb {
+    background-color: #4a4a4a;
+    border-radius: 10px;
+    border: 2px solid transparent;
+  }
+  
+  .reviews-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: #5c5c5c;
+  }
+  
+  .reviews-scrollable::-webkit-scrollbar-corner,
+  .reviews-scrollable::-webkit-scrollbar-button {
+    display: none;
   }
   
   .reviews-section {
     display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(300px, 1fr)
-    ); /* Responsive grid */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     margin-top: 20px;
     width: 100%;
-    max-width: 1200px; /* Center the reviews section */
+    max-width: 1200px;
   }
   
   .no-reviews-message {
@@ -257,21 +376,8 @@
     margin: 20px 0;
   }
   
-  @media (max-width: 768px) {
-    .reviews-section {
-      grid-template-columns: 1fr; /* Switch to a single column on smaller screens */
-    }
-  }
-  
-  .review {
-    margin: 10px 0;
-  }
-  
-  .add-review-button {
-    margin-top: 20px;
-  }
-  
-  .review-form-modal {
+  .review-form-modal,
+  .rating-form-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -283,7 +389,8 @@
     align-items: center;
   }
   
-  .review-form-content {
+  .review-form-content,
+  .rating-form-content {
     background: #fff;
     color: #000;
     padding: 20px;
@@ -293,7 +400,8 @@
     text-align: left;
   }
   
-  .review-form-content h3 {
+  .review-form-content h3,
+  .rating-form-content h3 {
     margin-top: 0;
   }
   
@@ -309,6 +417,24 @@
   
   .btn-primary {
     margin-right: 10px;
+  }
+  
+  .rating-flames {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .rating-flames .bi {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: color 0.3s;
+  }
+  
+  .rating-flames .bi.filled {
+    color: #f39c12;
   }
   
   @media (max-width: 768px) {
