@@ -21,11 +21,11 @@
 .custom-footer{
 padding-top: 1rem;
 padding-bottom: 1.5rem;
-margin-top: 1.5rem;
 text-align: center;
 background-color: rgb(0, 0, 0);;
 z-index: 100;
 position: relative;
+min-height: 250px;
 }
 .nav-list{
     list-style-type: none;

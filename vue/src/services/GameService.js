@@ -48,4 +48,8 @@ export default {
   fetchUsers() {
     return axios.get('/admin')
   },
+
+  getLanternDbRatings(gameId) {
+    return axios.get(`${API_URL}ratings/${gameId}`);
+  },
 };
