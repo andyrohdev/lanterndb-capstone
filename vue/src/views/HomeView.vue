@@ -42,7 +42,7 @@ export default {
   box-sizing: border-box;
 }
 .header-section{
-  background-image: url(../assets/homepage2.png);
+  background-image: url(../assets/homepage2-transformed.webp);
   width: 100%;
   height: 100vh;
   background-size:cover;
