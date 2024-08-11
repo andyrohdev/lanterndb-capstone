@@ -6,7 +6,7 @@
                 <span class="website-name" v-if="showSiteName"><span class="title-lantern">Lantern</span><span class="DB-title">DB</span></span>
             </router-link>
         </div>
-        <div class="navbar-right">
+        <div class="isLoggedIn">
             <div v-if="isAdmin" class="admin-button">
                 <router-link to="/admin" class="navbar-link">Admin</router-link>
             </div>
@@ -66,6 +66,7 @@ export default {
             type: Boolean,
             default: true
         },
+    
         
     },
     data() {
@@ -80,7 +81,10 @@ export default {
         },
         userName() {
             return this.$store.state.user.username || 'User Name';
-        }
+        },
+        isLoggedIn(){
+            return !!this.$store.state.token;
+        },
     },
     methods: {
         toggleDropDown() {
@@ -98,7 +102,7 @@ export default {
     mounted() {
         document.addEventListener('click', this.handleClickOutside);
     },
-    beforeDestroy() {
+    beforeUnmounted() {
         document.removeEventListener('click', this.handleClickOutside);
     }
 }
@@ -161,7 +165,7 @@ export default {
     align-items: center;
 }
 
-.navbar-right {
+.isLoggedIn {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -206,7 +210,7 @@ export default {
     transform-origin: bottom left;
 }
 
-.navbar-right .divider {
+.isLoggedIn .divider {
     margin-left: 24px;
     margin-right: 24px;
     width: 1px;
