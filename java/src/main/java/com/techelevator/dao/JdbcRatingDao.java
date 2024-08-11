@@ -146,32 +146,41 @@ public class JdbcRatingDao implements RatingDao{
         return updateRatings;
     }
 
-    //    @Override
-//    public List<Review> updateAndEditReview(Review review, int user_id) {
-//        List<Review> updateReviews = null;
-//        String sql = "UPDATE reviews\n" +
-//                "SET review_title = ?, review_text = ?\n" +
-//                "WHERE user_id = ? AND review_id = ?;";
+
+    @Override
+    public int deleteMyRating(Rating rating) {
+        int rows = 0;
+
+        String sql = "Delete FROM ratings WHERE rating_id = ? AND user_id = ?;";
+        try{
+            rows = jdbcTemplate.update(sql, rating.getRating_id(), rating.getUser_id());
+        }
+        catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rows;
+
+    }
+
+
+//    @Override
+//    public int deleteMyReview(Review review, int user_id) {
+//
+//        int rows = 0;
+//        String sql = "DELETE FROM reviews WHERE review_id = ? AND user_id = ?;";
 //        try{
-//            int rowsUpdate = jdbcTemplate.update(sql, review.getReview_title(), review.getReview_text(), review.getUser_id(), review.getReview_id());
-//            if(rowsUpdate == 0){
-//                throw new DaoException("Zero rows affected, expected at least one!");
-//            }
-//            else{
-//                updateReviews = getProfileReviews(review.getUser_id());
-//            }
+//            rows = jdbcTemplate.update(sql, review.getReview_id(), review.getUser_id());
 //        }
-//        catch(CannotGetJdbcConnectionException e){
-//            throw new DaoException("Unable to connect to DB!", e);
-//        }
-//        catch(DataIntegrityViolationException e){
+//        catch (CannotGetJdbcConnectionException e) {
+//            throw new DaoException("Unable to connect to server or database", e);
+//        } catch (DataIntegrityViolationException e) {
 //            throw new DaoException("Data integrity violation", e);
 //        }
+//        return rows;
 //
-//        return updateReviews;
 //    }
-
-
 
 
     private RowMapper<Rating> ratingRowMapper() {

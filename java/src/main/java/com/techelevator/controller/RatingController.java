@@ -71,4 +71,30 @@ public class RatingController {
         return addedRating;
     }
 
+    @DeleteMapping("/user/ratings")
+    public void deleteMyRating(@Valid @RequestBody Rating rating, Principal principal) {
+        String userName = principal.getName();
+        User user = jdbcUserDao.getUserByUsername(userName);
+        int userId = user.getId();
+
+        rating.setUser_id(userId);
+
+        ratingDao.deleteMyRating(rating);
+    }
+
+//    @DeleteMapping("/user/reviews")
+//    public void deleteMyReview(@Valid @RequestBody Review review, Principal principal) {
+//
+//        String userName = principal.getName();
+//        User user = jdbcUserDao.getUserByUsername(userName);
+//        int userId = user.getId();
+//
+//        review.setUser_id(userId);
+//
+//        if(reviewDao.getProfileReviews(review.getReview_id()) == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        }
+//        reviewDao.deleteMyReview(review, userId);
+//    }
+
 }
