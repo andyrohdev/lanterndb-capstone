@@ -65,6 +65,48 @@ public class JdbcRatingDao implements RatingDao{
         return ratingsList;
     }
 
+    @Override
+    public List<Rating> fetchProfileRatings(int user_id) {
+        List<Rating> ratingList = new ArrayList<>();
+        String sql = "SELECT rating_id, rating_score, user_id, game_id, game_title FROM ratings WHERE user_id = ?;";
+
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, user_id);
+            while(results.next()){
+                ratingList.add(mapRowToRating(results));
+            }
+        }
+        catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+
+
+        return ratingList;
+    }
+
+//    @Override
+//    public List<Review> getProfileReviews(int user_id) {
+//        List<Review> reviewList = new ArrayList<>();
+//        String sql = "SELECT review_id, game_id, user_id, review_title, review_text FROM reviews WHERE user_id = ?;";
+//
+//        try{
+//            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, user_id);
+//            while(results.next()){
+//                reviewList.add(mapRowToReview(results));
+//            }
+//        }
+//        catch(CannotGetJdbcConnectionException e){
+//            throw new DaoException("Unable to connect to DB!", e);
+//        }
+//        catch(DataIntegrityViolationException e){
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//        return reviewList;
+//    }
+
 
 
     @Override
@@ -79,16 +121,18 @@ public class JdbcRatingDao implements RatingDao{
         return addedRating;
     }
 
-    public List <Review> getReviewsByGameId(int game_id) {
-        List<Review> reviewsList = new ArrayList<>();
-        String sql = "SELECT review_id, game_id, user_id, review_title, review_text FROM reviews WHERE game_id = ?;";
+    @Override
+    public List<Rating> updateRatingById(Rating rating) {
+        List<Rating> updateRatings = null;
+        String sql = "UPDATE ratings SET rating_score = ? WHERE rating_id = ? AND user_id = ?";
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id);
-            while(results.next()){
-                reviewsList.add(mapRowToReview(results));
+            int rowsUpdate = jdbcTemplate.update(sql, rating.getRating_score(), rating.getRating_id(),rating.getUser_id());
+            if(rowsUpdate == 0){
+                throw new DaoException("Zero rows affected, expected at least one!");
             }
-
-
+            else{
+                updateRatings = fetchProfileRatings(rating.getUser_id());
+            }
         }
         catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to DB!", e);
@@ -96,10 +140,96 @@ public class JdbcRatingDao implements RatingDao{
         catch(DataIntegrityViolationException e){
             throw new DaoException("Data integrity violation", e);
         }
-        return reviewsList;
+
+
+
+        return updateRatings;
     }
 
-//    @Override
+    //    @Override
+//    public List<Review> updateAndEditReview(Review review, int user_id) {
+//        List<Review> updateReviews = null;
+//        String sql = "UPDATE reviews\n" +
+//                "SET review_title = ?, review_text = ?\n" +
+//                "WHERE user_id = ? AND review_id = ?;";
+//        try{
+//            int rowsUpdate = jdbcTemplate.update(sql, review.getReview_title(), review.getReview_text(), review.getUser_id(), review.getReview_id());
+//            if(rowsUpdate == 0){
+//                throw new DaoException("Zero rows affected, expected at least one!");
+//            }
+//            else{
+//                updateReviews = getProfileReviews(review.getUser_id());
+//            }
+//        }
+//        catch(CannotGetJdbcConnectionException e){
+//            throw new DaoException("Unable to connect to DB!", e);
+//        }
+//        catch(DataIntegrityViolationException e){
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//
+//        return updateReviews;
+//    }
+
+
+
+
+    private RowMapper<Rating> ratingRowMapper() {
+        return (rs, rowNum) -> {
+            Rating rating = new Rating();
+            rating.setRating_id(rs.getInt("rating_id"));
+            rating.setRating_score(rs.getInt("rating_score"));
+            rating.setUser_id(rs.getInt("user_id"));
+            rating.setGame_id(rs.getInt("game_id"));
+            rating.setGame_title(rs.getString("game_title"));
+            return rating;
+        };
+    }
+
+
+    private Review mapRowToReview(SqlRowSet rs){
+        Review review = new Review();
+        review.setReview_id(rs.getInt("review_id"));
+        review.setGame_id(rs.getInt("game_id"));
+        review.setUser_id(rs.getInt("user_id"));
+        review.setReview_title(rs.getString("review_title"));
+        review.setReview_text(rs.getString("review_text"));
+        return review;
+    }
+
+    private Rating mapRowToRating(SqlRowSet rs) {
+        Rating rating = new Rating();
+        rating.setRating_id(rs.getInt("rating_id"));
+        rating.setRating_score(rs.getInt("rating_score"));
+        rating.setUser_id(rs.getInt("user_id"));
+        rating.setGame_id(rs.getInt("game_id"));
+        rating.setGame_title(rs.getString("game_title"));
+        return rating;
+    }
+
+
+
+    //    public List <Review> getReviewsByGameId(int game_id) {
+//        List<Review> reviewsList = new ArrayList<>();
+//        String sql = "SELECT review_id, game_id, user_id, review_title, review_text FROM reviews WHERE game_id = ?;";
+//        try{
+//            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id);
+//            while(results.next()){
+//                reviewsList.add(mapRowToReview(results));
+//            }
+//
+//
+//        }
+//        catch(CannotGetJdbcConnectionException e){
+//            throw new DaoException("Unable to connect to DB!", e);
+//        }
+//        catch(DataIntegrityViolationException e){
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//        return reviewsList;
+//    }
+
+    //    @Override
 //    public Integer addRatingAndReviewAndReturnGameId(Rating rating, Review review) {
 //
 //        Integer retrievedGameId = null;
@@ -152,40 +282,6 @@ public class JdbcRatingDao implements RatingDao{
 //
 //        return reviewsByGameId;
 //    }
-
-
-    private RowMapper<Rating> ratingRowMapper() {
-        return (rs, rowNum) -> {
-            Rating rating = new Rating();
-            rating.setRating_id(rs.getInt("rating_id"));
-            rating.setRating_score(rs.getInt("rating_score"));
-            rating.setUser_id(rs.getInt("user_id"));
-            rating.setGame_id(rs.getInt("game_id"));
-            rating.setGame_title(rs.getString("game_title"));
-            return rating;
-        };
-    }
-
-
-    private Review mapRowToReview(SqlRowSet rs){
-        Review review = new Review();
-        review.setReview_id(rs.getInt("review_id"));
-        review.setGame_id(rs.getInt("game_id"));
-        review.setUser_id(rs.getInt("user_id"));
-        review.setReview_title(rs.getString("review_title"));
-        review.setReview_text(rs.getString("review_text"));
-        return review;
-    }
-
-    private Rating mapRowToRating(SqlRowSet rs) {
-        Rating rating = new Rating();
-        rating.setRating_id(rs.getInt("rating_id"));
-        rating.setRating_score(rs.getInt("rating_score"));
-        rating.setUser_id(rs.getInt("user_id"));
-        rating.setGame_id(rs.getInt("game_id"));
-        rating.setGame_title(rs.getString("game_title"));
-        return rating;
-    }
 
 
 

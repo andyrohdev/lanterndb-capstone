@@ -16,4 +16,8 @@ public interface RatingDao {
 
     List<Rating> fetchRatingsByGameId(int game_id);
 
+    List<Rating> fetchProfileRatings(int user_id);
+
+    List<Rating> updateRatingById(Rating rating);
+
 }
