@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.CollectionList;
 import com.techelevator.model.Rating;
 import com.techelevator.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,27 @@ public class JdbcRatingDao implements RatingDao{
         return currentRating;
 
     }
+
+    @Override
+    public List<Rating> fetchRatingsByGameId(int game_id) {
+        List<Rating> ratingsList = new ArrayList<>();
+
+        String sql = "SELECT rating_id, rating_score, user_id, game_id, game_title FROM ratings WHERE game_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, game_id);
+            while (results.next()) {
+                ratingsList.add( mapRowToRating(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+
+        return ratingsList;
+    }
+
+
+
     @Override
     public Rating addRating(Rating rating) {
         Rating addedRating = null;
