@@ -15,7 +15,10 @@ export default {
     methods: {
     // Removed unused methods
     },
-    components: { NavBar }
+    components:{
+      NavBar,
+    },  
+    
 };
 </script>
 
