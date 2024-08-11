@@ -52,7 +52,11 @@
                 ]"
               ></i>
             </div>
-            <p>By User: {{ fetchUsername(rating.user_id) }}</p>
+            <p>{{ fetchUsername(rating.user_id) }}</p>
+            <div v-if="rating.user_id === user.id" class="rating-actions">
+              <button @click="editRating(rating)" class="btn btn-secondary">Edit</button>
+              <button @click="deleteRating(rating.rating_id)" class="btn btn-danger">Delete</button>
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +95,7 @@
     <!-- Rating Form Modal -->
     <div v-if="showRatingForm" class="rating-form-modal">
       <div class="rating-form-content">
-        <h3>Submit Your Rating</h3>
+        <h3>{{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}</h3>
         <div class="rating-flames">
           <i
             v-for="flame in 5"
@@ -106,10 +110,8 @@
             @click="newRating = flame"
           ></i>
         </div>
-        <button @click="submitRating" class="btn btn-primary">Submit</button>
-        <button @click="closeRatingForm" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="submitRating" class="btn btn-primary">{{ editingRatingId ? "Update" : "Submit" }}</button>
+        <button @click="closeRatingForm" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
 
@@ -165,6 +167,7 @@ export default {
       lanternDbRatings: [], // Store all ratings from Lantern DB
       lanternDbRating: null, // Store the average Lantern DB rating
       users: {}, // Cache usernames for quick lookup
+      editingRatingId: null, // Track the ID of the rating being edited
     };
   },
   computed: {
@@ -302,6 +305,7 @@ export default {
       this.showRatingForm = false;
       this.newRating = null;
       this.hoverRating = 0;
+      this.editingRatingId = null; // Clear editing state
     },
     submitRating() {
       if (this.newRating === null) {
@@ -313,20 +317,41 @@ export default {
         rating_score: this.newRating,
         user_id: this.$store.state.user.id,
         game_id: this.$route.params.gameId,
-        game_title: this.game.name,
       };
 
-      console.log("Submitting rating:", ratingData);
-
-      GameService.addRating(ratingData)
-        .then(() => {
-          console.log("Rating submitted successfully");
-          this.closeRatingForm();
-          this.fetchLanternDbRatings(); // Fetch updated Lantern DB ratings dynamically
-        })
-        .catch((error) => {
-          console.error("Error submitting rating:", error);
-        });
+      if (this.editingRatingId) {
+        // Edit existing rating
+        ratingData.rating_id = this.editingRatingId;
+        GameService.updateRating(ratingData)
+          .then(() => {
+            this.fetchLanternDbRatings(); // Refresh ratings
+            this.closeRatingForm();
+          })
+          .catch((error) => {
+            console.error("Error updating rating:", error);
+          });
+      } else {
+        // Add new rating
+        GameService.addRating(ratingData)
+          .then(() => {
+            this.fetchLanternDbRatings(); // Refresh ratings
+            this.closeRatingForm();
+          })
+          .catch((error) => {
+            console.error("Error submitting rating:", error);
+          });
+      }
+    },
+    deleteRating(ratingId) {
+      if (confirm("Are you sure you want to delete this rating?")) {
+        GameService.deleteRating(ratingId)
+          .then(() => {
+            this.fetchLanternDbRatings(); // Refresh ratings
+          })
+          .catch((error) => {
+            console.error("Error deleting rating:", error);
+          });
+      }
     },
   },
 };
@@ -508,6 +533,14 @@ h1 {
   margin-right: 10px;
 }
 
+.rating-actions {
+  margin-top: 10px;
+}
+
+.rating-actions .btn {
+  margin-right: 5px;
+}
+
 .lantern-db-ratings-container {
   margin-top: 20px;
   border-top: 2px solid #444;
@@ -558,6 +591,4 @@ h1 {
     font-size: 1.2rem;
   }
 }
-
-
 </style>
