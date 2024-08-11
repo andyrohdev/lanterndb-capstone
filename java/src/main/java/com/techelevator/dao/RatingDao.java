@@ -20,4 +20,6 @@ public interface RatingDao {
 
     List<Rating> updateRatingById(Rating rating);
 
+    int deleteMyRating(Rating rating);
+
 }
