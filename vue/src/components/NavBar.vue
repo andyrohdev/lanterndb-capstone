@@ -6,15 +6,15 @@
                 <span class="website-name" v-if="showSiteName"><span class="title-lantern">Lantern</span><span class="DB-title">DB</span></span>
             </router-link>
         </div>
-        <div class="isLoggedIn">
+        <div class="navbar-right">
             <div v-if="isAdmin" class="admin-button">
                 <router-link to="/admin" class="navbar-link">Admin</router-link>
             </div>
-            <div class="browser-button">
+            <div  class="browser-button">
                 <router-link v-if="ShowBrowserLink" to="/games" class="navbar-link">Browse</router-link>
             </div>
             <div class="divider"></div>
-            <div class="profile-link" @click.stop="toggleDropDown">
+            <div v-if="isLoggedIn" class="profile-link" @click.stop="toggleDropDown">
                 <i class="bi bi-person-circle"></i>
                 <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]">
                     <div class="dropdown-item user-info">
@@ -36,6 +36,12 @@
                         Logout
                     </router-link>
                 </div>
+            </div>
+            <div v-else class="login-button"> 
+                <router-link to="/login" class="navbar-link">
+                    <i class="bi bi-box-arrow-in-right" style="margin">
+                </i> Login
+                </router-link>
             </div>
         </div>
     </nav>
@@ -66,7 +72,6 @@ export default {
             type: Boolean,
             default: true
         },
-    
         
     },
     data() {
@@ -84,7 +89,7 @@ export default {
         },
         isLoggedIn(){
             return !!this.$store.state.token;
-        },
+        }
     },
     methods: {
         toggleDropDown() {
@@ -102,7 +107,7 @@ export default {
     mounted() {
         document.addEventListener('click', this.handleClickOutside);
     },
-    beforeUnmounted() {
+    beforeUnmount() {
         document.removeEventListener('click', this.handleClickOutside);
     }
 }
@@ -165,7 +170,7 @@ export default {
     align-items: center;
 }
 
-.isLoggedIn {
+.navbar-right {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -210,7 +215,7 @@ export default {
     transform-origin: bottom left;
 }
 
-.isLoggedIn .divider {
+.navbar-right .divider {
     margin-left: 24px;
     margin-right: 24px;
     width: 1px;
@@ -290,5 +295,15 @@ export default {
 
 .user-info:hover {
     background-color: transparent;
+}
+
+.login-button{
+    display: flex;
+    align-items: center;
+    
+    border-radius: 3px;
+}
+.login-button i{
+    margin-right: 8px;
 }
 </style>
