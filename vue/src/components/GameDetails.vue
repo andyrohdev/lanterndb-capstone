@@ -378,11 +378,27 @@ h1 {
   font-weight: 700;
 }
 
-.game-genres,
-.game-rating {
+.game-genres {
   font-size: 1.5rem;
   margin: 5px 0;
   font-weight: 300;
+}
+
+.ratings-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.game-rating,
+.lantern-db-rating {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 300;
+  line-height: 1.5;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .add-to-collection {
@@ -492,13 +508,6 @@ h1 {
   margin-right: 10px;
 }
 
-/* Additional styles for the ratings container */
-.ratings-container {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-}
-
 .lantern-db-ratings-container {
   margin-top: 20px;
   border-top: 2px solid #444;
@@ -512,10 +521,8 @@ h1 {
 }
 
 .lantern-db-rating {
-  background-color: #2a2a2a;
   padding: 10px;
   margin-right: 10px;
-  border-radius: 8px;
   min-width: 35%;
   text-align: center;
 }
@@ -524,7 +531,6 @@ h1 {
   margin-right: 0;
 }
 
-/* Styles for the flames */
 .rating-flames .bi {
   font-size: 2rem;
   color: #ccc;
@@ -547,8 +553,11 @@ h1 {
   }
 
   .game-genres,
-  .game-rating {
+  .game-rating,
+  .lantern-db-rating {
     font-size: 1.2rem;
   }
 }
+
+
 </style>
