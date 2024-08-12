@@ -73,4 +73,8 @@ export default {
   getLanternDbRatings(gameId) {
     return axios.get(`${API_URL}ratings/${gameId}`);
   },
+
+  getUserRatings(userId) {
+    return axios.get(`${API_URL}user/ratings/${userId}`);
+  }
 };

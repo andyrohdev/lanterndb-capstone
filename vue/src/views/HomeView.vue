@@ -1,102 +1,182 @@
 <template>
   <div class="home-page">
     <header class="header-section">
-      <div class="header-section-one">
-        <h1>
-          Welcome to LanternDb
-        </h1>
-        <h2>
-          Illuminate Your Gaming World
-        </h2>
-      <p1>
-        Step into LanternDB, the ultimate database for gaming enthusiasts. 
-        Discover detailed information on more than 800,000 video games, from beloved classics to cutting-edge new releases. 
-        Dive into reviews, ratings, and in-depth articles that bring your favorite games to life.
-      </p1>
-      <p2>
-        Whether you're searching for a hidden gem or staying updated on the latest trends,
-        LanternDB is your go-to resource for everything gaming
-      </p2>
-
+      <!-- Video Background -->
+      <video autoplay muted loop preload="auto" class="background-video">
+        <source :src="videoSrc" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="header-content">
+        <h1>Welcome to <span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
+        <h2><span class="glow">Illuminate</span> Your Gaming World</h2>
+        <p>
+          Step into LanternDB, the ultimate database for gaming enthusiasts.
+          Discover detailed information on more than 800,000 video games, from
+          beloved classics to cutting-edge new releases. Dive into reviews,
+          ratings, and in-depth articles that bring your favorite games to
+          life.
+        </p>
+        <p>
+          Whether you're searching for a hidden gem or staying updated on the
+          latest trends, LanternDB is your go-to resource for everything gaming.
+        </p>
       </div>
     </header>
-
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
       <div class="games-container">
         <div 
-          v-for="(game, index) in featuredGames" 
+          v-for="game in featuredGames" 
           :key="game.id" 
           class="game-card"
           @click="redirectToGameDetails(game.id)"
         >
-          <img :src="game.imageUrl" :alt="game.title" class="game-image" />
-          <p>{{ game.title }}</p>
+          <img :src="game.imageUrl" :alt="game.name" class="game-image" />
+          <p>{{ game.name }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
+import videoSrc from '@/assets/animated-homepage2.mp4'; // Import the video source
+
 export default {
   data() {
     return {
+      videoSrc, // Use the imported video source
       featuredGames: [
-        { id: 1, name: "Game One", imageUrl: "../assets/game1.jpg" },
-        { id: 2, name: "Game Two", imageUrl: "../assets/game2.jpg" },
-        { id: 3, name: "Game Three", imageUrl: "../assets/game3.jpg" },
-        { id: 4, name: "Game Four", imageUrl: "../assets/game4.jpg" },
+        { id: 3498, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
+        { id: 4200, name: "PTwo", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
+        { id: 3328, name: "TWThree", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
+        { id: 4291, name: "CSGO", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
       ],
     };
   },
   methods: {
     redirectToGameDetails(gameId) {
-      this.$router.push({ name: 'gameDetails', params: { id: gameId } });
+      this.$router.push({ name: 'game-details', params: { gameId: gameId } });
     },
   },
 };
 </script>
+
 <style scoped>
 .home-page {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .header-section {
-  background-image: url(../assets/homepage2-transformed.webp);
+  position: relative;
   width: 100%;
   height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Align content to the left */
 }
 
-.header-section-one {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: left;
+
+
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover; /* Ensure the video covers the entire area */
+  object-position: center; /* Center the video */
+}
+
+
+.header-content {
+  position: relative;
+  z-index: 2;
   color: white;
+  text-align: center; /* Align text to the left */
   padding: 0 20px;
-  width: 40%;
   margin-left: 10vw;
-  margin-top: -20vh;
+  width: 40%; /* Control the width of the text block */
+  height: 70%;
 }
 
-.header-section h2 {
-  margin: 0;
-  font-size: 2rem;
-  line-height: 1.5rem;
-  max-width: 600px;
+.header-content h1 {
+  font-size: 6rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+  padding-bottom: 100px;
+}
+.header-content p {
+  font-size: 1.3rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+}
+.header-content h2 {
+  font-size: 3rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+  font-style: italic;
+  
+}
+
+.flame {
+
+animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
+
+}
+
+@keyframes colorFlow {
+0% {
+  color: #ff4400;
+  /* Dark Orange */
+}
+
+25% {
+  color: #d32406;
+  /* Tomato Red */
+}
+
+50% {
+  color: #f85b00;
+  /* Light Orange */
+}
+
+75% {
+  color: #fa8704;
+  /* Darker Orange */
+}
+
+100% {
+  color: #ff4400;
+  /* Back to Dark Orange */
+}
+}
+
+@keyframes scaleFlow {
+0% {
+  transform: scale(1);
+}
+
+50% {
+  transform: scale(1.1);
+  /* Slightly enlarged */
+}
+
+100% {
+  transform: scale(1);
+}
+}
+.lantern-color {
+  color: #F5C277;
 }
 
 .featured-games-section {
   padding: 20px;
+  background-color: #121212;
 }
 
 .games-container {
@@ -125,6 +205,26 @@ export default {
   height: auto;
   border-bottom: 2px solid #d14b06;
 }
+.glow {
+  font-size: 2rem; /* Adjust size as needed */
+  color: #fff;
+  text-align: center;
+  font-weight: bold; /* Optional: make text bold for better visibility */
+  -webkit-animation: glow 1.5s ease-in-out infinite alternate;
+  -moz-animation: glow 1.5s ease-in-out infinite alternate;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e67b00, 0 0 40px #e67b00, 0 0 50px #e67b00, 0 0 60px #e67b00, 0 0 70px#e67b00;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #F5C277 0 0 40px #F5C277, 0 0 50px #F5C277, 0 0 60px #ff4400, 0 0 70px #ff4400, 0 0 80px #ff4400;
+  }
+}
+
+
 
 @media (max-width: 768px) {
   .game-card {
