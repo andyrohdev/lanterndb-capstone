@@ -7,6 +7,24 @@
         <Card :key="'playing'" title="Playing" :items="playingItems" />
         <Card :key="'played'" title="Played" :items="playedItems" />
       </div>
+
+      <!-- Ratings Section -->
+      <div class="ratings-container">
+        <h2>Your Ratings</h2>
+        <div v-if="userRatings.length > 0" class="ratings-scrollable">
+          <RatingCard
+            v-for="rating in userRatings"
+            :key="rating.rating_id"
+            :rating="rating"
+            :fetch-username="fetchUsername"
+            @ratingUpdated="fetchUserRatings"
+            @ratingDeleted="fetchUserRatings"
+          />
+        </div>
+        <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
+      </div>
+
+      <!-- Reviews Section -->
       <div class="reviews-container">
         <h2>Reviews</h2>
         <div
@@ -33,23 +51,26 @@
 <script>
 import Card from "@/components/Card.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
+import RatingCard from "@/components/RatingCard.vue";
 import CollectionService from "../services/CollectionService";
+import GameService from "../services/GameService";
 import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
     Card,
     ReviewCard,
+    RatingCard,
   },
   data() {
     return {
       allItems: [],
-     
+      userRatings: [],
       loadingReviews: true,
     };
   },
   computed: {
-    ...mapState(["reviews"]),
+    ...mapState(["reviews", "user"]),
     wishlistItems() {
       return this.allItems.filter((item) => item.collection_id === 1);
     },
@@ -62,6 +83,7 @@ export default {
   },
   created() {
     this.fetchCollections();
+    this.fetchUserRatings();
     this.fetchUserReviews();
   },
   methods: {
@@ -83,6 +105,16 @@ export default {
           console.error("Error retrieving collections", error);
         });
     },
+    fetchUserRatings() {
+      const userId = this.$store.state.user.id;
+      GameService.getUserRatings(userId)
+        .then((response) => {
+          this.userRatings = response.data;
+        })
+        .catch((error) => {
+          console.error("Error retrieving user ratings:", error);
+        });
+    },
     fetchUserReviews() {
       const user_id = this.$store.state.user.id;
       this.fetchReviews(user_id)
@@ -94,6 +126,9 @@ export default {
           this.loadingReviews = false;
         });
     },
+    fetchUsername(userId) {
+      return this.user && this.user.id === userId ? this.user.username : "Anonymous";
+    },
   },
 };
 </script>
@@ -101,15 +136,13 @@ export default {
 <style scoped>
 .dashboard-container {
   min-height: 100vh;
-  /* Full height of the viewport */
   display: flex;
   flex-direction: column;
   background: #121212;
-  /* Dark background like GameDetails */
   color: #e0e0e0;
-  /* Light text for contrast */
 }
-.body-dashboard{
+
+.body-dashboard {
   padding: 0;
   margin: 0;
   background-color: #121212;
@@ -125,44 +158,75 @@ export default {
 .dashboard {
   display: flex;
   flex-wrap: wrap;
-  /* Allows cards to wrap onto the next line */
   justify-content: center;
   margin-bottom: 40px;
-  /* Add space below the collections */
 }
 
+/* Ratings Section */
+.ratings-container {
+  margin-top: 40px;
+  border-top: 2px solid #444;
+  padding-top: 20px;
+  background-color: inherit;
+}
+
+.ratings-scrollable {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a #121212;
+}
+
+.ratings-scrollable::-webkit-scrollbar {
+  height: 8px;
+}
+
+.ratings-scrollable::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+.ratings-scrollable::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.ratings-scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #5c5c5c;
+}
+
+.no-ratings-message {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Reviews Section */
 .reviews-container {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
   background-color: inherit;
-  /* Ensure background color is consistent */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 5%;
 }
 
 .reviews-scrollable {
   max-height: 400px;
-  /* Adjust the height as needed */
   overflow-y: auto;
   width: 100%;
   display: flex;
   justify-content: center;
-  /* Center the reviews section horizontally */
 }
 
 .reviews-section {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(300px, 1fr)
-  ); /* Responsive grid */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 20px;
   width: 100%;
   max-width: 1200px;
-  /* Center the reviews section */
 }
 
 .no-reviews-message {
@@ -180,16 +244,12 @@ export default {
 
   .reviews-section {
     grid-template-columns: 1fr;
-    /* Switch to a single column on smaller screens */
     max-width: 100%;
-    /* Ensure it takes up full width on smaller screens */
   }
-
 }
 
 .dashboard-content h2 {
   text-align: center;
-  width: 100%; /* Ensure it takes the full width to center the text */
+  width: 100%;
 }
-
 </style>

@@ -37,16 +37,17 @@
       <!-- LanternDB Ratings Section -->
       <div class="lantern-db-ratings-container">
         <h2>LanternDB Ratings</h2>
-        <div class="lantern-db-ratings-scrollable">
+        <div v-if="lanternDbRatings.length > 0" class="lantern-db-ratings-scrollable">
           <RatingCard
             v-for="rating in lanternDbRatings"
             :key="rating.rating_id"
             :rating="rating"
-            @openRatingForm="openRatingForm"
+            @ratingUpdated="fetchLanternDbRatings"
             @ratingDeleted="fetchLanternDbRatings"
             :fetch-username="fetchUsername"
           />
         </div>
+        <p v-else class="no-ratings-message">No LanternDB Ratings available.</p>
 
         <!-- Add Rating Button -->
         <div v-if="isUserLoggedIn" class="add-rating-button">
@@ -86,18 +87,12 @@
     <!-- Rating Form Modal -->
     <div v-if="showRatingForm" class="rating-form-modal">
       <div class="rating-form-content">
-        <h3>
-          {{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}
-        </h3>
+        <h3>{{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}</h3>
         <div class="rating-flames">
           <i
             v-for="flame in 5"
             :key="flame"
-            :class="[
-              'bi',
-              'bi-fire',
-              { filled: flame <= hoverRating || flame <= newRating },
-            ]"
+            :class="['bi', 'bi-fire', { filled: flame <= hoverRating || flame <= newRating }]"
             @mouseover="hoverRating = flame"
             @mouseleave="hoverRating = 0"
             @click="newRating = flame"
@@ -106,9 +101,7 @@
         <button @click="submitRating" class="btn btn-primary">
           {{ editingRatingId ? "Update" : "Submit" }}
         </button>
-        <button @click="closeRatingForm" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="closeRatingForm" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
 
@@ -127,9 +120,7 @@
           rows="4"
         ></textarea>
         <button @click="submitReview" class="btn btn-primary">Submit</button>
-        <button @click="closeReviewForm" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="closeReviewForm" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
@@ -223,10 +214,7 @@ export default {
     },
     calculateAverageRating(ratings) {
       if (!ratings.length) return null;
-      const total = ratings.reduce(
-        (sum, rating) => sum + rating.rating_score,
-        0
-      );
+      const total = ratings.reduce((sum, rating) => sum + rating.rating_score, 0);
       return (total / ratings.length).toFixed(1);
     },
     fetchUsers() {
@@ -244,10 +232,7 @@ export default {
       return this.users[userId] || "Anonymous";
     },
     addToCollection(collection_id) {
-      const genre =
-        this.game.genres && this.game.genres.length > 0
-          ? this.game.genres[0].name
-          : "Unknown Genre";
+      const genre = this.game.genres.length > 0 ? this.game.genres[0].name : "Unknown Genre";
 
       const gameData = {
         title: this.game.name,
@@ -260,10 +245,7 @@ export default {
           console.log(`Game added to ${collection_id} collection`, response);
         })
         .catch((error) => {
-          console.error(
-            `Error adding game to ${collection_id} collection`,
-            error
-          );
+          console.error(`Error adding game to ${collection_id} collection`, error);
         });
     },
     openReviewForm() {
@@ -308,10 +290,43 @@ export default {
       this.hoverRating = 0;
       this.editingRatingId = null;
     },
+    submitRating() {
+      if (this.newRating === null) {
+        alert("Please provide a rating.");
+        return;
+      }
+
+      const ratingData = {
+        rating_score: this.newRating,
+        user_id: this.user.id,
+        game_id: this.$route.params.gameId,
+        game_title: this.game.name,
+      };
+
+      if (this.editingRatingId) {
+        ratingData.rating_id = this.editingRatingId;
+        GameService.updateRating(ratingData)
+          .then(() => {
+            this.fetchLanternDbRatings();
+            this.closeRatingForm();
+          })
+          .catch((error) => {
+            console.error("Error updating rating:", error);
+          });
+      } else {
+        GameService.addRating(ratingData)
+          .then(() => {
+            this.fetchLanternDbRatings();
+            this.closeRatingForm();
+          })
+          .catch((error) => {
+            console.error("Error submitting rating:", error);
+          });
+      }
+    },
   },
 };
 </script>
-
 
 <style scoped>
 .game-details {
@@ -321,16 +336,12 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 10px;
 }
 
 .banner-container {
-  position: relative;
   width: 100%;
   height: 400px;
-  overflow: hidden;
   margin-bottom: 20px;
-  flex-shrink: 0;
 }
 
 .game-banner {
@@ -343,37 +354,23 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  box-sizing: border-box;
   flex-grow: 1;
 }
 
 h1 {
   font-size: 3rem;
   margin: 10px 0;
-  font-weight: 700;
 }
 
 .game-genres {
   font-size: 1.5rem;
   margin: 5px 0;
-  font-weight: 300;
 }
 
 .ratings-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin: 10px 0;
-}
-
-.game-rating,
-.lantern-db-rating {
-  font-size: 1.5rem;
-  margin: 0;
-  font-weight: 300;
-  line-height: 1.5;
-  vertical-align: middle;
-  display: inline-block;
 }
 
 .add-to-collection {
@@ -390,44 +387,37 @@ h1 {
   justify-content: center;
 }
 
+.lantern-db-ratings-container {
+  margin-top: 20px;
+  border-top: 2px solid #444;
+  padding-top: 20px;
+}
+
+.lantern-db-ratings-scrollable {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.no-ratings-message,
+.no-reviews-message {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .reviews-container {
   margin-top: 40px;
   border-top: 2px solid #444;
   padding-top: 20px;
-  background-color: inherit;
 }
 
 .reviews-scrollable {
   max-height: 400px;
   overflow-y: auto;
-  width: 100%;
   display: flex;
   justify-content: center;
-  scrollbar-width: thin;
-  scrollbar-color: #4a4a4a #121212;
-}
-
-.reviews-scrollable::-webkit-scrollbar {
-  width: 8px;
-}
-
-.reviews-scrollable::-webkit-scrollbar-track {
-  background: #121212;
-}
-
-.reviews-scrollable::-webkit-scrollbar-thumb {
-  background-color: #4a4a4a;
-  border-radius: 10px;
-  border: 2px solid transparent;
-}
-
-.reviews-scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: #5c5c5c;
-}
-
-.reviews-scrollable::-webkit-scrollbar-corner,
-.reviews-scrollable::-webkit-scrollbar-button {
-  display: none;
 }
 
 .reviews-section {
@@ -437,13 +427,6 @@ h1 {
   margin-top: 20px;
   width: 100%;
   max-width: 1200px;
-}
-
-.no-reviews-message {
-  font-size: 1.2rem;
-  color: #888;
-  text-align: center;
-  margin: 20px 0;
 }
 
 .review-form-modal,
@@ -462,23 +445,10 @@ h1 {
 .review-form-content,
 .rating-form-content {
   background: #fff;
-  color: #000;
   padding: 20px;
   border-radius: 8px;
   width: 80%;
   max-width: 600px;
-  text-align: left;
-}
-
-.review-form-content h3,
-.rating-form-content h3 {
-  margin-top: 0;
-}
-
-.review-form-content input,
-.review-form-content textarea {
-  width: 100%;
-  margin-bottom: 10px;
 }
 
 .review-title-input {
@@ -496,17 +466,4 @@ h1 {
 .rating-flames .bi.filled {
   color: #f39c12;
 }
-
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2.5rem;
-  }
-
-  .game-genres,
-  .game-rating,
-  .lantern-db-rating {
-    font-size: 1.2rem;
-  }
-}
-
 </style>
