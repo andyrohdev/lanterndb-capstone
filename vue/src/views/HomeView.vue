@@ -47,10 +47,10 @@ export default {
     return {
       videoSrc, // Use the imported video source
       featuredGames: [
-        { id: 3498, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
-        { id: 4200, name: "PTwo", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
-        { id: 3328, name: "TWThree", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
-        { id: 4291, name: "CSGO", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
+        { id: 3498, name: "Grand Theft Auto V", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
+        { id: 4200, name: "Portal 2", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
+        { id: 3328, name: "The Witch 3:Wild Hunt", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
+        { id: 4291, name: "Counter-Strike Global Offensive", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
       ],
     };
   },
@@ -177,6 +177,7 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
 .featured-games-section {
   padding: 20px;
   background-color: #121212;
+  color: white
 }
 
 .games-container {
