@@ -26,6 +26,7 @@ public class CommentController {
     @Autowired
     private ReviewDao reviewDao;
 
+
     @PostMapping("/comments")
     public List<Comment> addComment(@RequestBody Comment comment) {
 
@@ -33,9 +34,9 @@ public class CommentController {
         return comments;
     }
 
-    @GetMapping("/comments")
-    public List<Comment> getCommentsByReviewId(@RequestBody Comment comment) {
-        List<Comment> commentList = jdbcCommentDao.getCommentByReviewId(comment);
+    @GetMapping("/comments/reviews/{id}")
+    public List<Comment> getCommentsByReviewId(@Valid @PathVariable int id) {
+        List<Comment> commentList = jdbcCommentDao.getCommentByReviewId(id);
 
         return commentList;
     }

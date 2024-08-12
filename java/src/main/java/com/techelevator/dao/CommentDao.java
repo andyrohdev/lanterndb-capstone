@@ -8,7 +8,7 @@ public interface CommentDao {
 
     List<Comment> addComment(Comment comment);
 
-    List<Comment> getCommentByReviewId(Comment comment);
+    List<Comment> getCommentByReviewId(int id);
     List<Comment> getCommentsByGameId(int game_id);
 
     List<Comment> getProfileComments(int user_id);

@@ -1,5 +1,8 @@
 package com.techelevator.model;
 
+
+
+
 public class Comment {
 
     private int comment_id;
