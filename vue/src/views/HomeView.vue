@@ -10,11 +10,8 @@
         <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
         <h2>Illuminate Your Gaming World</h2>
         <p>
-          Step into LanternDB, the ultimate database for gaming enthusiasts.
-          Discover detailed information on more than 800,000 video games, from
-          beloved classics to cutting-edge new releases. Dive into reviews,
-          ratings, and in-depth articles that bring your favorite games to
-          life.
+          Enjoy reviews, ratings, in-depth articles, 
+          and easily add your favorite games to your collections for everyone to enjoy.
         </p>
         <p>
           Whether you're searching for a hidden gem or staying updated on the
