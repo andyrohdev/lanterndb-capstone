@@ -76,5 +76,27 @@ export default {
 
   getUserRatings(userId) {
     return axios.get(`${API_URL}user/ratings/${userId}`);
-  }
+  },
+
+  // Fetch comments for a specific review
+  getComments(review_id) {
+    return axios.get(`${API_URL}/comments`, {
+      params: { review_id },
+    });
+  },
+
+  // Add a new comment
+  addComment(commentData) {
+    return axios.post(`${API_URL}/comments`, commentData);
+  },
+
+  // Update an existing comment
+  updateComment(commentData) {
+    return axios.put(`${API_URL}/user/comments`, commentData);
+  },
+
+  // Delete a comment by its ID
+  deleteComment(comment_id) {
+    return axios.delete(`${API_URL}/comments/${comment_id}`);
+  },
 };
