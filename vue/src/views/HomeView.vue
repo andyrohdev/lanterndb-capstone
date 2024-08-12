@@ -7,7 +7,7 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>Welcome to<span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
+        <h1>Welcome to <span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
         <h2>Illuminate Your Gaming World</h2>
         <p>
           Step into LanternDB, the ultimate database for gaming enthusiasts.
@@ -107,6 +107,11 @@ export default {
   height: 70%;
 }
 
+.header-content h1 {
+  font-size: 4rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+}
+
 .flame {
 
 animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
@@ -189,6 +194,8 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
   height: auto;
   border-bottom: 2px solid #d14b06;
 }
+
+
 
 @media (max-width: 768px) {
   .game-card {
