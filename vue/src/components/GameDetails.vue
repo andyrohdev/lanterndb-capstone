@@ -1,5 +1,6 @@
 <template>
   <div class="game-details">
+    <!-- Banner and Details -->
     <div class="banner-container">
       <img
         :src="
@@ -20,6 +21,7 @@
         </p>
       </div>
 
+      <!-- Add to Collection Buttons -->
       <div v-if="isUserLoggedIn" class="add-to-collection">
         <button @click="addToCollection(1)" class="btn btn-primary">
           Add to Wishlist
@@ -32,7 +34,7 @@
         </button>
       </div>
 
-      <!-- Lantern DB Ratings Section -->
+      <!-- LanternDB Ratings Section -->
       <div class="lantern-db-ratings-container">
         <h2>LanternDB Ratings</h2>
         <div class="lantern-db-ratings-scrollable">
@@ -54,10 +56,24 @@
             </div>
             <p>{{ fetchUsername(rating.user_id) }}</p>
             <div v-if="rating.user_id === user.id" class="rating-actions">
-              <button @click="editRating(rating)" class="btn btn-secondary">Edit</button>
-              <button @click="deleteRating(rating.rating_id)" class="btn btn-danger">Delete</button>
+              <button @click="editRating(rating)" class="btn btn-secondary">
+                Edit
+              </button>
+              <button
+                @click="deleteRating(rating.rating_id)"
+                class="btn btn-danger"
+              >
+                Delete
+              </button>
             </div>
           </div>
+        </div>
+
+        <!-- Add Rating Button -->
+        <div v-if="isUserLoggedIn" class="add-rating-button">
+          <button @click="openRatingForm" class="btn btn-primary">
+            Add Rating
+          </button>
         </div>
       </div>
 
@@ -80,13 +96,9 @@
         <div v-else-if="!loading" class="no-reviews-message">
           No reviews found.
         </div>
-
-        <div v-if="isUserLoggedIn" class="add-review-rating-buttons">
+        <div v-if="isUserLoggedIn" class="add-review-button">
           <button @click="openReviewForm" class="btn btn-primary">
             Add Review
-          </button>
-          <button @click="openRatingForm" class="btn btn-primary">
-            Add Rating
           </button>
         </div>
       </div>
@@ -95,7 +107,9 @@
     <!-- Rating Form Modal -->
     <div v-if="showRatingForm" class="rating-form-modal">
       <div class="rating-form-content">
-        <h3>{{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}</h3>
+        <h3>
+          {{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}
+        </h3>
         <div class="rating-flames">
           <i
             v-for="flame in 5"
@@ -110,8 +124,12 @@
             @click="newRating = flame"
           ></i>
         </div>
-        <button @click="submitRating" class="btn btn-primary">{{ editingRatingId ? "Update" : "Submit" }}</button>
-        <button @click="closeRatingForm" class="btn btn-secondary">Cancel</button>
+        <button @click="submitRating" class="btn btn-primary">
+          {{ editingRatingId ? "Update" : "Submit" }}
+        </button>
+        <button @click="closeRatingForm" class="btn btn-secondary">
+          Cancel
+        </button>
       </div>
     </div>
 
@@ -164,9 +182,9 @@ export default {
       showRatingForm: false,
       newRating: null,
       hoverRating: 0,
-      lanternDbRatings: [], // Store all ratings from Lantern DB
-      lanternDbRating: null, // Store the average Lantern DB rating
-      users: {}, // Cache usernames for quick lookup
+      lanternDbRatings: [],
+      lanternDbRating: null,
+      users: {},
       editingRatingId: null, // Track the ID of the rating being edited
     };
   },
@@ -234,7 +252,7 @@ export default {
       GameService.fetchUsers()
         .then((response) => {
           response.data.forEach((user) => {
-            this.users[user.id] = user.username; // Directly set the property
+            this.users[user.id] = user.username;
           });
         })
         .catch((error) => {
@@ -305,36 +323,45 @@ export default {
       this.showRatingForm = false;
       this.newRating = null;
       this.hoverRating = 0;
-      this.editingRatingId = null; // Clear editing state
+      this.editingRatingId = null;
     },
-    submitRating() {
+    editRating(rating) {
+      this.newRating = rating.rating_score;
+      this.editingRatingId = rating.rating_id;
+      this.openRatingForm();
+    },
+    submitRating(event) {
       if (this.newRating === null) {
         alert("Please provide a rating.");
         return;
       }
 
+      // Construct the rating data with game_title included
       const ratingData = {
         rating_score: this.newRating,
         user_id: this.$store.state.user.id,
         game_id: this.$route.params.gameId,
+        game_title: this.game.name, // Ensure game title is included
       };
 
-      if (this.editingRatingId) {
-        // Edit existing rating
+      const buttonText = event.target.innerText;
+
+      if (buttonText === "Update") {
+        // PUT request for editing an existing rating
         ratingData.rating_id = this.editingRatingId;
         GameService.updateRating(ratingData)
           .then(() => {
-            this.fetchLanternDbRatings(); // Refresh ratings
+            this.fetchLanternDbRatings();
             this.closeRatingForm();
           })
           .catch((error) => {
             console.error("Error updating rating:", error);
           });
-      } else {
-        // Add new rating
+      } else if (buttonText === "Submit") {
+        // POST request for adding a new rating
         GameService.addRating(ratingData)
           .then(() => {
-            this.fetchLanternDbRatings(); // Refresh ratings
+            this.fetchLanternDbRatings();
             this.closeRatingForm();
           })
           .catch((error) => {
@@ -342,11 +369,16 @@ export default {
           });
       }
     },
+
     deleteRating(ratingId) {
       if (confirm("Are you sure you want to delete this rating?")) {
-        GameService.deleteRating(ratingId)
+        const ratingData = {
+          rating_id: ratingId,
+          user_id: this.$store.state.user.id,
+        };
+        GameService.deleteRating(ratingData)
           .then(() => {
-            this.fetchLanternDbRatings(); // Refresh ratings
+            this.fetchLanternDbRatings();
           })
           .catch((error) => {
             console.error("Error deleting rating:", error);
@@ -356,6 +388,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .game-details {
@@ -372,6 +405,12 @@ export default {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+
+.add-rating-button {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .banner-container {

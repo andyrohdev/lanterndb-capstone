@@ -176,6 +176,7 @@ export default {
         });
     },
     removeReview() {
+      if (confirm("Are you sure you want to delete this review?")) {
       console.log("Delete review:", this.review.review_id);
       this.deleteReview(this.review.review_id)
         .then(() => {
@@ -185,6 +186,7 @@ export default {
         .catch(error => {
           console.error("Error deleting review:", error);
         });
+      }
     },
     toggleComments() {
       this.showComments = !this.showComments;
@@ -251,6 +253,7 @@ export default {
       comment.editing = false;
     },
     deleteComment(commentId) {
+      if (confirm("Are you sure you want to delete this comment?")) {
       console.log("Deleting comment:", commentId);
       // Placeholder for delete comment API call
       // GameService.deleteComment(commentId)
@@ -263,6 +266,7 @@ export default {
 
       // Temporary mock delete
       this.comments = this.comments.filter(comment => comment.id !== commentId);
+      }
     },
     toggleAddCommentForm() {
       this.showAddCommentForm = !this.showAddCommentForm;

@@ -45,8 +45,29 @@ export default {
       });
   },
 
+  updateRating(ratingData) {
+    return axios.put(`${API_URL}user/ratings`, ratingData)
+      .then(response => {
+        console.log("PUT request successful:", response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error("PUT request error:", error);
+        throw error;
+      });
+  },
+
+  deleteRating(ratingData) {
+    return axios({
+      method: 'delete',
+      url: `${API_URL}user/ratings`,
+      data: ratingData,
+    });
+  },
+
+
   fetchUsers() {
-    return axios.get('/admin')
+    return axios.get('/admin');
   },
 
   getLanternDbRatings(gameId) {
