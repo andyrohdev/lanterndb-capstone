@@ -20,7 +20,9 @@
 
       </div>
     </header>
-
+    <div  class="gta-button">
+                <router-link v-if="ShowGameDetailsLink" to="/games" class="navbar-link">Browse</router-link>
+            </div>
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
       <div class="games-container">

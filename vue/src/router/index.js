@@ -96,6 +96,12 @@ const routes = [
       requiresAdmin: true
     }
   },
+  {
+    path:"/game/:id",
+    name:"game-details",
+    component: GameDetailsView,
+    props: true,
+  }
   
     
   
