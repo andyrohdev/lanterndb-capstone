@@ -252,7 +252,7 @@ input {
 }
 
 .benefits-container li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -266,5 +266,7 @@ input {
     width: 100%;
     margin-bottom: 20px;
   }
+  
+
 }
 </style>
