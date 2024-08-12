@@ -7,7 +7,7 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>Welcome to LanternDb</h1>
+        <h1>Welcome to<span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
         <h2>Illuminate Your Gaming World</h2>
         <p>
           Step into LanternDB, the ultimate database for gaming enthusiasts.
@@ -81,6 +81,9 @@ export default {
   justify-content: flex-start; /* Align content to the left */
 }
 
+
+
+
 .background-video {
   position: fixed;
   top: 0;
@@ -97,10 +100,62 @@ export default {
   position: relative;
   z-index: 2;
   color: white;
-  text-align: left; /* Align text to the left */
+  text-align: center; /* Align text to the left */
   padding: 0 20px;
   margin-left: 10vw;
   width: 40%; /* Control the width of the text block */
+  height: 70%;
+}
+
+.flame {
+
+animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
+
+}
+
+@keyframes colorFlow {
+0% {
+  color: #ff4400;
+  /* Dark Orange */
+}
+
+25% {
+  color: #d32406;
+  /* Tomato Red */
+}
+
+50% {
+  color: #f85b00;
+  /* Light Orange */
+}
+
+75% {
+  color: #fa8704;
+  /* Darker Orange */
+}
+
+100% {
+  color: #ff4400;
+  /* Back to Dark Orange */
+}
+}
+
+@keyframes scaleFlow {
+0% {
+  transform: scale(1);
+}
+
+50% {
+  transform: scale(1.1);
+  /* Slightly enlarged */
+}
+
+100% {
+  transform: scale(1);
+}
+}
+.lantern-color {
+  color: #F5C277;
 }
 
 .featured-games-section {
