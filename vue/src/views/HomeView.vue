@@ -8,29 +8,29 @@
         <h2>
           Illuminate Your Gaming World
         </h2>
-      <p1>
+      <p>
         Step into LanternDB, the ultimate database for gaming enthusiasts. 
         Discover detailed information on more than 800,000 video games, from beloved classics to cutting-edge new releases. 
         Dive into reviews, ratings, and in-depth articles that bring your favorite games to life.
-      </p1>
-      <p2>
+      </p>
+      <p>
         Whether you're searching for a hidden gem or staying updated on the latest trends,
         LanternDB is your go-to resource for everything gaming
-      </p2>
+      </p>
 
       </div>
     </header>
     <div class="featured-games">
-    <div v-for="game in featuredGames" :key="game.id" class="game-item">
+    <!-- <div v-for="game in featuredGames" :key="game.id" class="game-item">
       <router-link :to="{ name: 'GameDetails', params: { id: game.id } }">
         <img :src="game.image" :alt="game.title" />
         <h3>{{ game.title }}</h3>
       </router-link>
-    </div>
+    </div> -->
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
       <div class="games-container">
-        <div 
+        <!-- <div 
           v-for="game in featuredGames" 
           :key="game.id" 
           class="game-card"
@@ -38,7 +38,7 @@
         >
           <img :src="game.imageUrl" :alt="game.title" class="game-image" />
           <p>{{ game.title }}</p>
-        </div>
+        </div> -->
       </div>
     </div>
     </div>
@@ -57,9 +57,9 @@ export default {
     };
   },
   methods: {
-    redirectToGameDetails(gameId) {
-      this.$router.push({ name: 'gameDetails', params: { id: gameId } });
-    },
+    // redirectToGameDetails(gameId) {
+    //   // this.$router.push({ name: 'gameDetails', params: { id: gameId } });
+    // },
   },
 };
 </script>
