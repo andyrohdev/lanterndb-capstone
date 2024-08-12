@@ -54,6 +54,20 @@ CREATE TABLE reviews (
 		REFERENCES ratings (rating_id)
 			ON DELETE CASCADE
 );
+CREATE TABLE comments (
+	comment_id SERIAL PRIMARY KEY,
+	review_id INT NOT NULL,
+	game_id INT NOT NULL,
+	user_id INT NOT NULL,
+	comment_text VARCHAR(255) NOT NULL,
+	CONSTRAINT FK_review FOREIGN KEY (review_id)
+		REFERENCES reviews (review_id)
+			ON DELETE CASCADE,
+	CONSTRAINT FK_user FOREIGN KEY (user_id)
+		REFERENCES users (user_id)
+			ON DELETE CASCADE
+
+);
 
 
 
