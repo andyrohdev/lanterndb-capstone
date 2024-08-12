@@ -25,7 +25,7 @@
       <h2>Featured Games: </h2>
       <div class="games-container">
         <div 
-          v-for="(game, index) in featuredGames" 
+          v-for="game in featuredGames" 
           :key="game.id" 
           class="game-card"
           @click="redirectToGameDetails(game.id)"
@@ -42,10 +42,10 @@ export default {
   data() {
     return {
       featuredGames: [
-        { id: 1, name: "Game One", imageUrl: "../assets/game1.jpg" },
-        { id: 2, name: "Game Two", imageUrl: "../assets/game2.jpg" },
-        { id: 3, name: "Game Three", imageUrl: "../assets/game3.jpg" },
-        { id: 4, name: "Game Four", imageUrl: "../assets/game4.jpg" },
+        { id: 1, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
+        { id: 2, name: "Game Two", imageUrl: "	https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
+        { id: 3, name: "Game Three", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
+        { id: 4, name: "Game Four", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
       ],
     };
   },
