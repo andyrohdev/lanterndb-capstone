@@ -1,7 +1,12 @@
 <template>
   <div class="home-page">
     <header class="header-section">
-      <div class="header-section-one">
+      <!-- Video Background -->
+      <video autoplay muted loop preload="auto" class="background-video">
+        <source :src="videoSrc" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="header-content">
         <h1>Welcome to LanternDb</h1>
         <h2>Illuminate Your Gaming World</h2>
         <p>
@@ -35,9 +40,12 @@
 </template>
 
 <script>
+import videoSrc from '@/assets/animated-homepage2.mp4'; // Import the video source
+
 export default {
   data() {
     return {
+      videoSrc, // Use the imported video source
       featuredGames: [
         { id: 3498, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
         { id: 4200, name: "PTwo", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
@@ -59,42 +67,45 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .header-section {
-  background-image: url(../assets/homepage2-transformed.webp);
+  position: relative;
   width: 100%;
   height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Align content to the left */
 }
 
-.header-section-one {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: left;
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover; /* Ensure the video covers the entire area */
+  object-position: center; /* Center the video */
+}
+
+
+.header-content {
+  position: relative;
+  z-index: 2;
   color: white;
+  text-align: left; /* Align text to the left */
   padding: 0 20px;
-  width: 40%;
   margin-left: 10vw;
-  margin-top: -20vh;
-}
-
-.header-section h2 {
-  margin: 0;
-  font-size: 2rem;
-  line-height: 1.5rem;
-  max-width: 600px;
+  width: 40%; /* Control the width of the text block */
 }
 
 .featured-games-section {
   padding: 20px;
+  background-color: #121212;
 }
 
 .games-container {
