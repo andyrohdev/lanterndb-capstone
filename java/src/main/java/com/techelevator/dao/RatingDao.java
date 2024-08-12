@@ -22,4 +22,7 @@ public interface RatingDao {
 
     int deleteMyRating(Rating rating);
 
+    int adminDeleteRatings(Rating rating);
+
+
 }

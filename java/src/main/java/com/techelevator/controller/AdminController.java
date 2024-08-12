@@ -1,9 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.CollectionList;
-import com.techelevator.model.Review;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +24,12 @@ public class AdminController {
     private UserDao userDao;
     @Autowired
     private ReviewDao reviewDao;
+    @Autowired
+    private CommentDao commentDao;
+    @Autowired
+    private JdbcCommentDao jdbcCommentDao;
+    @Autowired
+    private RatingDao ratingDao;
 
 
     public AdminController(JdbcCollectionListDao jdbcCollectionListDao, JdbcUserDao jdbcuserDao) {
@@ -66,6 +70,28 @@ public class AdminController {
         List<Review> specificReviews = reviewDao.adminFetchReviewsForSpecificUser(review);
 
         return specificReviews;
+    }
+    @GetMapping("/admin/user/comments")
+    public List<Comment> getCommentsForSpecificUser(@RequestParam(value = "user_id") int userId){
+        Comment comment = new Comment();
+        comment.setUser_id(userId);
+
+        List<Comment> specificComments = commentDao.adminGetCommentsForSpecificUser(comment);
+
+        return specificComments;
+    }
+
+    @DeleteMapping("/admin/comments")
+    public void adminDeleteCommentById(@Valid @RequestBody Comment comment){
+        commentDao.adminDeleteComment(comment);
+    }
+    @DeleteMapping("/admin/reviews")
+    public void adminDeleteReviewsById(@Valid @RequestBody Review review){
+        reviewDao.adminDeleteReview(review);
+    }
+    @DeleteMapping("/admin/ratings")
+    public void adminDeleteRatingsById(@Valid @RequestBody Rating rating){
+        ratingDao.adminDeleteRatings(rating);
     }
 
 }

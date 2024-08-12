@@ -16,6 +16,10 @@ public class Comment {
         this.comment_text = comment_text;
     }
 
+    public Comment() {
+
+    }
+
     public int getComment_id() {
         return comment_id;
     }
