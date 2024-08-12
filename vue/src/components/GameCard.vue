@@ -16,7 +16,8 @@
       <div class="card-content">
         <div class="text-content">
           <h2 class="game-title">{{ game.name || "Unknown Title" }}</h2>
-          <p class="game-rating">Rating: {{ game.rating || "N/A" }}</p>
+          <p class="game-rating">Critic's Rating: {{ game.rating || "N/A" }}</p>
+          <p class="lantern-db-rating">LanternDB Rating: {{ lanternDbRating || "N/A" }}</p>
         </div>
       </div>
     </router-link>
@@ -50,6 +51,7 @@
 
 <script>
 import CollectionService from "../services/CollectionService";
+import GameService from "../services/GameService"; // Import your GameService to fetch ratings
 
 export default {
   props: {
@@ -58,6 +60,7 @@ export default {
   data() {
     return {
       isDropDownOpen: false,
+      lanternDbRating: null, // Store the LanternDB rating
     };
   },
   computed: {
@@ -103,9 +106,25 @@ export default {
           this.closeDropDown(); // Close the dropdown even if there's an error
         });
     },
+    fetchLanternDbRating() {
+      GameService.getLanternDbRatings(this.game.id)
+        .then((response) => {
+          if (response.data.length > 0) {
+            const ratings = response.data.map(rating => rating.rating_score);
+            this.lanternDbRating = (ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length).toFixed(1);
+          } else {
+            this.lanternDbRating = "N/A";
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching LanternDB rating:", error);
+          this.lanternDbRating = "N/A";
+        });
+    },
   },
   mounted() {
     document.addEventListener("click", this.handleClickOutside);
+    this.fetchLanternDbRating(); // Fetch the LanternDB rating when the component is mounted
   },
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
@@ -158,6 +177,10 @@ export default {
 .game-rating {
   color: #666;
   margin-top: 8px;
+}
+
+.lantern-db-rating {
+  color: #666;
 }
 
 .dropdown {
