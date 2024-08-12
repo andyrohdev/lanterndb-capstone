@@ -34,18 +34,19 @@ public class JdbcCommentDao implements CommentDao{
                     "RETURNING comment_id;";
         int newId = jdbcTemplate.queryForObject(sql, int.class, comment.getReview_id(), comment.getGame_id(), comment.getUser_id(), comment.getComment_text());
         comment.setComment_id(newId);
-        comments = getCommentByReviewId(comment);
+        comments = getCommentByReviewId(comment.getReview_id());
         return comments;
     }
 
     @Override
-    public List<Comment> getCommentByReviewId(Comment comment) {
+    public List<Comment> getCommentByReviewId(int id) {
         List<Comment> comments = new ArrayList<>();
+
 
         String sql = "SELECT comment_id, review_id, game_id, user_id, comment_text FROM comments WHERE review_id = ?;";
 
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, comment.getReview_id());
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
                     while(results.next()){
                         comments.add(mapToRowComments(results)) ;
                     }
