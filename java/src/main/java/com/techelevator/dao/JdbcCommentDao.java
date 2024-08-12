@@ -2,15 +2,12 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Comment;
-import com.techelevator.model.Rating;
-import com.techelevator.model.Review;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import javax.sql.RowSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,27 +27,27 @@ public class JdbcCommentDao implements CommentDao{
 
 
     @Override
-    public Comment addComment(Comment comment) {
-        Comment comments = null;
+    public List<Comment> addComment(Comment comment) {
+        List<Comment> comments = new ArrayList<>();
         String sql = "INSERT INTO comments (review_id, game_id, user_id, comment_text) " +
                     "VALUES (?, ?, ?, ?) " +
                     "RETURNING comment_id;";
         int newId = jdbcTemplate.queryForObject(sql, int.class, comment.getReview_id(), comment.getGame_id(), comment.getUser_id(), comment.getComment_text());
         comment.setComment_id(newId);
-        comments = getCommentById(comment);
+        comments = getCommentByReviewId(comment);
         return comments;
     }
 
     @Override
-    public Comment getCommentById(Comment comment) {
-        Comment comments = null;
+    public List<Comment> getCommentByReviewId(Comment comment) {
+        List<Comment> comments = new ArrayList<>();
 
-        String sql = "SELECT comment_id, review_id, game_id, user_id, comment_text FROM comments WHERE comment_id = ?;";
+        String sql = "SELECT comment_id, review_id, game_id, user_id, comment_text FROM comments WHERE review_id = ?;";
 
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, comment.getComment_id());
-                    if(results.next()){
-                        comments = mapToRowComments(results);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, comment.getReview_id());
+                    while(results.next()){
+                        comments.add(mapToRowComments(results)) ;
                     }
         }
         catch (

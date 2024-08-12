@@ -2,7 +2,6 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.*;
 import com.techelevator.model.Comment;
-import com.techelevator.model.Rating;
 import com.techelevator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,17 +27,17 @@ public class CommentController {
     private ReviewDao reviewDao;
 
     @PostMapping("/comments")
-    public Comment addComment(@RequestBody Comment comment) {
+    public List<Comment> addComment(@RequestBody Comment comment) {
 
-        Comment comments = jdbcCommentDao.addComment(comment);
+        List<Comment> comments = jdbcCommentDao.addComment(comment);
         return comments;
     }
 
     @GetMapping("/comments")
-    public Comment getCommentsById(@RequestBody Comment comment) {
-        Comment currentRating = jdbcCommentDao.getCommentById(comment);
+    public List<Comment> getCommentsByReviewId(@RequestBody Comment comment) {
+        List<Comment> commentList = jdbcCommentDao.getCommentByReviewId(comment);
 
-        return currentRating;
+        return commentList;
     }
 
     @GetMapping("/comments/{id}")
