@@ -38,35 +38,14 @@
       <div class="lantern-db-ratings-container">
         <h2>LanternDB Ratings</h2>
         <div class="lantern-db-ratings-scrollable">
-          <div
+          <RatingCard
             v-for="rating in lanternDbRatings"
             :key="rating.rating_id"
-            class="lantern-db-rating"
-          >
-            <div class="rating-flames">
-              <i
-                v-for="flame in 5"
-                :key="flame"
-                :class="[
-                  'bi',
-                  'bi-fire',
-                  { filled: flame <= rating.rating_score },
-                ]"
-              ></i>
-            </div>
-            <p>{{ fetchUsername(rating.user_id) }}</p>
-            <div v-if="rating.user_id === user.id" class="rating-actions">
-              <button @click="editRating(rating)" class="btn btn-secondary">
-                Edit
-              </button>
-              <button
-                @click="deleteRating(rating.rating_id)"
-                class="btn btn-danger"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+            :rating="rating"
+            @openRatingForm="openRatingForm"
+            @ratingDeleted="fetchLanternDbRatings"
+            :fetch-username="fetchUsername"
+          />
         </div>
 
         <!-- Add Rating Button -->
@@ -161,10 +140,12 @@ import { mapState } from "vuex";
 import GameService from "../services/GameService";
 import CollectionService from "../services/CollectionService.js";
 import ReviewCard from "./ReviewCard.vue";
+import RatingCard from "./RatingCard.vue";
 
 export default {
   components: {
     ReviewCard,
+    RatingCard,
   },
   data() {
     return {
@@ -185,7 +166,7 @@ export default {
       lanternDbRatings: [],
       lanternDbRating: null,
       users: {},
-      editingRatingId: null, // Track the ID of the rating being edited
+      editingRatingId: null,
     };
   },
   computed: {
@@ -316,74 +297,16 @@ export default {
           console.error("Error submitting review:", error);
         });
     },
-    openRatingForm() {
+    openRatingForm(rating) {
       this.showRatingForm = true;
+      this.editingRatingId = rating ? rating.rating_id : null;
+      this.newRating = rating ? rating.rating_score : null;
     },
     closeRatingForm() {
       this.showRatingForm = false;
       this.newRating = null;
       this.hoverRating = 0;
       this.editingRatingId = null;
-    },
-    editRating(rating) {
-      this.newRating = rating.rating_score;
-      this.editingRatingId = rating.rating_id;
-      this.openRatingForm();
-    },
-    submitRating(event) {
-      if (this.newRating === null) {
-        alert("Please provide a rating.");
-        return;
-      }
-
-      // Construct the rating data with game_title included
-      const ratingData = {
-        rating_score: this.newRating,
-        user_id: this.$store.state.user.id,
-        game_id: this.$route.params.gameId,
-        game_title: this.game.name, // Ensure game title is included
-      };
-
-      const buttonText = event.target.innerText;
-
-      if (buttonText === "Update") {
-        // PUT request for editing an existing rating
-        ratingData.rating_id = this.editingRatingId;
-        GameService.updateRating(ratingData)
-          .then(() => {
-            this.fetchLanternDbRatings();
-            this.closeRatingForm();
-          })
-          .catch((error) => {
-            console.error("Error updating rating:", error);
-          });
-      } else if (buttonText === "Submit") {
-        // POST request for adding a new rating
-        GameService.addRating(ratingData)
-          .then(() => {
-            this.fetchLanternDbRatings();
-            this.closeRatingForm();
-          })
-          .catch((error) => {
-            console.error("Error submitting rating:", error);
-          });
-      }
-    },
-
-    deleteRating(ratingId) {
-      if (confirm("Are you sure you want to delete this rating?")) {
-        const ratingData = {
-          rating_id: ratingId,
-          user_id: this.$store.state.user.id,
-        };
-        GameService.deleteRating(ratingData)
-          .then(() => {
-            this.fetchLanternDbRatings();
-          })
-          .catch((error) => {
-            console.error("Error deleting rating:", error);
-          });
-      }
     },
   },
 };
@@ -398,19 +321,7 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.add-review-rating-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.add-rating-button {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
+  padding: 10px;
 }
 
 .banner-container {
@@ -471,6 +382,12 @@ h1 {
 
 .btn-primary {
   margin: 5px;
+}
+
+.add-rating-button {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .reviews-container {
@@ -568,41 +485,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-.btn-primary {
-  margin-right: 10px;
-}
-
-.rating-actions {
-  margin-top: 10px;
-}
-
-.rating-actions .btn {
-  margin-right: 5px;
-}
-
-.lantern-db-ratings-container {
-  margin-top: 20px;
-  border-top: 2px solid #444;
-  padding-top: 20px;
-}
-
-.lantern-db-ratings-scrollable {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px;
-}
-
-.lantern-db-rating {
-  padding: 10px;
-  margin-right: 10px;
-  min-width: 35%;
-  text-align: center;
-}
-
-.lantern-db-rating:last-child {
-  margin-right: 0;
-}
-
 .rating-flames .bi {
   font-size: 2rem;
   color: #ccc;
@@ -616,10 +498,6 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  .game-details {
-    padding: 10px;
-  }
-
   h1 {
     font-size: 2.5rem;
   }
@@ -630,4 +508,5 @@ h1 {
     font-size: 1.2rem;
   }
 }
+
 </style>
