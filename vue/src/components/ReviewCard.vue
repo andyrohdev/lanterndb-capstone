@@ -17,9 +17,9 @@
       </button>
 
       <div v-if="showComments" class="comments-container">
-        <div v-for="comment in comments" :key="comment.id" class="comment">
-          <p v-if="!comment.editing" class="comment-text">{{ comment.text }}</p>
-          <p class="comment-author">Comment by: {{ comment.author }}</p>
+        <div v-for="comment in comments" :key="comment.comment_id" class="comment">
+          <p v-if="!comment.editing" class="comment-text">{{ comment.comment_text }}</p>
+          <p class="comment-author">Comment by: {{ comment.username }}</p>
 
           <!-- Comment Edit Form -->
           <div v-if="comment.editing" class="edit-comment-form">
@@ -38,7 +38,7 @@
 
           <div v-if="isCommentAuthor(comment)" class="comment-actions">
             <button @click="toggleCommentEdit(comment)" class="btn btn-secondary">Edit</button>
-            <button @click="deleteComment(comment.id)" class="btn btn-danger">Delete</button>
+            <button @click="deleteComment(comment.comment_id)" class="btn btn-danger">Delete</button>
           </div>
         </div>
 
@@ -156,7 +156,6 @@ export default {
       this.editText = this.review.review_text;
     },
     submitEdit() {
-      console.log("Submit edit for review:", this.review.review_id);
       const updatedReview = {
         review_id: this.review.review_id,
         game_id: this.review.game_id,
@@ -167,7 +166,6 @@ export default {
 
       this.updateReview(updatedReview)
         .then(() => {
-          console.log("Review updated successfully");
           this.editModalVisible = false;
           this.$emit('review-updated');
         })
@@ -177,15 +175,13 @@ export default {
     },
     removeReview() {
       if (confirm("Are you sure you want to delete this review?")) {
-      console.log("Delete review:", this.review.review_id);
-      this.deleteReview(this.review.review_id)
-        .then(() => {
-          console.log("Review deleted successfully");
-          this.$emit('review-updated');
-        })
-        .catch(error => {
-          console.error("Error deleting review:", error);
-        });
+        this.deleteReview(this.review.review_id)
+          .then(() => {
+            this.$emit('review-updated');
+          })
+          .catch(error => {
+            console.error("Error deleting review:", error);
+          });
       }
     },
     toggleComments() {
@@ -195,21 +191,13 @@ export default {
       }
     },
     fetchComments() {
-      console.log("Fetching comments for review:", this.review.review_id);
-      // Placeholder for fetching comments from API
-      // GameService.getComments(this.review.review_id)
-      //   .then((response) => {
-      //     this.comments = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching comments:", error);
-      //   });
-
-      // Temporary mock comments
-      this.comments = [
-        { id: 1, text: "Great review!", author: "User1", user_id: 1 },
-        { id: 2, text: "I disagree with your points.", author: "User2", user_id: 2 }
-      ];
+      GameService.getComments(this.review.review_id)
+        .then((response) => {
+          this.comments = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching comments:", error);
+        });
     },
     isCommentAuthor(comment) {
       return comment.user_id === this.user.id;
@@ -217,62 +205,49 @@ export default {
     toggleCommentEdit(comment) {
       comment.editing = !comment.editing;
       if (comment.editing) {
-        comment.editedText = comment.text;
+        comment.editedText = comment.comment_text;
       }
     },
     submitCommentEdit(comment) {
-      console.log("Submitting edit for comment:", comment.id);
       if (!comment.editedText.trim()) {
         alert("Please provide a comment.");
         return;
       }
 
-      // Placeholder for updating comment in the API
       const updatedComment = {
-        id: comment.id,
-        text: comment.editedText,
-        review_id: this.review.review_id,
+        comment_id: comment.comment_id,
+        game_id: this.review.game_id,
         user_id: comment.user_id,
+        comment_text: comment.editedText,
       };
 
-      // GameService.updateComment(updatedComment)
-      //   .then(() => {
-      //     console.log("Comment updated successfully");
-      //     comment.text = comment.editedText;
-      //     comment.editing = false;
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error updating comment:", error);
-      //   });
-
-      // Temporary mock update
-      comment.text = comment.editedText;
-      comment.editing = false;
+      GameService.updateComment(updatedComment)
+        .then(() => {
+          comment.comment_text = comment.editedText;
+          comment.editing = false;
+        })
+        .catch((error) => {
+          console.error("Error updating comment:", error);
+        });
     },
     cancelCommentEdit(comment) {
       comment.editing = false;
     },
     deleteComment(commentId) {
       if (confirm("Are you sure you want to delete this comment?")) {
-      console.log("Deleting comment:", commentId);
-      // Placeholder for delete comment API call
-      // GameService.deleteComment(commentId)
-      //   .then(() => {
-      //     this.fetchComments();
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error deleting comment:", error);
-      //   });
-
-      // Temporary mock delete
-      this.comments = this.comments.filter(comment => comment.id !== commentId);
+        GameService.deleteComment(commentId)
+          .then(() => {
+            this.fetchComments();
+          })
+          .catch((error) => {
+            console.error("Error deleting comment:", error);
+          });
       }
     },
     toggleAddCommentForm() {
       this.showAddCommentForm = !this.showAddCommentForm;
     },
     submitComment() {
-      console.log("Submitting comment:", this.newCommentText);
       if (!this.newCommentText.trim()) {
         alert("Please provide a comment.");
         return;
@@ -280,32 +255,20 @@ export default {
 
       const commentData = {
         review_id: this.review.review_id,
-        text: this.newCommentText,
-        author: this.user.username,
+        game_id: this.review.game_id,
         user_id: this.user.id,
+        comment_text: this.newCommentText,
       };
 
-      // Placeholder for submitting comment to API
-      // GameService.addComment(commentData)
-      //   .then(() => {
-      //     console.log("Comment submitted successfully");
-      //     this.fetchComments();
-      //     this.showAddCommentForm = false;
-      //     this.newCommentText = "";
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error submitting comment:", error);
-      //   });
-
-      // Temporary mock comment submission
-      this.comments.push({
-        id: this.comments.length + 1,
-        text: this.newCommentText,
-        author: this.user.username,
-        user_id: this.user.id,
-      });
-      this.showAddCommentForm = false;
-      this.newCommentText = "";
+      GameService.addComment(commentData)
+        .then(() => {
+          this.fetchComments();
+          this.showAddCommentForm = false;
+          this.newCommentText = "";
+        })
+        .catch((error) => {
+          console.error("Error submitting comment:", error);
+        });
     }
   },
 };

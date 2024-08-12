@@ -10,11 +10,8 @@
         <h1>Welcome to <span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
         <h2><span class="glow">Illuminate</span> Your Gaming World</h2>
         <p>
-          Step into LanternDB, the ultimate database for gaming enthusiasts.
-          Discover detailed information on more than 800,000 video games, from
-          beloved classics to cutting-edge new releases. Dive into reviews,
-          ratings, and in-depth articles that bring your favorite games to
-          life.
+          Enjoy reviews, ratings, in-depth articles, 
+          and easily add your favorite games to your collections for everyone to enjoy.
         </p>
         <p>
           Whether you're searching for a hidden gem or staying updated on the
@@ -209,22 +206,107 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
 }
 .glow {
   font-size: 2rem; /* Adjust size as needed */
-  color: #fff;
+  color:#F5C277;
   text-align: center;
   font-weight: bold; /* Optional: make text bold for better visibility */
-  -webkit-animation: glow 1.5s ease-in-out infinite alternate;
-  -moz-animation: glow 1.5s ease-in-out infinite alternate;
-  animation: glow 1.5s ease-in-out infinite alternate;
+  -webkit-animation: flame 8s infinite alternate ease-in-out;
+  -moz-animation: flame 8s infinite alternate ease-in-out;
+  animation: flame 8s infinite alternate ease-in-out;
 }
 
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e67b00, 0 0 40px #e67b00, 0 0 50px #e67b00, 0 0 60px #e67b00, 0 0 70px#e67b00;
+@keyframes flame {
+  0% {
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.5),
+                 0 0 12px rgba(255, 140, 0, 0.5),
+                 0 0 16px rgba(255, 69, 0, 0.3),
+                 0 0 20px rgba(255, 69, 0, 0.3),
+                 0 0 24px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
   }
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #F5C277 0 0 40px #F5C277, 0 0 50px #F5C277, 0 0 60px #ff4400, 0 0 70px #ff4400, 0 0 80px #ff4400;
+  10% {
+    text-shadow: 0 0 12px rgba(255, 160, 0, 0.5),
+                 0 0 18px rgba(255, 160, 0, 0.5),
+                 0 0 24px rgba(255, 99, 71, 0.4),
+                 0 0 30px rgba(255, 99, 71, 0.4),
+                 0 0 36px rgba(255, 99, 71, 0.4);
+    transform: translateY(-1px);
+  }
+  20% {
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
+                 0 0 16px rgba(255, 140, 0, 0.4),
+                 0 0 22px rgba(255, 69, 0, 0.3),
+                 0 0 28px rgba(255, 69, 0, 0.3),
+                 0 0 34px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
+  }
+  30% {
+    text-shadow: 0 0 14px rgba(255, 165, 0, 0.5),
+                 0 0 22px rgba(255, 165, 0, 0.5),
+                 0 0 30px rgba(255, 99, 71, 0.4),
+                 0 0 38px rgba(255, 99, 71, 0.4),
+                 0 0 46px rgba(255, 99, 71, 0.4);
+    transform: translateY(-2px);
+  }
+  40% {
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
+                 0 0 16px rgba(255, 140, 0, 0.4),
+                 0 0 22px rgba(255, 69, 0, 0.3),
+                 0 0 28px rgba(255, 69, 0, 0.3),
+                 0 0 34px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(255, 170, 0, 0.5),
+                 0 0 24px rgba(255, 170, 0, 0.5),
+                 0 0 32px rgba(255, 99, 71, 0.4),
+                 0 0 40px rgba(255, 99, 71, 0.4),
+                 0 0 48px rgba(255, 99, 71, 0.4);
+    transform: translateY(-1px);
+  }
+  60% {
+    text-shadow: 0 0 12px rgba(255, 140, 0, 0.4),
+                 0 0 20px rgba(255, 140, 0, 0.4),
+                 0 0 28px rgba(255, 69, 0, 0.3),
+                 0 0 36px rgba(255, 69, 0, 0.3),
+                 0 0 44px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
+  }
+  70% {
+    text-shadow: 0 0 14px rgba(255, 160, 0, 0.5),
+                 0 0 22px rgba(255, 160, 0, 0.5),
+                 0 0 30px rgba(255, 99, 71, 0.4),
+                 0 0 38px rgba(255, 99, 71, 0.4),
+                 0 0 46px rgba(255, 99, 71, 0.4);
+    transform: translateY(-1px);
+  }
+  80% {
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
+                 0 0 16px rgba(255, 140, 0, 0.4),
+                 0 0 22px rgba(255, 69, 0, 0.3),
+                 0 0 28px rgba(255, 69, 0, 0.3),
+                 0 0 34px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
+  }
+  90% {
+    text-shadow: 0 0 16px rgba(255, 165, 0, 0.5),
+                 0 0 24px rgba(255, 165, 0, 0.5),
+                 0 0 32px rgba(255, 99, 71, 0.4),
+                 0 0 40px rgba(255, 99, 71, 0.4),
+                 0 0 48px rgba(255, 99, 71, 0.4);
+    transform: translateY(-2px);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.4),
+                 0 0 12px rgba(255, 140, 0, 0.4),
+                 0 0 16px rgba(255, 69, 0, 0.3),
+                 0 0 20px rgba(255, 69, 0, 0.3),
+                 0 0 24px rgba(255, 69, 0, 0.3);
+    transform: translateY(0px);
   }
 }
+
+
+
 
 
 
