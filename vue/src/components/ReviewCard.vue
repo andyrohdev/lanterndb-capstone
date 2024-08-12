@@ -17,51 +17,40 @@
       </button>
 
       <div v-if="showComments" class="comments-container">
-        <div
-          v-for="comment in comments"
-          :key="comment.comment_id"
-          class="comment"
-        >
-          <p v-if="!comment.editing" class="comment-text">
-            {{ comment.comment_text }}
-          </p>
-          <p class="comment-author">Comment by: {{ comment.username }}</p>
+        <!-- Display a placeholder message if no comments are available -->
+        <p v-if="comments.length === 0" class="no-comments-message">
+          No comments available.
+        </p>
 
-          <!-- Comment Edit Form -->
-          <div v-if="comment.editing" class="edit-comment-form">
-            <textarea
-              v-model="comment.editedText"
-              placeholder="Edit your comment"
-              rows="3"
-            ></textarea>
-            <button @click="submitCommentEdit(comment)" class="btn btn-primary">
-              Save
-            </button>
-            <button
-              @click="cancelCommentEdit(comment)"
-              class="btn btn-secondary"
-            >
-              Cancel
-            </button>
-          </div>
+        <div v-else>
+          <div v-for="comment in comments" :key="comment.comment_id" class="comment">
+            <p v-if="!comment.editing" class="comment-text">{{ comment.comment_text }}</p>
+            <p class="comment-author">Comment by: {{ comment.username }}</p>
 
-          <div v-if="isCommentAuthor(comment)" class="comment-actions">
-            <button
-              @click="toggleCommentEdit(comment)"
-              class="btn btn-secondary"
-            >
-              Edit
-            </button>
-            <button @click="deleteComment(comment)" class="btn btn-danger">
-              Delete
-            </button>
+            <!-- Comment Edit Form -->
+            <div v-if="comment.editing" class="edit-comment-form">
+              <textarea
+                v-model="comment.editedText"
+                placeholder="Edit your comment"
+                rows="3"
+              ></textarea>
+              <button @click="submitCommentEdit(comment)" class="btn btn-primary">
+                Save
+              </button>
+              <button @click="cancelCommentEdit(comment)" class="btn btn-secondary">
+                Cancel
+              </button>
+            </div>
+
+            <div v-if="isCommentAuthor(comment)" class="comment-actions">
+              <button @click="toggleCommentEdit(comment)" class="btn btn-secondary">Edit</button>
+              <button @click="deleteComment(comment)" class="btn btn-danger">Delete</button>
+            </div>
           </div>
         </div>
 
         <div v-if="isUserLoggedIn" class="add-comment-section">
-          <button @click="toggleAddCommentForm" class="btn btn-secondary">
-            Add Comment
-          </button>
+          <button @click="toggleAddCommentForm" class="btn btn-secondary">Add Comment</button>
 
           <div v-if="showAddCommentForm" class="add-comment-form">
             <textarea
@@ -69,12 +58,8 @@
               placeholder="Write your comment here."
               rows="3"
             ></textarea>
-            <button @click="submitComment" class="btn btn-primary">
-              Submit
-            </button>
-            <button @click="toggleAddCommentForm" class="btn btn-secondary">
-              Cancel
-            </button>
+            <button @click="submitComment" class="btn btn-primary">Submit</button>
+            <button @click="toggleAddCommentForm" class="btn btn-secondary">Cancel</button>
           </div>
         </div>
       </div>
@@ -94,12 +79,8 @@
           placeholder="Write your review here."
           rows="4"
         ></textarea>
-        <button @click="submitEdit" class="btn btn-primary">
-          Save Changes
-        </button>
-        <button @click="toggleEditModal" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="submitEdit" class="btn btn-primary">Save Changes</button>
+        <button @click="toggleEditModal" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
@@ -427,6 +408,12 @@ textarea {
 
 .comment-actions {
   margin-top: 5px;
+}
+
+.no-comments-message {
+  color: #888;
+  text-align: center;
+  padding: 10px 0;
 }
 
 .add-comment-section {
