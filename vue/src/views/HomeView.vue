@@ -15,7 +15,7 @@
       <h2>Featured Games: </h2>
       <div class="games-container">
         <div 
-          v-for="(game, index) in featuredGames" 
+          v-for="game in featuredGames" 
           :key="game.id" 
           class="game-card"
           @click="redirectToGameDetails(game.id)"
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       featuredGames: [
-        { id: 1, name: "Game One", imageUrl: "../assets/game1.jpg" },
+        { id: 1, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
         { id: 2, name: "Game Two", imageUrl: "../assets/game2.jpg" },
         { id: 3, name: "Game Three", imageUrl: "../assets/game3.jpg" },
         { id: 4, name: "Game Four", imageUrl: "../assets/game4.jpg" },
