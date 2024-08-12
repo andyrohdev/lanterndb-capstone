@@ -80,23 +80,32 @@ export default {
 
   // Fetch comments for a specific review
   getComments(review_id) {
-    return axios.get(`${API_URL}/comments`, {
-      params: { review_id },
-    });
+    return axios.get(`${API_URL}comments/reviews/${review_id}`);
   },
+
 
   // Add a new comment
   addComment(commentData) {
-    return axios.post(`${API_URL}/comments`, commentData);
+    return axios.post(`${API_URL}comments`, commentData)
+      .then(response => {
+        console.log("Comment added successfully:", response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error("Error adding comment:", error);
+        throw error;
+      });
   },
+
 
   // Update an existing comment
   updateComment(commentData) {
-    return axios.put(`${API_URL}/user/comments`, commentData);
+    return axios.put(`${API_URL}user/comments`, commentData);
   },
 
   // Delete a comment by its ID
   deleteComment(comment_id) {
-    return axios.delete(`${API_URL}/comments/${comment_id}`);
-  },
+    return axios.delete(`${API_URL}user/comments`, { data: { comment_id } });
+  }
+
 };

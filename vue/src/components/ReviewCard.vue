@@ -13,12 +13,18 @@
     <!-- Comment Section -->
     <div class="comment-section">
       <button @click="toggleComments" class="btn btn-primary">
-        {{ showComments ? 'Hide Comments' : 'Show Comments' }}
+        {{ showComments ? "Hide Comments" : "Show Comments" }}
       </button>
 
       <div v-if="showComments" class="comments-container">
-        <div v-for="comment in comments" :key="comment.comment_id" class="comment">
-          <p v-if="!comment.editing" class="comment-text">{{ comment.comment_text }}</p>
+        <div
+          v-for="comment in comments"
+          :key="comment.comment_id"
+          class="comment"
+        >
+          <p v-if="!comment.editing" class="comment-text">
+            {{ comment.comment_text }}
+          </p>
           <p class="comment-author">Comment by: {{ comment.username }}</p>
 
           <!-- Comment Edit Form -->
@@ -31,14 +37,24 @@
             <button @click="submitCommentEdit(comment)" class="btn btn-primary">
               Save
             </button>
-            <button @click="cancelCommentEdit(comment)" class="btn btn-secondary">
+            <button
+              @click="cancelCommentEdit(comment)"
+              class="btn btn-secondary"
+            >
               Cancel
             </button>
           </div>
 
           <div v-if="isCommentAuthor(comment)" class="comment-actions">
-            <button @click="toggleCommentEdit(comment)" class="btn btn-secondary">Edit</button>
-            <button @click="deleteComment(comment.comment_id)" class="btn btn-danger">Delete</button>
+            <button
+              @click="toggleCommentEdit(comment)"
+              class="btn btn-secondary"
+            >
+              Edit
+            </button>
+            <button @click="deleteComment(comment)" class="btn btn-danger">
+              Delete
+            </button>
           </div>
         </div>
 
@@ -90,7 +106,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 import GameService from "../services/GameService";
 
 export default {
@@ -111,7 +127,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['user', 'token']),
+    ...mapState(["user", "token"]),
     isReviewAuthor() {
       return this.review.user_id === this.user.id;
     },
@@ -125,7 +141,7 @@ export default {
     this.resetEditForm();
   },
   methods: {
-    ...mapActions(['updateReview', 'deleteReview']),
+    ...mapActions(["updateReview", "deleteReview"]),
     fetchUsername(userId) {
       GameService.fetchUsers()
         .then((response) => {
@@ -161,15 +177,15 @@ export default {
         game_id: this.review.game_id,
         review_title: this.editTitle,
         review_text: this.editText,
-        user_id: this.review.user_id
+        user_id: this.review.user_id,
       };
 
       this.updateReview(updatedReview)
         .then(() => {
           this.editModalVisible = false;
-          this.$emit('review-updated');
+          this.$emit("review-updated");
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error updating review:", error);
         });
     },
@@ -177,9 +193,9 @@ export default {
       if (confirm("Are you sure you want to delete this review?")) {
         this.deleteReview(this.review.review_id)
           .then(() => {
-            this.$emit('review-updated');
+            this.$emit("review-updated");
           })
-          .catch(error => {
+          .catch((error) => {
             console.error("Error deleting review:", error);
           });
       }
@@ -194,9 +210,25 @@ export default {
       GameService.getComments(this.review.review_id)
         .then((response) => {
           this.comments = response.data;
+          this.comments.forEach((comment) => {
+            this.fetchUsernameForComment(comment);
+          });
         })
         .catch((error) => {
           console.error("Error fetching comments:", error);
+        });
+    },
+    fetchUsernameForComment(comment) {
+      GameService.fetchUsers()
+        .then((response) => {
+          const user = response.data.find(
+            (user) => user.id === comment.user_id
+          );
+          comment.username = user ? user.username : "Anonymous";
+        })
+        .catch((error) => {
+          console.error("Error fetching comment username:", error);
+          comment.username = "Anonymous";
         });
     },
     isCommentAuthor(comment) {
@@ -233,17 +265,20 @@ export default {
     cancelCommentEdit(comment) {
       comment.editing = false;
     },
-    deleteComment(commentId) {
+    deleteComment(comment) {
       if (confirm("Are you sure you want to delete this comment?")) {
-        GameService.deleteComment(commentId)
+        GameService.deleteComment(comment.comment_id)
           .then(() => {
-            this.fetchComments();
+            this.comments = this.comments.filter(
+              (c) => c.comment_id !== comment.comment_id
+            );
           })
           .catch((error) => {
             console.error("Error deleting comment:", error);
           });
       }
     },
+
     toggleAddCommentForm() {
       this.showAddCommentForm = !this.showAddCommentForm;
     },
@@ -269,7 +304,7 @@ export default {
         .catch((error) => {
           console.error("Error submitting comment:", error);
         });
-    }
+    },
   },
 };
 </script>
