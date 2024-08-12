@@ -8,7 +8,7 @@
       </video>
       <div class="header-content">
         <h1>Welcome to <span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
-        <h2>Illuminate Your Gaming World</h2>
+        <h2><span class="glow">Illuminate</span> Your Gaming World</h2>
         <p>
           Step into LanternDB, the ultimate database for gaming enthusiasts.
           Discover detailed information on more than 800,000 video games, from
@@ -108,8 +108,19 @@ export default {
 }
 
 .header-content h1 {
-  font-size: 4rem; /* Adjust the size as needed */
+  font-size: 6rem; /* Adjust the size as needed */
   margin-bottom: 20px; /* You can adjust or add margin as needed */
+  padding-bottom: 100px;
+}
+.header-content p {
+  font-size: 1.3rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+}
+.header-content h2 {
+  font-size: 3rem; /* Adjust the size as needed */
+  margin-bottom: 20px; /* You can adjust or add margin as needed */
+  font-style: italic;
+  
 }
 
 .flame {
@@ -193,6 +204,24 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
   width: 100%;
   height: auto;
   border-bottom: 2px solid #d14b06;
+}
+.glow {
+  font-size: 2rem; /* Adjust size as needed */
+  color: #fff;
+  text-align: center;
+  font-weight: bold; /* Optional: make text bold for better visibility */
+  -webkit-animation: glow 1.5s ease-in-out infinite alternate;
+  -moz-animation: glow 1.5s ease-in-out infinite alternate;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e67b00, 0 0 40px #e67b00, 0 0 50px #e67b00, 0 0 60px #e67b00, 0 0 70px#e67b00;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #F5C277 0 0 40px #F5C277, 0 0 50px #F5C277, 0 0 60px #ff4400, 0 0 70px #ff4400, 0 0 80px #ff4400;
+  }
 }
 
 
