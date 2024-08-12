@@ -178,7 +178,7 @@ export default {
 
 .featured-games-section {
   padding: 20px;
-  background-color: #121212;
+  background-color: #1212127e;
   color: white
 }
 
