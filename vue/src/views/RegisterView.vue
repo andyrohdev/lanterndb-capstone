@@ -1,118 +1,129 @@
 <template>
   <div class="register-back">
-   
-      <div class="register-container">
-        <form v-on:submit.prevent="register" class="form-container">
-          <h1>Create Account</h1>
-          <div role="alert" v-if="registrationErrors">
-            {{ registrationErrorMsg }}
-          </div>
-          <div class="form-input-group">
-            <label for="username">Username</label>
-            <div class="input-icon-wrapper">
-            <input type="text" id="username" v-model="user.username" required autofocus />
+    <div class="register-container">
+      <form v-on:submit.prevent="register" class="form-container">
+        <h1>Create Account</h1>
+        <div role="alert" v-if="registrationErrors">
+          {{ registrationErrorMsg }}
+        </div>
+        <div class="form-input-group">
+          <label for="username">Username</label>
+          <div class="input-icon-wrapper">
+            <input
+              type="text"
+              id="username"
+              v-model="user.username"
+              @input="clearErrors"
+              required
+              autofocus
+            />
             <i class="bi bi-person icon" aria-hidden="true"></i>
           </div>
         </div>
-          <div class="form-input-group">
-            <label for="password">Password</label>
-            <div class="input-icon-wrapper">
-              <input type="password" id="password" v-model="user.password" required />
-              <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
-            </div>
+        <div class="form-input-group">
+          <label for="password">Password</label>
+          <div class="input-icon-wrapper">
+            <input
+              type="password"
+              id="password"
+              v-model="user.password"
+              @input="clearErrors"
+              required
+            />
+            <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
           </div>
-          <div class="form-input-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <div class="input-icon-wrapper">
-              <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
-              <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
-            </div>
+        </div>
+        <div class="form-input-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-icon-wrapper">
+            <input
+              type="password"
+              id="confirmPassword"
+              v-model="user.confirmPassword"
+              @input="clearErrors"
+              required
+            />
+            <i class="bi bi-lock-fill icon" aria-hidden="true"></i>
           </div>
-         
-          <button type="submit" class="submit-button">Create Account</button>
-          <p><router-link v-bind:to="{ name: 'login' }" id="hyper-link">Already have an account? Log in.</router-link></p>
-        </form>
+        </div>
 
+        <button type="submit" class="submit-button" :disabled="loading">
+          {{ loading ? "Registering..." : "Create Account" }}
+        </button>
+        <p>
+          <router-link v-bind:to="{ name: 'login' }" id="hyper-link">
+            Already have an account? Log in.
+          </router-link>
+        </p>
+      </form>
 
-
-
-        <div class="benefits-container">
-          <div class="rightside-div">
-            <h2>Benefits of Registering</h2>
-            <ul>
-              <li>Access exclusive content</li>
-              <li>Personalized recommendations</li>
-              <li>Save your favorite items</li>
-              <li>Get regular updates</li>
-            </ul>
-          </div>
+      <div class="benefits-container">
+        <div class="rightside-div">
+          <h2>Benefits of Registering</h2>
+          <ul>
+            <li>Access exclusive content</li>
+            <li>Personalized recommendations</li>
+            <li>Save your favorite items</li>
+            <li>Get regular updates</li>
+          </ul>
         </div>
       </div>
     </div>
- 
+  </div>
 </template>
 
-
-
-
-
-
-
-
 <script>
-import authService from '../services/AuthService';
-
-
-
+import authService from "../services/AuthService";
 
 export default {
   data() {
     return {
       user: {
-        username: '',
-        password: '',
-        confirmPassword: '',
-        role: 'user',
+        username: "",
+        password: "",
+        confirmPassword: "",
+        role: "user",
       },
       registrationErrors: false,
-      registrationErrorMsg: 'There were problems registering this user.',
+      registrationErrorMsg: "There were problems registering this user.",
+      loading: false,
     };
   },
   methods: {
     register() {
-      if (this.user.password != this.user.confirmPassword) {
+      if (this.user.password !== this.user.confirmPassword) {
         this.registrationErrors = true;
-        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
+        this.registrationErrorMsg = "Password & Confirm Password do not match.";
       } else {
+        this.loading = true; // Set loading to true
         authService
           .register(this.user)
           .then((response) => {
+            this.loading = false; // Reset loading
             if (response.status == 201) {
               this.$router.push({
-                path: '/login',
-                query: { registration: 'success' },
+                path: "/login",
+                query: { registration: "success" },
               });
             }
           })
           .catch((error) => {
+            this.loading = false; // Reset loading
             const response = error.response;
             this.registrationErrors = true;
             if (response.status === 400) {
-              this.registrationErrorMsg = 'Bad Request: Validation Errors';
+              this.registrationErrorMsg = "Bad Request: Validation Errors";
             }
           });
       }
     },
     clearErrors() {
       this.registrationErrors = false;
-      this.registrationErrorMsg = 'There were problems registering this user.';
+      this.registrationErrorMsg = "There were problems registering this user.";
     },
   },
 };
 </script>
-
-
-
 
 <style scoped>
 .submit-button:hover {
@@ -128,15 +139,12 @@ input:focus {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url('@/assets/art2.jpg') no-repeat center center fixed;
+  background: url("@/assets/art2.jpg") no-repeat center center fixed;
   background-size: cover;
   margin: 0;
   color: white;
   overflow: hidden;
 }
-
-
-
 
 .register-content {
   display: flex;
@@ -148,64 +156,43 @@ input:focus {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-
-
-
 .register-container {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   width: 48%;
-  background-image: linear-gradient(to left,  rgb(158, 54, 10), #29292943, #29292943);
+  background-image: linear-gradient(to left, rgb(158, 54, 10), #29292943, #29292943);
   border-radius: 8px;
   color: white;
   padding-left: 10px;
 }
-
-
-
 
 .form-container {
   width: 48%;
   text-align: center;
 }
 
-
-
-
 .benefits-container {
   height: 50;
   width: 48%;
-  background-image: linear-gradient(to left,  rgb(158, 54, 10));
+  background-image: linear-gradient(to left, rgb(158, 54, 10));
   border-radius: 8px;
   color: white;
   padding: 20px;
 }
 
-
-
-
 .form-input-group {
   margin-bottom: 1rem;
 }
-
-
-
 
 label {
   display: block;
   margin-bottom: 5px;
 }
 
-
-
-
 .input-icon-wrapper {
   position: relative;
 }
-
-
-
 
 input {
   width: 100%;
@@ -218,9 +205,6 @@ input {
   padding-left: 30px;
 }
 
-
-
-
 .icon {
   position: absolute;
   right: 0.75rem;
@@ -229,9 +213,6 @@ input {
   color: rgb(16, 16, 16);
   font-size: 20px;
 }
-
-
-
 
 .submit-button {
   padding: 0.5rem 1rem;
@@ -243,27 +224,26 @@ input {
   font-size: 1rem;
   display: block;
   margin: auto;
-  background-color:rgb(158, 54, 10) ;
-}
-#hyper-link:hover{
-    color: orange;
-    text-decoration: underline;
-    
+  background-color: rgb(158, 54, 10);
 }
 
-#hyper-link{
+.submit-button:disabled {
+  background-color: #c6c6c6;
+  cursor: not-allowed;
+}
+
+#hyper-link:hover {
+  color: orange;
+  text-decoration: underline;
+}
+
+#hyper-link {
   color: white;
 }
-
-
-
 
 .benefits-container h2 {
   margin-bottom: 1rem;
 }
-
-
-
 
 .benefits-container ul {
   list-style-type: disc;
@@ -271,24 +251,15 @@ input {
   text-align: left;
 }
 
-
-
-
 .benefits-container li {
   margin-bottom: 0.5rem;
 }
-
-
-
 
 @media (max-width: 768px) {
   .register-container {
     flex-direction: column;
     align-items: center;
   }
-
-
-
 
   .form-container,
   .benefits-container {
@@ -297,4 +268,3 @@ input {
   }
 }
 </style>
-
