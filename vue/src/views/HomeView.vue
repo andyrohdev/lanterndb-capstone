@@ -7,8 +7,8 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>Welcome to <span class="lantern-color">Lantern</span><span class="flame">DB</span></h1>
-        <h2><span class="glow">Illuminate</span> Your Gaming World</h2>
+        <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
+        <h2>Illuminate Your Gaming World</h2>
         <p>
           Step into LanternDB, the ultimate database for gaming enthusiasts.
           Discover detailed information on more than 800,000 video games, from
@@ -47,10 +47,10 @@ export default {
     return {
       videoSrc, // Use the imported video source
       featuredGames: [
-        { id: 3498, name: "GTA", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
-        { id: 4200, name: "PTwo", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
-        { id: 3328, name: "TWThree", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
-        { id: 4291, name: "CSGO", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
+        { id: 3498, name: "Grand Theft Auto V", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
+        { id: 4200, name: "Portal 2", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
+        { id: 3328, name: "The Witch 3:Wild Hunt", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
+        { id: 4291, name: "Counter-Strike Global Offensive", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
       ],
     };
   },
@@ -170,13 +170,11 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
   transform: scale(1);
 }
 }
-.lantern-color {
-  color: #F5C277;
-}
 
 .featured-games-section {
   padding: 20px;
   background-color: #121212;
+  color: white
 }
 
 .games-container {
@@ -209,6 +207,7 @@ animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infini
   font-size: 2rem; /* Adjust size as needed */
   color: #fff;
   text-align: center;
+  font-size: 6rem;
   font-weight: bold; /* Optional: make text bold for better visibility */
   -webkit-animation: glow 1.5s ease-in-out infinite alternate;
   -moz-animation: glow 1.5s ease-in-out infinite alternate;
