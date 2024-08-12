@@ -18,4 +18,6 @@ public interface ReviewDao {
 
     List<Review> adminFetchReviewsForSpecificUser(Review review);
 
+    int adminDeleteReview(Review review);
+
 }

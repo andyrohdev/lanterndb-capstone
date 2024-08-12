@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Comment;
+import com.techelevator.model.Review;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface CommentDao {
     List<Comment> updateCommentsById(Comment comment);
 
     int deleteComment(Comment comment);
+    List<Comment> adminGetCommentsForSpecificUser(Comment comment);
+    int adminDeleteComment(Comment comment);
 
 }

@@ -164,6 +164,22 @@ public class JdbcRatingDao implements RatingDao{
 
     }
 
+    @Override
+    public int adminDeleteRatings(Rating rating) {
+        int rows = 0;
+
+        String sql = "Delete FROM ratings WHERE rating_id = ?";
+        try{
+            rows = jdbcTemplate.update(sql, rating.getRating_id());
+        }
+        catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rows;
+    }
+
 
 //    @Override
 //    public int deleteMyReview(Review review, int user_id) {

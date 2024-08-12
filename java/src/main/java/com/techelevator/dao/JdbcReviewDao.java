@@ -112,6 +112,22 @@ public class JdbcReviewDao implements ReviewDao{
     }
 
     @Override
+    public int adminDeleteReview(Review review) {
+        int rows = 0;
+
+        String sql = "DELETE FROM reviews WHERE review_id = ?;";
+        try{
+            rows = jdbcTemplate.update(sql, review.getReview_id());
+        }catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rows;
+    }
+
+    @Override
     public List<Review> updateAndEditReview(Review review, int user_id) {
         List<Review> updateReviews = null;
         String sql = "UPDATE reviews\n" +
