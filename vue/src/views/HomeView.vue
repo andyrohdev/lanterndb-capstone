@@ -3,11 +3,21 @@
     <header class="header-section">
       <div class="header-section-one">
         <h1>
-          Welcome to LanternDb, Lorem ipsum dolor,
-           sit amet consectetur adipisicing elit.
-            Harum omnis error nemo ullam fuga itaque doloremque voluptates. 
-            Id dignissimos ducimus, optio, nemo.
-          </h1>
+          Welcome to LanternDb
+        </h1>
+        <h2>
+          Illuminate Your Gaming World
+        </h2>
+      <p1>
+        Step into LanternDB, the ultimate database for gaming enthusiasts. 
+        Discover detailed information on more than 800,000 video games, from beloved classics to cutting-edge new releases. 
+        Dive into reviews, ratings, and in-depth articles that bring your favorite games to life.
+      </p1>
+      <p2>
+        Whether you're searching for a hidden gem or staying updated on the latest trends,
+        LanternDB is your go-to resource for everything gaming
+      </p2>
+
       </div>
     </header>
 
