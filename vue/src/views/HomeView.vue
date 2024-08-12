@@ -10,49 +10,62 @@
           </h1>
       </div>
     </header>
-    <div>
+
+    <div class="featured-games-section">
       <h2>Featured Games: </h2>
+      <div class="games-container">
+        <div 
+          v-for="(game, index) in featuredGames" 
+          :key="game.id" 
+          class="game-card"
+          @click="redirectToGameDetails(game.id)"
+        >
+          <img :src="game.imageUrl" :alt="game.title" class="game-image" />
+          <p>{{ game.title }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
-
-
 export default {
-    data() {
-        return {
-        // Removed unused data
-        };
+  data() {
+    return {
+      featuredGames: [
+        { id: 1, name: "Game One", imageUrl: "../assets/game1.jpg" },
+        { id: 2, name: "Game Two", imageUrl: "../assets/game2.jpg" },
+        { id: 3, name: "Game Three", imageUrl: "../assets/game3.jpg" },
+        { id: 4, name: "Game Four", imageUrl: "../assets/game4.jpg" },
+      ],
+    };
+  },
+  methods: {
+    redirectToGameDetails(gameId) {
+      this.$router.push({ name: 'gameDetails', params: { id: gameId } });
     },
-    methods: {
-    // Removed unused methods
-    },
-    components:{
-      
-    },  
-    
+  },
 };
 </script>
-
 <style scoped>
-.home-page{
+.home-page {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.header-section{
+
+.header-section {
   background-image: url(../assets/homepage2-transformed.webp);
   width: 100%;
   height: 100vh;
-  background-size:cover;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-.header-section-one{
+
+.header-section-one {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,25 +76,55 @@ export default {
   width: 40%;
   margin-left: 10vw;
   margin-top: -20vh;
-
 }
-.header-section h2{
+
+.header-section h2 {
   margin: 0;
   font-size: 2rem;
   line-height: 1.5rem;
   max-width: 600px;
- 
-
 }
+
+.featured-games-section {
+  padding: 20px;
+}
+
+.games-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.game-card {
+  width: 23%;
+  margin: 10px 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #292929;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.game-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.game-image {
+  width: 100%;
+  height: auto;
+  border-bottom: 2px solid #d14b06;
+}
+
 @media (max-width: 768px) {
-  .header-section h1 {
-    font-size: 1.5rem; /* Smaller font size for smaller screens */
+  .game-card {
+    width: 48%;
   }
 }
 
 @media (max-width: 480px) {
-  .header-section h1 {
-    font-size: 1.2rem; /* Even smaller font size for very small screens */
+  .game-card {
+    width: 100%;
   }
 }
 </style>
