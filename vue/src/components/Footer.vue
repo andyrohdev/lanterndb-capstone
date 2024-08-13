@@ -25,7 +25,7 @@ text-align: center;
 background-color: rgb(0, 0, 0);;
 z-index: 100;
 position: relative;
-min-height: 250px;
+min-height: 100px;
 }
 .nav-list{
     list-style-type: none;
