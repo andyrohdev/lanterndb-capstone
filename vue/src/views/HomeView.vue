@@ -25,8 +25,20 @@
         </div>
       </div>
     </div>
+    <div class="features-section">
+      <h2>Features</h2>
+      <ul>
+        <li>Feature 1: Lorem ipsum dolor sit amet.</li>
+        <li>Feature 2: Consectetur adipiscing elit.</li>
+        <li>Feature 3: Sed do eiusmod tempor incididunt.</li>
+        <li>Feature 4: Ut labore et dolore magna aliqua.</li>
+        <li>Feature 5: Ut enim ad minim veniam.</li>
+      </ul>
+    </div>
   </div>
 </template>
+
+
 
 <script>
 import videoSrc from '@/assets/animated-homepage2.mp4'; // Import the video source
@@ -205,6 +217,31 @@ export default {
   height: auto;
   border-bottom: 2px solid #d14b06;
 }
+
+.features-section {
+  padding: 20px;
+  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+  color: white;
+  margin-top: 20px;
+  text-align: left; /* Center the text */
+  
+}
+
+.features-section h2 {
+  font-size: 2.5rem; /* Increase the font size */
+  margin-bottom: 15px;
+}
+
+.features-section ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+}
+
+.features-section li {
+  margin-bottom: 10px;
+  font-size: 1.3rem; /* Increase the font size */
+}
+
 
 .glow {
   font-size: 2rem;
