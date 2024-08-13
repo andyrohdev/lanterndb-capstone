@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-content">
+      <!-- Collections Section -->
       <h2>Collections</h2>
       <div class="dashboard">
         <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
@@ -27,10 +28,7 @@
       <!-- Reviews Section -->
       <div class="reviews-container">
         <h2>Reviews</h2>
-        <div
-          v-if="Array.isArray(reviews) && reviews.length > 0"
-          class="reviews-scrollable"
-        >
+        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
           <div class="reviews-section">
             <ReviewCard
               v-for="review in reviews"
@@ -43,6 +41,19 @@
         <div v-else-if="!loadingReviews" class="no-reviews-message">
           No reviews found.
         </div>
+      </div>
+
+      <!-- Comments Section -->
+      <div class="comments-container">
+        <h2>Your Comments</h2>
+        <div v-if="userComments.length > 0" class="comments-scrollable">
+          <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
+            <p class="comment-text">{{ comment.comment_text }}</p>
+            <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
+            <!-- Add any additional comment details here -->
+          </div>
+        </div>
+        <p v-else class="no-comments-message">You haven't commented on any reviews yet.</p>
       </div>
     </div>
   </div>
@@ -66,6 +77,7 @@ export default {
     return {
       allItems: [],
       userRatings: [],
+      userComments: [], // To store comments
       loadingReviews: true,
     };
   },
@@ -85,6 +97,7 @@ export default {
     this.fetchCollections();
     this.fetchUserRatings();
     this.fetchUserReviews();
+    this.fetchUserComments(); // Fetch comments when the component is created
   },
   methods: {
     ...mapActions(["fetchReviews"]),
@@ -124,6 +137,16 @@ export default {
         .catch((error) => {
           console.error("Error retrieving user reviews:", error);
           this.loadingReviews = false;
+        });
+    },
+    fetchUserComments() {
+      const user_id = this.$store.state.user.id;
+      GameService.getCommentsForSpecificUser(user_id)
+        .then((response) => {
+          this.userComments = response.data;
+        })
+        .catch((error) => {
+          console.error("Error retrieving user comments:", error);
         });
     },
     fetchUsername(userId) {
@@ -251,5 +274,50 @@ export default {
 .dashboard-content h2 {
   text-align: center;
   width: 100%;
+}
+
+.comments-container {
+  margin-top: 40px;
+  border-top: 2px solid #444;
+  padding-top: 20px;
+  background-color: inherit;
+  margin-bottom: 5%;
+}
+
+.comments-scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.comment-text {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.comment-author {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.no-comments-message {
+  font-size: 1.2rem;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>

@@ -50,6 +50,27 @@ public class JdbcReviewDao implements ReviewDao{
         return reviewsList;
     }
 
+    @Override
+    public List<Review> getReviewsByReviewId(int review_id) {
+        List<Review> reviewsList = new ArrayList<>();
+        String sql = "SELECT review_id, game_id, user_id, review_title, review_text FROM reviews WHERE review_id = ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, review_id);
+            while(results.next()){
+                reviewsList.add(mapRowToReview(results));
+            }
+
+
+        }
+        catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to DB!", e);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return reviewsList;
+    }
 
     @Override
     public List <Review> addReview(Review review, int userId) {

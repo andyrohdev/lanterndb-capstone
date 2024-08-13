@@ -106,6 +106,17 @@ export default {
   // Delete a comment by its ID
   deleteComment(comment_id) {
     return axios.delete(`${API_URL}user/comments`, { data: { comment_id } });
-  }
+  },
+
+  getCommentsForSpecificUser(userId) {
+    return axios.get(`${API_URL}admin/user/comments`, {
+      params: {
+        user_id: userId,
+      },
+    });
+  },
+
+   
+  
 
 };
