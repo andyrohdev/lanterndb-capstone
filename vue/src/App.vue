@@ -6,7 +6,10 @@
     <div id="main-content">
       <router-view />
     </div>
-    <Footer></Footer>
+    <div class="footer-bottom">
+      <Footer></Footer>
+    </div>
+    
   </div>
 </template>
 

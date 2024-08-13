@@ -24,7 +24,7 @@
     <!-- Show the dropdown only if the user is logged in -->
     <div v-if="isLoggedIn" class="dropdown" @click.stop>
       <button class="button-menu" @click="toggleDropDown">
-        <i class="bi bi-menu-button"></i>
+        <i class="bi bi-plus"></i>
       </button>
       <div
         class="dropdown-menu"
@@ -167,16 +167,23 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
+  padding: 10px;
 }
 
 .game-title {
   font-size: 1.2em;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
+  box-sizing: border-box;
 }
 
 .game-rating {
   color: #666;
   margin-top: 8px;
+  margin-bottom: 20px;
 }
 
 .lantern-db-rating {
@@ -185,23 +192,22 @@ export default {
 
 .dropdown {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  right: 0px;
   z-index: 1003;
 }
 
 .button-menu {
-  background: #333;
+  background: #00000096;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px 0px 0px 30px;
   cursor: pointer;
-  padding: 7px;
   font-size: 1rem;
-  transition: #333 0.3s, transform 0.3s;
+  transition: #33333300 0.3s, transform 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(244, 130, 9);
+  color: rgb(255, 115, 0);
+  font-size: 1.5rem;
 }
 
 .button-menu:hover {
@@ -215,7 +221,7 @@ export default {
 
 .dropdown-menu {
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   right: 0;
   background-color: #393434;
   color: white;

@@ -26,7 +26,11 @@
   <div class="info-box">
     Create and Manage Collections
     <div class="info-box-description">
-      <p>Efficiently organize your game collection by adding, categorizing, and tracking your favorite games in one seamless interface.</p>
+      <p>
+        Easily and efficiently manage your game collection by seamlessly adding new titles, categorizing them into specific genres or themes, and keeping track of your favorites all within one intuitive and user-friendly interface.
+         With this powerful tool, you can ensure that your entire game library is organized and readily accessible, allowing you to focus more on enjoying your games rather than worrying about where to find them. 
+         Whether you're a casual player or a dedicated enthusiast, this feature will streamline the way you handle your gaming collection, making it easier than ever to stay on top of your ever-growing list of games.
+      </p>
     </div>
   </div>
   <div class="info-box">
@@ -50,7 +54,9 @@
   <div class="info-box">
     Whatever Else
     <div class="info-box-description">
-      <p>Discover additional features and enhancements that will enrich your gaming experience and interactions on LanternDB.</p>
+      <p>Uncover a variety of exciting additional features and enhancements designed to significantly enrich your overall gaming experience and interactions on LanternDB.
+         With these new tools and options, you can dive deeper into your favorite games, explore unique functionalities, and enjoy an even more immersive and engaging platform. 
+         Whether it's discovering hidden gems or leveraging advanced analytics, these enhancements aim to provide you with an unparalleled experience, keeping you at the forefront of the gaming world and allowing you to make the most out of every moment spent on LanternDB.</p>
     </div>
   </div>
 </div>
@@ -73,8 +79,20 @@
     Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
   </p>
 </div>
+
+<div class="faq-section">
+      <h2>FAQ</h2>
+      <p>
+        Here you'll find answers to the most frequently asked questions about LanternDB.
+        If you have any other questions, feel free to reach out to our support team.
+      </p>
+      <!-- You can add more FAQ content or sections here -->
+    </div>
+
+    <!-- ... existing code ... -->
   </div>
 </template>
+ 
 
 
 
@@ -174,13 +192,15 @@ export default {
   font-style: italic;
 
 }
-.register-to {
+
+.register-to{
   color: white;
   text-align: center;
   font-size: 30px;
   text-decoration: underline; /* Add this line */
   text-decoration-color: #d14b06; /* Change this to your desired color */
   text-decoration-style: solid;
+
 }
 
 .info-boxes-section {
@@ -188,13 +208,20 @@ export default {
   flex-wrap: nowrap; /* Ensure the boxes stay in a single line */
   overflow-x: auto;  /* Allow horizontal scrolling if needed */
   padding: 20px;
+  gap: 20px; /* Add space between the info boxes */
+  padding-bottom: 70px;
 }
+
 
 .info-box {
   color: white;
+  display: flex; /* Enables flexbox centering */
+  flex-direction: column; /* Align children vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
   position: relative;
   flex: 1;
-  margin: 0 10px;
+  margin: 0; /* Reset margin */
   padding: 20px;
   text-align: center;
   background-color: rgba(158, 54, 10, 0.404);
@@ -203,27 +230,30 @@ export default {
   overflow: hidden;
   transition: background-color 0.3s ease;
   min-width: 150px; /* Ensures boxes have a consistent width */
-  min-height: 120px;
+  min-height: 135px;
+  font-size: 28px;
+  padding-bottom: 70px;
 }
 
 .info-box:hover {
-  background-color: rgb(158, 54, 10);
+  background-color: #292929;
 }
 
 .info-box-description {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 5.5s ease-in-out;
+  transition: max-height 9s ease-in-out;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgb(158, 54, 10);
+  background-color: #292929;
   padding: 0 10px;
+  font-size: 14px;
 }
 
 .info-box:hover .info-box-description {
-  max-height: 100px; /* Adjust to fit the content */
+  max-height: 300px; /* Adjust to fit the content */
   padding-top: 10px; /* Optional: Add padding for visual separation */
 }
 
@@ -319,6 +349,7 @@ export default {
   width: 40%; /* Control the width to match previous section */
   margin-left: 10vw; /* Center the section horizontally */
   box-sizing: border-box; /* Ensure padding is included in the width */
+  padding-top: 50px;
 }
 
 .about-us-section h2 {
@@ -330,6 +361,29 @@ export default {
   font-size: 1.3rem; /* Adjust font size */
   line-height: 1.6; /* Improve readability */
   margin: 0; /* Remove default margin */
+}
+
+.faq-section {
+  padding: 20px;
+  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+  color: white;
+  margin-top: 20px;
+  text-align: left;
+  width: 40%;
+  margin-left: 10vw;
+  box-sizing: border-box;
+  padding-top: 50px;
+}
+
+.faq-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.faq-section p {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 
