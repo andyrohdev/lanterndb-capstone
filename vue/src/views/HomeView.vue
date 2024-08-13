@@ -23,9 +23,9 @@
  </div>
 
     <div class="info-boxes-section">
-      <div class="info-box">Box 1: Get Started</div>
-      <div class="info-box">Box 2: Top Picks</div>
-      <div class="info-box">Box 3: New Releases</div>
+      <div class="info-box">Create and Manage Collections</div>
+      <div class="info-box">Read and Leave Reviews</div>
+      <div class="info-box">Rate Games you've Played</div>
       <div class="info-box">Box 4: Trending Now</div>
       <div class="info-box">Box 5: Community Favorites</div>
     </div>
@@ -151,6 +151,7 @@ export default {
 }
 .register-to {
   color: white;
+  text-align: center;
 }
 
 .info-boxes-section {
