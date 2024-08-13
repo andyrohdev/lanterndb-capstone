@@ -7,17 +7,14 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
-        <h2>Illuminate Your Gaming World</h2>
-        <p>
-          Enjoy reviews, ratings, in-depth articles,
-          and easily add your favorite games to your collections for everyone to enjoy.
-        </p>
-        <p>
-          Whether you're searching for a hidden gem or staying updated on the
-          latest trends, LanternDB is your go-to resource for everything gaming.
-        </p>
-      </div>
+  <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
+  <h2>Illuminate Your Gaming World</h2>
+  <p>
+    <span class="fade-in-line">Enjoy reviews, ratings, in-depth articles,</span><br>
+    <span class="fade-in-line">and easily add your favorite games to your collections</span><br>
+    <span class="fade-in-line">for everyone to enjoy.</span>
+  </p>
+</div>
     </header>
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
@@ -28,8 +25,20 @@
         </div>
       </div>
     </div>
+    <div class="features-section">
+      <h2>Features</h2>
+      <ul>
+        <li>Feature 1: Lorem ipsum dolor sit amet.</li>
+        <li>Feature 2: Consectetur adipiscing elit.</li>
+        <li>Feature 3: Sed do eiusmod tempor incididunt.</li>
+        <li>Feature 4: Ut labore et dolore magna aliqua.</li>
+        <li>Feature 5: Ut enim ad minim veniam.</li>
+      </ul>
+    </div>
   </div>
 </template>
+
+
 
 <script>
 import videoSrc from '@/assets/animated-homepage2.mp4'; // Import the video source
@@ -209,6 +218,31 @@ export default {
   border-bottom: 2px solid #d14b06;
 }
 
+.features-section {
+  padding: 20px;
+  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+  color: white;
+  margin-top: 20px;
+  text-align: left; /* Center the text */
+  
+}
+
+.features-section h2 {
+  font-size: 2.5rem; /* Increase the font size */
+  margin-bottom: 15px;
+}
+
+.features-section ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+}
+
+.features-section li {
+  margin-bottom: 10px;
+  font-size: 1.3rem; /* Increase the font size */
+}
+
+
 .glow {
   font-size: 2rem;
   /* Adjust size as needed */
@@ -323,7 +357,31 @@ export default {
   }
 }
 
+.fade-in-line {
+  display: block; /* Ensure each line is treated as a block */
+  opacity: 0;
+  animation: fadeInAnimation 2s ease forwards;
+}
 
+.fade-in-line:first-child {
+  animation-delay: 1s;
+}
+
+.fade-in-line:nth-of-type(2) {
+  animation-delay: 2s;
+}
+
+.fade-in-line:nth-of-type(3) {
+  animation-delay: 3s;
+}
+
+/* Add more nth-child selectors if you have more lines */
+
+@keyframes fadeInAnimation {
+  to {
+    opacity: 1;
+  }
+}
 
 
 

@@ -23,9 +23,24 @@
       <!-- Collections Section -->
       <h2>Collections</h2>
       <div class="dashboard">
-        <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-        <Card :key="'playing'" title="Playing" :items="playingItems" />
-        <Card :key="'played'" title="Played" :items="playedItems" />
+        <Card
+          :key="'wishlist'"
+          title="Wishlist"
+          :items="wishlistItems"
+          @refreshCollections="fetchCollections"
+        />
+        <Card
+          :key="'playing'"
+          title="Playing"
+          :items="playingItems"
+          @refreshCollections="fetchCollections"
+        />
+        <Card
+          :key="'played'"
+          title="Played"
+          :items="playedItems"
+          @refreshCollections="fetchCollections"
+        />
       </div>
 
       <!-- Ratings Section -->
@@ -59,7 +74,6 @@
           <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
             <p class="comment-text">{{ comment.comment_text }}</p>
             <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
-            <!-- Add any additional comment details here -->
           </div>
         </div>
         <p v-else class="no-comments-message">You haven't commented on any reviews yet.</p>
@@ -172,6 +186,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 /*<!--sidebar-->*/
