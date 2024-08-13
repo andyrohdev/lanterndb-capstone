@@ -289,7 +289,6 @@ export default {
   transform: translateX(0);
   transition: transform 0.3s ease;
   padding-top: 80px;
-  /* Remove margin-top to allow the sidebar to extend to the top */
 }
 
 .sidebar.hidden {
@@ -300,7 +299,7 @@ export default {
 .sidebar-expand-toggle,
 .sidebar-toggle-outside {
   position: absolute;
-  top: 83px;
+  top: 83px; /* Moved down 80px from the original 3px */
   border: none;
   background: transparent;
   color: white;
@@ -322,7 +321,6 @@ export default {
   left: 0;
   transform: translateX(-200px); /* Adjust the position of the toggle button */
   transition: transform 0.3s ease;
-  margin-top: 80px;
 }
 
 .dashboard-content {
@@ -480,10 +478,25 @@ export default {
   margin-top: 10px;
 }
 
-@media (max-width: 900px) {
-  
+/* Media Query for screens up to 1000px - Display One Rating, Review, and Comment Per Row */
+@media (max-width: 1000px) {
+  .ratings-grid {
+    grid-template-columns: repeat(1, 1fr); /* Display 1 rating per row */
+  }
 
-  
+  .reviews-grid,
+  .comments-grid {
+    grid-template-columns: repeat(1, 1fr); /* Display 1 review/comment per row */
+  }
+}
+
+/* Media Query for screens up to 900px - Stack Collection Cards */
+@media (max-width: 900px) {
+  .collection-container {
+    flex-direction: column; /* Stack collection cards on top of each other */
+    align-items: stretch; /* Ensure cards take full width */
+  }
+
 }
 
 /* Transition styles for sidebar */
@@ -504,4 +517,6 @@ export default {
 .slide-right-leave-to {
   transform: translateX(-200px); /* Sidebar slides back in */
 }
+
+
 </style>
