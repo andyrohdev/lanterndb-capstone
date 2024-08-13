@@ -16,6 +16,20 @@
   </p>
 </div>
     </header>
+  <div class="register-to">
+    <p>
+      Register now to gain access to:
+    </p>
+ </div>
+
+    <div class="info-boxes-section">
+      <div class="info-box">Box 1: Get Started</div>
+      <div class="info-box">Box 2: Top Picks</div>
+      <div class="info-box">Box 3: New Releases</div>
+      <div class="info-box">Box 4: Trending Now</div>
+      <div class="info-box">Box 5: Community Favorites</div>
+    </div>
+    
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
       <div class="games-container">
@@ -25,16 +39,15 @@
         </div>
       </div>
     </div>
-    <div class="features-section">
-      <h2>Features</h2>
-      <ul>
-        <li>Feature 1: Lorem ipsum dolor sit amet.</li>
-        <li>Feature 2: Consectetur adipiscing elit.</li>
-        <li>Feature 3: Sed do eiusmod tempor incididunt.</li>
-        <li>Feature 4: Ut labore et dolore magna aliqua.</li>
-        <li>Feature 5: Ut enim ad minim veniam.</li>
-      </ul>
-    </div>
+    <div class="about-us-section">
+  <h2>About Us</h2>
+  <p>
+    LanternDB is dedicated to illuminating your gaming experience. 
+    We provide comprehensive reviews, ratings, and in-depth articles on the latest and greatest games. 
+    Our mission is to help you discover, enjoy, and share your favorite games with the community. 
+    Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
+  </p>
+</div>
   </div>
 </template>
 
@@ -136,6 +149,33 @@ export default {
   font-style: italic;
 
 }
+.register-to {
+  color: white;
+}
+
+.info-boxes-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color:#29292943;
+  color: white;
+}
+
+.info-box {
+  flex: 1;
+  margin: 0 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(158, 54, 10, 0.404);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.info-box:hover {
+  background-color:rgb(158, 54, 10);
+}
+
+
 
 .flame {
 
@@ -218,28 +258,26 @@ export default {
   border-bottom: 2px solid #d14b06;
 }
 
-.features-section {
+.about-us-section {
   padding: 20px;
   background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
   color: white;
   margin-top: 20px;
-  text-align: left; /* Center the text */
-  
+  text-align: left; /* Align text to the left */
+  width: 40%; /* Control the width to match previous section */
+  margin-left: 10vw; /* Center the section horizontally */
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
-.features-section h2 {
+.about-us-section h2 {
   font-size: 2.5rem; /* Increase the font size */
   margin-bottom: 15px;
 }
 
-.features-section ul {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0;
-}
-
-.features-section li {
-  margin-bottom: 10px;
-  font-size: 1.3rem; /* Increase the font size */
+.about-us-section p {
+  font-size: 1.3rem; /* Adjust font size */
+  line-height: 1.6; /* Improve readability */
+  margin: 0; /* Remove default margin */
 }
 
 
