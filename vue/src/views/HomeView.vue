@@ -7,17 +7,14 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
-        <h2>Illuminate Your Gaming World</h2>
-        <p>
-          Enjoy reviews, ratings, in-depth articles,
-          and easily add your favorite games to your collections for everyone to enjoy.
-        </p>
-        <p>
-          Whether you're searching for a hidden gem or staying updated on the
-          latest trends, LanternDB is your go-to resource for everything gaming.
-        </p>
-      </div>
+  <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
+  <h2>Illuminate Your Gaming World</h2>
+  <p>
+    <span class="fade-in-line">Enjoy reviews, ratings, in-depth articles,</span><br>
+    <span class="fade-in-line">and easily add your favorite games to your collections</span><br>
+    <span class="fade-in-line">for everyone to enjoy.</span>
+  </p>
+</div>
     </header>
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
@@ -320,6 +317,33 @@ export default {
       0 0 20px rgba(255, 69, 0, 0.3),
       0 0 24px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
+  }
+}
+
+.fade-in-line {
+  display: block; /* Ensure each line is treated as a block */
+  opacity: 0;
+  animation: fadeInAnimation 2s ease forwards;
+}
+
+.fade-in-line:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+.fade-in-line:nth-child(3) {
+  animation-delay: 2.5s;
+}
+
+.fade-in-line:nth-child(1) {
+  animation-delay: 3.5s;
+}
+
+
+
+
+@keyframes fadeInAnimation {
+  to {
+    opacity: 1;
   }
 }
 
