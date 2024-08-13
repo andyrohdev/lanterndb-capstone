@@ -238,9 +238,6 @@ export default {
     font-size: 24px;
     transition: transform 0.3s ease;
 }
-.profile-link:hover{
-    transform: scale(1.1);
-}
 
 .dropdown-menu {
     position: absolute;

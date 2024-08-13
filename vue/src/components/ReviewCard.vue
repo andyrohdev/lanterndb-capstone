@@ -5,7 +5,7 @@
     <p class="review-text">{{ review.review_text }}</p>
     <p class="review-username">Reviewed by: {{ username }}</p>
 
-    <div v-if="isReviewAuthor" class="review-actions">
+    <div v-if="canEditOrDelete" class="review-actions">
       <button @click="toggleEditModal" class="btn btn-secondary">Edit</button>
       <button @click="removeReview" class="btn btn-danger">Delete</button>
     </div>
@@ -17,7 +17,6 @@
       </button>
 
       <div v-if="showComments" class="comments-container">
-        <!-- Display a placeholder message if no comments are available -->
         <p v-if="comments.length === 0" class="no-comments-message">
           No comments available.
         </p>
@@ -27,7 +26,6 @@
             <p v-if="!comment.editing" class="comment-text">{{ comment.comment_text }}</p>
             <p class="comment-author">Comment by: {{ comment.username }}</p>
 
-            <!-- Comment Edit Form -->
             <div v-if="comment.editing" class="edit-comment-form">
               <textarea
                 v-model="comment.editedText"
@@ -42,7 +40,7 @@
               </button>
             </div>
 
-            <div v-if="isCommentAuthor(comment)" class="comment-actions">
+            <div v-if="canEditOrDeleteComment(comment)" class="comment-actions">
               <button @click="toggleCommentEdit(comment)" class="btn btn-secondary">Edit</button>
               <button @click="deleteComment(comment)" class="btn btn-danger">Delete</button>
             </div>
@@ -65,7 +63,6 @@
       </div>
     </div>
 
-    <!-- Edit Review Modal -->
     <div v-if="editModalVisible" class="edit-modal">
       <div class="review-form-content">
         <h3>Edit Your Review</h3>
@@ -108,12 +105,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user", "token"]),
-    isReviewAuthor() {
-      return this.review.user_id === this.user.id;
+    ...mapState(["user"]),
+    canEditOrDelete() {
+      return this.review.user_id === this.user.id || this.isAdmin;
+    },
+    isAdmin() {
+      return this.user && this.user.authorities.some(auth => auth.name === "ROLE_ADMIN");
     },
     isUserLoggedIn() {
-      return !!this.token;
+      return !!this.user && !!this.user.id;
     },
   },
   mounted() {
@@ -212,8 +212,8 @@ export default {
           comment.username = "Anonymous";
         });
     },
-    isCommentAuthor(comment) {
-      return comment.user_id === this.user.id;
+    canEditOrDeleteComment(comment) {
+      return comment.user_id === this.user.id || this.isAdmin;
     },
     toggleCommentEdit(comment) {
       comment.editing = !comment.editing;
@@ -259,7 +259,6 @@ export default {
           });
       }
     },
-
     toggleAddCommentForm() {
       this.showAddCommentForm = !this.showAddCommentForm;
     },
