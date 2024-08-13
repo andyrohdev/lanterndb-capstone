@@ -423,4 +423,27 @@ textarea {
 .add-comment-form {
   margin-top: 10px;
 }
+
+.add-comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #2e2e2e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: none;
+  box-sizing: border-box;
+}
 </style>
