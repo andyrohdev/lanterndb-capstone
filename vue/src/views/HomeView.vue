@@ -326,28 +326,25 @@ export default {
   animation: fadeInAnimation 2s ease forwards;
 }
 
-.fade-in-line:nth-child(2) {
-  animation-delay: 1.5s;
+.fade-in-line:first-child {
+  animation-delay: 1s;
 }
 
-.fade-in-line:nth-child(3) {
-  animation-delay: 2.5s;
+.fade-in-line:nth-of-type(2) {
+  animation-delay: 2s;
 }
 
-.fade-in-line:nth-child(1) {
-  animation-delay: 3.5s;
+.fade-in-line:nth-of-type(3) {
+  animation-delay: 3s;
 }
 
-
-
+/* Add more nth-child selectors if you have more lines */
 
 @keyframes fadeInAnimation {
   to {
     opacity: 1;
   }
 }
-
-
 
 
 
