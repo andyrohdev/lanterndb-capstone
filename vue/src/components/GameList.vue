@@ -172,7 +172,7 @@ html {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 150vh;
   overflow: hidden;
   color: white;
   padding-top: 3rem;
@@ -249,9 +249,10 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   background-color: rgba(52, 48, 48, 0.151);
-  min-height: 80vh;
+  min-height: 100vh;
   border-radius: 30px;
-  padding: 3%;
+  padding: 2%;
+  height: 800px;
 
 
 }

@@ -1,11 +1,16 @@
 <template>
+    <br/>
     <footer class="custom-footer">
+        <br/>
         <ul class="nav-list">
-            <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">
+                <i class="bi bi-arrow-right"></i> Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">
+                <i class="bi bi-arrow-right"></i> Features</a>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link">
+                <i class="bi bi-arrow-right"></i> About</a>
+            </li>
         </ul>
         <p class="footer-text">© 2024 Company, Inc</p>
     </footer>
@@ -23,10 +28,13 @@ export default {
     padding-bottom: 1.5rem;
     text-align: center;
     background-color: rgb(0, 0, 0);
-    ;
-    z-index: 100;
     position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
     min-height: 100px;
+    
 }
 
 .nav-list {
