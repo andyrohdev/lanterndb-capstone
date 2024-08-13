@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container d-flex" id="mainn">
+  <div class="dashboard-container d-flex" id="main">
     <!-- Sidebar -->
     <div :class="['sidebar', { hidden: !sidebarVisible }]">
       <button v-if="sidebarVisible" class="btn btn-outline-light sidebar-toggle" @click="toggleSidebar">
@@ -12,21 +12,24 @@
         <h4>Dashboard</h4>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link text-light" href="#">
+            <a class="nav-link text-light" href="#" @click="setActiveSection('collections')">
               <i class="bi bi-collection"></i>Collections
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="#">
-              <i class="bi bi-star"></i>Your Ratings</a>
+            <a class="nav-link text-light" href="#" @click="setActiveSection('ratings')">
+              <i class="bi bi-star"></i>Ratings
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="#">
-              <i class="bi bi-chat"></i>Reviews</a>
+            <a class="nav-link text-light" href="#" @click="setActiveSection('reviews')">
+              <i class="bi bi-chat"></i>Reviews
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="#">
-              <i class="bi bi-chat-dots"></i>Your Comments</a>
+            <a class="nav-link text-light" href="#" @click="setActiveSection('comments')">
+              <i class="bi bi-chat-dots"></i>Comments
+            </a>
           </li>
         </ul>
       </nav>
@@ -34,36 +37,42 @@
 
     <!-- Main Content -->
     <div :class="['dashboard-content', { 'with-sidebar': sidebarVisible }]">
-      <div class="dashboard">
-        <!-- Collections Section -->
+      <!-- Collections Section -->
+      <div v-if="activeSection === 'collections'" class="section-card">
         <h2>Collections</h2>
-        <div class="dashboard">
+        <div class="collection-container">
           <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
           <Card :key="'playing'" title="Playing" :items="playingItems" />
           <Card :key="'played'" title="Played" :items="playedItems" />
         </div>
+      </div>
 
-        <!-- Ratings Section -->
-        <div class="ratings-container">
-          <h2>Your Ratings</h2>
-          <div v-if="userRatings.length > 0" class="ratings-scrollable">
-            <RatingCard
-              v-for="rating in userRatings"
-              :key="rating.rating_id"
-              :rating="rating"
-              :fetch-username="fetchUsername"
-              @ratingUpdated="fetchUserRatings"
-              @ratingDeleted="fetchUserRatings"
-            />
+      <!-- Ratings Section -->
+      <div v-if="activeSection === 'ratings'" class="section-card">
+        <h2>Your Ratings</h2>
+        <div v-if="userRatings.length > 0" class="vertical-scrollable">
+          <div class="dashboard-card">
+            <div class="games-grid">
+              <RatingCard
+                v-for="rating in userRatings"
+                :key="rating.rating_id"
+                :rating="rating"
+                :fetch-username="fetchUsername"
+                @ratingUpdated="fetchUserRatings"
+                @ratingDeleted="fetchUserRatings"
+              />
+            </div>
           </div>
-          <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
         </div>
+        <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
+      </div>
 
-        <!-- Reviews Section -->
-        <div class="reviews-container">
-          <h2>Reviews</h2>
-          <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
-            <div class="reviews-section">
+      <!-- Reviews Section -->
+      <div v-if="activeSection === 'reviews'" class="section-card">
+        <h2>Reviews</h2>
+        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="vertical-scrollable">
+          <div class="dashboard-card">
+            <div class="games-grid">
               <ReviewCard
                 v-for="review in reviews"
                 :key="review.review_id"
@@ -72,22 +81,30 @@
               />
             </div>
           </div>
-          <div v-else-if="!loadingReviews" class="no-reviews-message">
-            No reviews found.
-          </div>
         </div>
+        <div v-else-if="!loadingReviews" class="no-reviews-message">
+          No reviews found.
+        </div>
+      </div>
 
-        <!-- Comments Section -->
-        <div class="comments-container">
-          <h2>Your Comments</h2>
-          <div v-if="userComments.length > 0" class="comments-scrollable">
-            <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
-              <p class="comment-text">{{ comment.comment_text }}</p>
-              <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
+      <!-- Comments Section -->
+      <div v-if="activeSection === 'comments'" class="section-card">
+        <h2>Your Comments</h2>
+        <div v-if="userComments.length > 0" class="vertical-scrollable">
+          <div class="dashboard-card">
+            <div class="games-grid">
+              <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="comment-text">{{ comment.comment_text }}</p>
+                    <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <p v-else class="no-comments-message">You haven't commented on any reviews yet.</p>
         </div>
+        <p v-else class="no-comments-message">You haven't commented on any reviews yet.</p>
       </div>
     </div>
   </div>
@@ -114,6 +131,7 @@ export default {
       userComments: [], // To store comments
       loadingReviews: true,
       sidebarVisible: true,
+      activeSection: 'collections', // Track the currently active section
     };
   },
   computed: {
@@ -190,12 +208,15 @@ export default {
     toggleSidebar() {
       this.sidebarVisible = !this.sidebarVisible;
     },
+    setActiveSection(section) {
+      this.activeSection = section;
+    },
   },
 };
 </script>
 
 <style scoped>
-#mainn{
+#main {
   display: flex;
   flex-wrap: wrap;
 }
@@ -300,85 +321,104 @@ export default {
   font-size: 1.2rem;
 }
 
-.dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-/* Ratings Section */
-.ratings-container {
+/* Section Card for Consistency */
+.section-card {
   margin-top: 40px;
-  border-top: 2px solid #444;
   padding-top: 20px;
   background-color: inherit;
 }
 
-.ratings-scrollable {
+/* Vertical Scrollable for Ratings, Reviews, Comments */
+.vertical-scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a #121212;
+  padding: 10px;
+}
+
+/* Styling the Scrollbar */
+.vertical-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vertical-scrollable::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+.vertical-scrollable::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.vertical-scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #5c5c5c;
+}
+
+/* Collection Container with Dynamic Expanding */
+.collection-container {
   display: flex;
+  flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10px;
   scrollbar-width: thin;
   scrollbar-color: #4a4a4a #121212;
 }
 
-.ratings-scrollable::-webkit-scrollbar {
+.collection-container::-webkit-scrollbar {
   height: 8px;
 }
 
-.ratings-scrollable::-webkit-scrollbar-track {
+.collection-container::-webkit-scrollbar-track {
   background: #121212;
 }
 
-.ratings-scrollable::-webkit-scrollbar-thumb {
+.collection-container::-webkit-scrollbar-thumb {
   background-color: #4a4a4a;
   border-radius: 10px;
   border: 2px solid transparent;
 }
 
-.ratings-scrollable::-webkit-scrollbar-thumb:hover {
+.collection-container::-webkit-scrollbar-thumb:hover {
   background-color: #5c5c5c;
 }
 
-.no-ratings-message {
+.dashboard-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  width: 100%;
+}
+
+/* .games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+} */
+
+.comment-card .card,
+.ratings-container .card,
+.reviews-container .card,
+.collection-container .card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  color: #e0e0e0;
+}
+
+.no-ratings-message,
+.no-reviews-message,
+.no-comments-message {
   font-size: 1.2rem;
   color: #888;
   text-align: center;
   margin-top: 10px;
-}
-
-/* Reviews Section */
-.reviews-container {
-  margin-top: 40px;
-  border-top: 2px solid #444;
-  padding-top: 20px;
-  background-color: inherit;
-  margin-bottom: 5%;
-}
-
-.reviews-scrollable {
-  max-height: 400px;
-  overflow-y: auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.reviews-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.no-reviews-message {
-  font-size: 1.2rem;
-  color: #888;
-  text-align: center;
-  margin: 20px 0;
 }
 
 @media (max-width: 900px) {

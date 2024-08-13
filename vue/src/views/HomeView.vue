@@ -22,13 +22,38 @@
     </p>
  </div>
 
-    <div class="info-boxes-section">
-      <div class="info-box">Box 1: Get Started</div>
-      <div class="info-box">Box 2: Top Picks</div>
-      <div class="info-box">Box 3: New Releases</div>
-      <div class="info-box">Box 4: Trending Now</div>
-      <div class="info-box">Box 5: Community Favorites</div>
+ <div class="info-boxes-section">
+  <div class="info-box">
+    Create and Manage Collections
+    <div class="info-box-description">
+      <p>Efficiently organize your game collection by adding, categorizing, and tracking your favorite games in one seamless interface.</p>
     </div>
+  </div>
+  <div class="info-box">
+    Read and Leave Reviews
+    <div class="info-box-description">
+      <p>Dive into detailed game reviews from fellow gamers and share your own insights to help others make informed choices.</p>
+    </div>
+  </div>
+  <div class="info-box">
+    Rate Games you've Played
+    <div class="info-box-description">
+      <p>Express your opinion by rating games and explore ratings from other users to see how your preferences align with the community.</p>
+    </div>
+  </div>
+  <div class="info-box">
+    Comment on Reviews
+    <div class="info-box-description">
+      <p>Join the conversation by commenting on reviews, sharing your thoughts, and engaging with the gaming community.</p>
+    </div>
+  </div>
+  <div class="info-box">
+    Whatever Else
+    <div class="info-box-description">
+      <p>Discover additional features and enhancements that will enrich your gaming experience and interactions on LanternDB.</p>
+    </div>
+  </div>
+</div>
     
     <div class="featured-games-section">
       <h2>Featured Games: </h2>
@@ -151,17 +176,23 @@ export default {
 }
 .register-to {
   color: white;
+  text-align: center;
+  font-size: 30px;
+  text-decoration: underline; /* Add this line */
+  text-decoration-color: #d14b06; /* Change this to your desired color */
+  text-decoration-style: solid;
 }
 
 .info-boxes-section {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: nowrap; /* Ensure the boxes stay in a single line */
+  overflow-x: auto;  /* Allow horizontal scrolling if needed */
   padding: 20px;
-  background-color:#29292943;
-  color: white;
 }
 
 .info-box {
+  color: white;
+  position: relative;
   flex: 1;
   margin: 0 10px;
   padding: 20px;
@@ -169,10 +200,31 @@ export default {
   background-color: rgba(158, 54, 10, 0.404);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  min-width: 150px; /* Ensures boxes have a consistent width */
+  min-height: 120px;
 }
 
 .info-box:hover {
-  background-color:rgb(158, 54, 10);
+  background-color: rgb(158, 54, 10);
+}
+
+.info-box-description {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 5.5s ease-in-out;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(158, 54, 10);
+  padding: 0 10px;
+}
+
+.info-box:hover .info-box-description {
+  max-height: 100px; /* Adjust to fit the content */
+  padding-top: 10px; /* Optional: Add padding for visual separation */
 }
 
 

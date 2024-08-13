@@ -134,7 +134,7 @@ export default {
 .collection-game-card {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 250px;
   border-radius: 8px;
   overflow: hidden;
   background-color: #1e1e1e;
