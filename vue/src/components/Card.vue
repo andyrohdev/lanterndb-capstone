@@ -36,12 +36,12 @@ export default {
   },
   methods: {
     refreshCollections() {
-      // Re-fetch the collection items when updateCollections event is triggered
-      this.$emit('refreshCollections');
+      this.$emit('refreshCollections');  // Emit event to parent component
     }
   }
 };
 </script>
+
 
 
 <style scoped>

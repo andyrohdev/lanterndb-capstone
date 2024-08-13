@@ -1,41 +1,57 @@
 <template>
   <div class="dashboard-container d-flex" id="main">
     <!-- Sidebar -->
-    <div :class="['sidebar', { hidden: !sidebarVisible }]">
-      <button v-if="sidebarVisible" class="btn btn-outline-light sidebar-toggle" @click="toggleSidebar">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <nav class="sidebar-nav">
-        <h4>Dashboard</h4>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-light" href="#" @click="setActiveSection('collections')">
-              <i class="bi bi-collection"></i>Collections
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-light" href="#" @click="setActiveSection('ratings')">
-              <i class="bi bi-star"></i>Ratings
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-light" href="#" @click="setActiveSection('reviews')">
-              <i class="bi bi-chat"></i>Reviews
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-light" href="#" @click="setActiveSection('comments')">
-              <i class="bi bi-chat-dots"></i>Comments
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
-    <!-- Toggle Button when Sidebar is Hidden -->
-    <button v-if="!sidebarVisible" class="btn btn-outline-light sidebar-toggle-outside" @click="toggleSidebar">
-      <i class="bi bi-chevron-right"></i>
-    </button>
+    <transition name="slide-left">
+      <div class="sidebar" :class="{ hidden: !sidebarVisible }">
+        <button
+          class="btn btn-outline-light sidebar-toggle"
+          @click="toggleSidebar"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <nav class="sidebar-nav">
+          <h4>Dashboard</h4>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link text-light"
+                href="#"
+                @click="setActiveSection('collections')"
+              >
+                <i class="bi bi-collection"></i>Collections
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-light"
+                href="#"
+                @click="setActiveSection('ratings')"
+              >
+                <i class="bi bi-star"></i>Ratings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-light"
+                href="#"
+                @click="setActiveSection('reviews')"
+              >
+                <i class="bi bi-chat"></i>Reviews
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-light"
+                href="#"
+                @click="setActiveSection('comments')"
+              >
+                <i class="bi bi-chat-dots"></i>Comments
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </transition>
 
     <!-- Main Content -->
     <div :class="['dashboard-content', { 'with-sidebar': sidebarVisible }]">
@@ -43,69 +59,102 @@
       <div v-if="activeSection === 'collections'" class="section-card">
         <h2>Collections</h2>
         <div class="collection-container">
-          <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-          <Card :key="'playing'" title="Playing" :items="playingItems" />
-          <Card :key="'played'" title="Played" :items="playedItems" />
+          <Card
+            :key="'wishlist'"
+            title="Wishlist"
+            :items="wishlistItems"
+            @refreshCollections="fetchCollections"
+          />
+          <Card
+            :key="'playing'"
+            title="Playing"
+            :items="playingItems"
+            @refreshCollections="fetchCollections"
+          />
+          <Card
+            :key="'played'"
+            title="Played"
+            :items="playedItems"
+            @refreshCollections="fetchCollections"
+          />
         </div>
       </div>
 
       <!-- Ratings Section -->
-      <div v-if="activeSection === 'ratings'" class="dashboard-card">
+      <div v-if="activeSection === 'ratings'">
         <h2>Your Ratings</h2>
-        <div v-if="userRatings.length > 0" class="vertical-scrollable">
-          <div class="games-grid ratings-grid">
-            <RatingCard
-              v-for="rating in userRatings"
-              :key="rating.rating_id"
-              :rating="rating"
-              :fetch-username="fetchUsername"
-              @ratingUpdated="fetchUserRatings"
-              @ratingDeleted="fetchUserRatings"
-            />
+        <div class="dashboard-card">
+          <div v-if="userRatings.length > 0" class="vertical-scrollable">
+            <div class="games-grid ratings-grid">
+              <RatingCard
+                v-for="rating in userRatings"
+                :key="rating.rating_id"
+                :rating="rating"
+                :fetch-username="fetchUsername"
+                @ratingUpdated="fetchUserRatings"
+                @ratingDeleted="fetchUserRatings"
+              />
+            </div>
           </div>
+          <p v-else class="no-ratings-message">
+            You haven't rated any games yet.
+          </p>
         </div>
-        <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
       </div>
 
       <!-- Reviews Section -->
-      <div v-if="activeSection === 'reviews'" class="dashboard-card">
+      <div v-if="activeSection === 'reviews'">
         <h2>Reviews</h2>
-        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="vertical-scrollable">
-          <div class="games-grid reviews-grid">
-            <ReviewCard
-              v-for="review in reviews"
-              :key="review.review_id"
-              :review="review"
-              @review-updated="fetchUserReviews"
-            />
+        <div class="dashboard-card">
+          <div
+            v-if="Array.isArray(reviews) && reviews.length > 0"
+            class="vertical-scrollable"
+          >
+            <div class="games-grid reviews-grid">
+              <ReviewCard
+                v-for="review in reviews"
+                :key="review.review_id"
+                :review="review"
+                @review-updated="fetchUserReviews"
+              />
+            </div>
           </div>
-        </div>
-        <div v-else-if="!loadingReviews" class="no-reviews-message">
-          No reviews found.
+          <div v-else-if="!loadingReviews" class="no-reviews-message">
+            No reviews found.
+          </div>
         </div>
       </div>
 
       <!-- Comments Section -->
-      <div v-if="activeSection === 'comments'" class="dashboard-card">
+      <div v-if="activeSection === 'comments'">
         <h2>Your Comments</h2>
-        <div v-if="userComments.length > 0" class="vertical-scrollable">
-          <div class="games-grid comments-grid">
-            <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="comment-text">{{ comment.comment_text }}</p>
-                  <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
+        <div class="dashboard-card">
+          <div v-if="userComments.length > 0" class="vertical-scrollable">
+            <div class="games-grid comments-grid">
+              <div
+                v-for="comment in userComments"
+                :key="comment.comment_id"
+                class="comment-card"
+              >
+                <div class="card">
+                  <div class="card-body">
+                    <p class="comment-text">{{ comment.comment_text }}</p>
+                    <p class="comment-author">
+                      Commented on Review ID: {{ comment.review_id }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <p v-else class="no-comments-message">
+            You haven't commented on any reviews yet.
+          </p>
         </div>
-        <p v-else class="no-comments-message">You haven't commented on any reviews yet.</p>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import Card from "@/components/Card.vue";
@@ -125,10 +174,10 @@ export default {
     return {
       allItems: [],
       userRatings: [],
-      userComments: [], // To store comments
+      userComments: [],
       loadingReviews: true,
       sidebarVisible: true,
-      activeSection: 'collections', // Track the currently active section
+      activeSection: "collections",
     };
   },
   computed: {
@@ -147,7 +196,7 @@ export default {
     this.fetchCollections();
     this.fetchUserRatings();
     this.fetchUserReviews();
-    this.fetchUserComments(); // Fetch comments when the component is created
+    this.fetchUserComments();
   },
   methods: {
     ...mapActions(["fetchReviews"]),
@@ -200,7 +249,9 @@ export default {
         });
     },
     fetchUsername(userId) {
-      return this.user && this.user.id === userId ? this.user.username : "Anonymous";
+      return this.user && this.user.id === userId
+        ? this.user.username
+        : "Anonymous";
     },
     toggleSidebar() {
       this.sidebarVisible = !this.sidebarVisible;
@@ -211,6 +262,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 #main {
@@ -233,20 +286,21 @@ export default {
   background: #141413c5;
   padding: 20px;
   overflow-y: auto;
-  transition: transform 0.3s ease;
   transform: translateX(0);
-  margin-top: 80px;
+  transition: transform 0.3s ease;
+  padding-top: 80px;
+  /* Remove margin-top to allow the sidebar to extend to the top */
 }
 
 .sidebar.hidden {
-  transform: translateX(-250px); /* Sidebar slides out */
+  transform: translateX(-200px); /* Sidebar slides partially out, leaving 50px visible */
 }
 
 .sidebar-toggle,
 .sidebar-expand-toggle,
 .sidebar-toggle-outside {
   position: absolute;
-  top: 3px;
+  top: 83px;
   border: none;
   background: transparent;
   color: white;
@@ -266,7 +320,7 @@ export default {
 /* New Toggle Button when Sidebar is Hidden */
 .sidebar-toggle-outside {
   left: 0;
-  transform: translateX(-100%);
+  transform: translateX(-200px); /* Adjust the position of the toggle button */
   transition: transform 0.3s ease;
   margin-top: 80px;
 }
@@ -283,7 +337,7 @@ export default {
 }
 
 .sidebar.hidden + .dashboard-content {
-  margin-left: 0; /* Content expands to full width when sidebar is hidden */
+  margin-left: 50px; /* Content expands but leaves space for the toggle button */
 }
 
 .sidebar.hidden ~ .sidebar-toggle-outside {
@@ -427,21 +481,27 @@ export default {
 }
 
 @media (max-width: 900px) {
-  .dashboard-content.with-sidebar {
-    margin-left: 0;
-  }
+  
 
-  .sidebar {
-    width: 100%;
-    transform: none;
-    z-index: 1050;
-  }
-
-  .sidebar-toggle,
-  .sidebar-expand-toggle,
-  .sidebar-toggle-outside {
-    right: 20px;
-  }
+  
 }
 
+/* Transition styles for sidebar */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(-200px); /* Sidebar slides partially out */
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translateX(-200px); /* Sidebar slides back in */
+}
 </style>
