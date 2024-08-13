@@ -5,9 +5,6 @@
       <button v-if="sidebarVisible" class="btn btn-outline-light sidebar-toggle" @click="toggleSidebar">
         <i class="bi bi-chevron-left"></i>
       </button>
-      <button v-if="!sidebarVisible" class="btn btn-outline-light sidebar-expand-toggle" @click="toggleSidebar">
-        <i class="bi bi-chevron-right"></i>
-      </button>
       <nav class="sidebar-nav">
         <h4>Dashboard</h4>
         <ul class="nav flex-column">
@@ -35,6 +32,11 @@
       </nav>
     </div>
 
+    <!-- Toggle Button when Sidebar is Hidden -->
+    <button v-if="!sidebarVisible" class="btn btn-outline-light sidebar-toggle-outside" @click="toggleSidebar">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+
     <!-- Main Content -->
     <div :class="['dashboard-content', { 'with-sidebar': sidebarVisible }]">
       <!-- Collections Section -->
@@ -48,38 +50,34 @@
       </div>
 
       <!-- Ratings Section -->
-      <div v-if="activeSection === 'ratings'" class="section-card">
+      <div v-if="activeSection === 'ratings'" class="dashboard-card">
         <h2>Your Ratings</h2>
         <div v-if="userRatings.length > 0" class="vertical-scrollable">
-          <div class="dashboard-card">
-            <div class="games-grid">
-              <RatingCard
-                v-for="rating in userRatings"
-                :key="rating.rating_id"
-                :rating="rating"
-                :fetch-username="fetchUsername"
-                @ratingUpdated="fetchUserRatings"
-                @ratingDeleted="fetchUserRatings"
-              />
-            </div>
+          <div class="games-grid ratings-grid">
+            <RatingCard
+              v-for="rating in userRatings"
+              :key="rating.rating_id"
+              :rating="rating"
+              :fetch-username="fetchUsername"
+              @ratingUpdated="fetchUserRatings"
+              @ratingDeleted="fetchUserRatings"
+            />
           </div>
         </div>
         <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
       </div>
 
       <!-- Reviews Section -->
-      <div v-if="activeSection === 'reviews'" class="section-card">
+      <div v-if="activeSection === 'reviews'" class="dashboard-card">
         <h2>Reviews</h2>
         <div v-if="Array.isArray(reviews) && reviews.length > 0" class="vertical-scrollable">
-          <div class="dashboard-card">
-            <div class="games-grid">
-              <ReviewCard
-                v-for="review in reviews"
-                :key="review.review_id"
-                :review="review"
-                @review-updated="fetchUserReviews"
-              />
-            </div>
+          <div class="games-grid reviews-grid">
+            <ReviewCard
+              v-for="review in reviews"
+              :key="review.review_id"
+              :review="review"
+              @review-updated="fetchUserReviews"
+            />
           </div>
         </div>
         <div v-else-if="!loadingReviews" class="no-reviews-message">
@@ -88,17 +86,15 @@
       </div>
 
       <!-- Comments Section -->
-      <div v-if="activeSection === 'comments'" class="section-card">
+      <div v-if="activeSection === 'comments'" class="dashboard-card">
         <h2>Your Comments</h2>
         <div v-if="userComments.length > 0" class="vertical-scrollable">
-          <div class="dashboard-card">
-            <div class="games-grid">
-              <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
-                <div class="card">
-                  <div class="card-body">
-                    <p class="comment-text">{{ comment.comment_text }}</p>
-                    <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
-                  </div>
+          <div class="games-grid comments-grid">
+            <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
+              <div class="card">
+                <div class="card-body">
+                  <p class="comment-text">{{ comment.comment_text }}</p>
+                  <p class="comment-author">Commented on Review ID: {{ comment.review_id }}</p>
                 </div>
               </div>
             </div>
@@ -109,6 +105,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import Card from "@/components/Card.vue";
@@ -220,6 +217,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+
 .dashboard-container {
   min-height: 100vh;
   display: flex;
@@ -241,19 +239,20 @@ export default {
 }
 
 .sidebar.hidden {
-  transform: translateX(-250%);
+  transform: translateX(-250px); /* Sidebar slides out */
 }
 
-.sidebar-toggle, .sidebar-expand-toggle {
+.sidebar-toggle,
+.sidebar-expand-toggle,
+.sidebar-toggle-outside {
   position: absolute;
   top: 3px;
-  right: 10px;
-  z-index: 1000;
   border: none;
   background: transparent;
   color: white;
   font-size: 24px;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .sidebar-toggle {
@@ -264,28 +263,35 @@ export default {
   left: 0px;
 }
 
-.sidebar-nav {
-  margin-top: 50px;
+/* New Toggle Button when Sidebar is Hidden */
+.sidebar-toggle-outside {
+  left: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  margin-top: 80px;
 }
 
 .dashboard-content {
-  margin-left: 250px;
   padding: 20px;
   flex-grow: 1;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  margin-left: 250px; /* Initial margin to account for the sidebar */
 }
 
 .dashboard-content.with-sidebar {
-  margin-left: 250px;
+  margin-left: 250px; /* When the sidebar is visible */
 }
 
 .sidebar.hidden + .dashboard-content {
-  margin-left: 0;
+  margin-left: 0; /* Content expands to full width when sidebar is hidden */
 }
-.sidebar-nav h4 {
-  color: #ccc;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+
+.sidebar.hidden ~ .sidebar-toggle-outside {
+  transform: translateX(0); /* Adjust the outside toggle button */
+}
+
+.sidebar-nav {
+  margin-top: 50px;
 }
 
 .nav {
@@ -315,45 +321,61 @@ export default {
   color: #fff;
 }
 
-/* Add icon styling if using icons */
 .nav-link i {
   margin-right: 10px;
   font-size: 1.2rem;
 }
 
-/* Section Card for Consistency */
-.section-card {
-  margin-top: 40px;
-  padding-top: 20px;
-  background-color: inherit;
-}
-
-/* Vertical Scrollable for Ratings, Reviews, Comments */
-.vertical-scrollable {
-  max-height: 400px;
+/* Card Container for Ratings, Reviews, Comments */
+.dashboard-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  width: 100%;
+  max-height: 600px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4a4a4a #121212;
-  padding: 10px;
 }
 
-/* Styling the Scrollbar */
-.vertical-scrollable::-webkit-scrollbar {
+.dashboard-card::-webkit-scrollbar {
   width: 8px;
 }
 
-.vertical-scrollable::-webkit-scrollbar-track {
+.dashboard-card::-webkit-scrollbar-track {
   background: #121212;
 }
 
-.vertical-scrollable::-webkit-scrollbar-thumb {
+.dashboard-card::-webkit-scrollbar-thumb {
   background-color: #4a4a4a;
   border-radius: 10px;
   border: 2px solid transparent;
 }
 
-.vertical-scrollable::-webkit-scrollbar-thumb:hover {
+.dashboard-card::-webkit-scrollbar-thumb:hover {
   background-color: #5c5c5c;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ratings-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.reviews-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.comments-grid {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* Collection Container with Dynamic Expanding */
@@ -384,23 +406,6 @@ export default {
   background-color: #5c5c5c;
 }
 
-.dashboard-card {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 16px;
-  width: 100%;
-}
-
-/* .games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-  margin-top: 20px;
-} */
-
 .comment-card .card,
 .ratings-container .card,
 .reviews-container .card,
@@ -425,14 +430,18 @@ export default {
   .dashboard-content.with-sidebar {
     margin-left: 0;
   }
-  
+
   .sidebar {
     width: 100%;
     transform: none;
     z-index: 1050;
   }
-  .sidebar-toggle, .sidebar-expand-toggle {
+
+  .sidebar-toggle,
+  .sidebar-expand-toggle,
+  .sidebar-toggle-outside {
     right: 20px;
   }
 }
+
 </style>
