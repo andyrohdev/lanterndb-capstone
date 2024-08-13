@@ -26,10 +26,7 @@
                         <i class="bi bi-house-door"></i>
                         Dashboard
                     </router-link>
-                    <router-link to="/Settings" class="dropdown-item">
-                        <i class="bi bi-gear"></i>
-                        Settings
-                    </router-link>
+                    
                     <div class="divider-horizontal"></div>
                     <router-link v-if="$store.state.token" to="/logout" class="dropdown-item">
                         <i class="bi bi-box-arrow-right"></i>
@@ -244,8 +241,8 @@ export default {
     top: 100%;
     right: 0;
     background-color: rgba(55, 55, 53, 0.711);
-    color: rgb(253, 250, 250);
-    border: 2px solid #ffffff;
+    color: #181818;
+    border: 2px solid #181818;
     border-radius: 4px;
     box-shadow: 0px 8px 16px rgba(35, 34, 34, 0.907);
     width: 200px;
@@ -271,7 +268,7 @@ export default {
 
 .divider-horizontal {
     height: 1px;
-    background-color: #ffffff;
+    background-color: #181818;
     margin: 5px 0;
 }
 
