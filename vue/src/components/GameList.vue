@@ -185,7 +185,7 @@ html {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  padding: 3%;
+
   overflow: hidden;
   position: relative;
   z-index: 1;
@@ -249,8 +249,9 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   background-color: rgba(52, 48, 48, 0.151);
-  height: 100vh;
+  min-height: 80vh;
   border-radius: 30px;
+  padding: 3%;
 
 
 }
