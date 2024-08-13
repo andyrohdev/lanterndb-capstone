@@ -20,4 +20,6 @@ public interface ReviewDao {
 
     int adminDeleteReview(Review review);
 
+    List<Review> getReviewsByReviewId(int review_id);
+
 }

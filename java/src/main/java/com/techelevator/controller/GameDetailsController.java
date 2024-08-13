@@ -42,6 +42,17 @@ public class GameDetailsController {
         return reviewList;
     }
 
+    @GetMapping("/reviews/review/{id}")
+    public List<Review> getReviewsByReviewId(@PathVariable int id) {
+        List<Review> reviewsList = jdbcReviewDao.getReviewsByReviewId(id);
+
+        if(reviewsList == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection not found");
+        }
+
+        return reviewsList;
+    }
+
     @PostMapping("/reviews")
     public List<Review> addReview(@Valid @RequestBody Review review, Principal principal){
         String userName = principal.getName();
