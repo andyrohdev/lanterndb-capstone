@@ -2,19 +2,34 @@
   <div class="admin-user-profile">
     <h1 class="admin-user-heading">User Profile</h1>
     <div v-if="user">
-      <h2 class="admin-user-heading">{{ user.username }}</h2>
-      <p class="admin-user-heading"><span>ROLE: </span> {{ user.authorities[0].name }}</p>
-      <h3 class="admin-user-heading">{{ user.id }}</h3>
+      <h2 class="admin-user-heading">Username: {{ user.username }}</h2>
+      <!-- <p class="admin-user-heading"><span>ROLE: </span> {{ user.authorities[0].name }}</p>
+      <h3 class="admin-user-heading">{{ user.id }}</h3> -->
 
       <div class="dashboard-content">
         <div class="collections-container">
-        <h2 class="admin-user-heading">Collections</h2>
-        <div class="dashboard">
-          <Card :key="'wishlist'" title="Wishlist" :items="wishlistItems" />
-          <Card :key="'playing'" title="Playing" :items="playingItems" />
-          <Card :key="'played'" title="Played" :items="playedItems" />
+          <h2 class="admin-user-heading">Collections</h2>
+          <div class="dashboard">
+            <Card 
+              :key="'wishlist'" 
+              title="Wishlist" 
+              :items="wishlistItems" 
+              @refreshCollections="fetchCollections"
+            />
+            <Card 
+              :key="'playing'" 
+              title="Playing" 
+              :items="playingItems" 
+              @refreshCollections="fetchCollections"
+            />
+            <Card 
+              :key="'played'" 
+              title="Played" 
+              :items="playedItems" 
+              @refreshCollections="fetchCollections"
+            />
+          </div>
         </div>
-      </div>
 
         <!-- Ratings Section -->
         <div class="ratings-container">
@@ -164,8 +179,8 @@ export default {
     },
     fetchUsername(userId) {
       return this.user && this.user.id === userId ? this.user.username : "Anonymous";
-    },
-  },
+    }
+  }
 };
 </script>
 

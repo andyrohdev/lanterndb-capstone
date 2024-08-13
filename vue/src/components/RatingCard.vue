@@ -18,7 +18,7 @@
         by {{ fetchUsername(rating.user_id) }}
       </p>
       <!-- Edit and Delete buttons -->
-      <div v-if="rating.user_id === user.id" class="rating-actions">
+      <div v-if="canEditOrDelete" class="rating-actions">
         <button @click="openEditForm" class="btn btn-secondary">
           Edit
         </button>
@@ -74,19 +74,22 @@
     },
     computed: {
       ...mapState(["user"]),
+      canEditOrDelete() {
+        return this.rating.user_id === this.user.id || this.isAdmin;
+      },
+      isAdmin() {
+        return this.user && this.user.authorities.some(auth => auth.name === "ROLE_ADMIN");
+      },
     },
     methods: {
-      // Open the edit form modal
       openEditForm() {
         this.isEditing = true;
       },
-      // Close the edit form modal
       closeEditForm() {
         this.isEditing = false;
         this.newRating = this.rating.rating_score;
         this.hoverRating = 0;
       },
-      // Submit the edited rating
       submitRating() {
         const updatedRatingData = {
           rating_id: this.rating.rating_id,
@@ -105,7 +108,6 @@
             console.error("Error updating rating:", error);
           });
       },
-      // Confirm deletion of the rating
       confirmDelete() {
         if (confirm("Are you sure you want to delete this rating?")) {
           const ratingData = {
@@ -125,6 +127,7 @@
     },
   };
   </script>
+  
   
   <style scoped>
   .lantern-db-rating {
