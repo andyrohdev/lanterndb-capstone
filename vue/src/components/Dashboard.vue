@@ -1,6 +1,25 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-content">
+  <div :class="['dashboard-container', { 'sidebar-collapsed': sidebarCollapsed }]">
+    <!-- Sidebar -->
+    <div class="sidebar" style="margin-top: 80px;">
+      <button class="sidebar-toggle" @click="toggleSidebar">
+        <i :class="['bi', sidebarCollapsed ? 'bi-caret-right' : 'bi-caret-left']"></i>
+      </button>
+      <div class="sidebar-content">
+        <div v-if="!sidebarCollapsed" class="sidebar-header">
+          <h1>Dashboard</h1>
+        </div>
+        <div class="sidebar-tabs">
+          <button @click="navigateTo('collections')"
+            :class="{ active: currentTab === 'collections' }">Collections</button>
+          <button @click="navigateTo('ratings')" :class="{ active: currentTab === 'ratings' }">Ratings</button>
+          <button @click="navigateTo('reviews')" :class="{ active: currentTab === 'reviews' }">Reviews</button>
+          <button @click="navigateTo('comments')" :class="{ active: currentTab === 'comments' }">Comments</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-content" v-if="currentTab === 'collections'">
       <!-- Collections Section -->
       <h2>Collections</h2>
       <div class="dashboard">
@@ -10,32 +29,22 @@
       </div>
 
       <!-- Ratings Section -->
-      <div class="ratings-container">
+      <div class="ratings-container" v-if="currentTab === 'ratings'">
         <h2>Your Ratings</h2>
         <div v-if="userRatings.length > 0" class="ratings-scrollable">
-          <RatingCard
-            v-for="rating in userRatings"
-            :key="rating.rating_id"
-            :rating="rating"
-            :fetch-username="fetchUsername"
-            @ratingUpdated="fetchUserRatings"
-            @ratingDeleted="fetchUserRatings"
-          />
+          <RatingCard v-for="rating in userRatings" :key="rating.rating_id" :rating="rating"
+            :fetch-username="fetchUsername" @ratingUpdated="fetchUserRatings" @ratingDeleted="fetchUserRatings" />
         </div>
         <p v-else class="no-ratings-message">You haven't rated any games yet.</p>
       </div>
 
       <!-- Reviews Section -->
-      <div class="reviews-container">
+      <div class="reviews-container" v-if="currentTab === 'reviews'">
         <h2>Reviews</h2>
         <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
           <div class="reviews-section">
-            <ReviewCard
-              v-for="review in reviews"
-              :key="review.review_id"
-              :review="review"
-              @review-updated="fetchUserReviews"
-            />
+            <ReviewCard v-for="review in reviews" :key="review.review_id" :review="review"
+              @review-updated="fetchUserReviews" />
           </div>
         </div>
         <div v-else-if="!loadingReviews" class="no-reviews-message">
@@ -44,7 +53,7 @@
       </div>
 
       <!-- Comments Section -->
-      <div class="comments-container">
+      <div class="comments-container" v-if="currentTab === 'ratings'">
         <h2>Your Comments</h2>
         <div v-if="userComments.length > 0" class="comments-scrollable">
           <div v-for="comment in userComments" :key="comment.comment_id" class="comment-card">
@@ -79,6 +88,8 @@ export default {
       userRatings: [],
       userComments: [], // To store comments
       loadingReviews: true,
+      currentTab: 'collections',
+      sidebarCollapsed: false,
     };
   },
   computed: {
@@ -152,17 +163,126 @@ export default {
     fetchUsername(userId) {
       return this.user && this.user.id === userId ? this.user.username : "Anonymous";
     },
+    toggleSidebar() {
+      this.sidebarCollapsed = !this.sidebarCollapsed;
+    },
+    navigateTo(tab) {
+      this.currentTab = tab;
+    }
   },
 };
 </script>
 
 <style scoped>
+/*<!--sidebar-->*/
+
+
 .dashboard-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #121212;
   color: #e0e0e0;
+}
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #121212;
+  color: #e0e0e0;
+}
+
+.sidebar {
+  width: 250px;
+  background: #1e1e1e;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  transition: width 0.3s;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+.sidebar-collapsed {
+  width: 60px;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-toggle {
+  background: #333;
+  border: none;
+  color: #e0e0e0;
+  font-size: 1.5rem; /* Adjust as necessary */
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: background-color 0.3s;
+}
+
+.sidebar-collapsed .sidebar-toggle {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.sidebar-toggle:hover {
+  background: #444;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background: #1e1e1e;
+}
+
+.sidebar-header h1 {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+}
+
+.sidebar-tabs {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.sidebar-tabs button {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.sidebar-tabs button.active,
+.sidebar-tabs button:hover {
+  background: #333;
+}
+
+.dashboard-content {
+  margin-left: 250px;
+  padding: 20px;
+  flex-grow: 1;
+  background: #121212;
+}
+
+.sidebar-collapsed ~ .dashboard-content {
+  margin-left: 60px;
 }
 
 .body-dashboard {
