@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard-container d-flex" id="main">
     <!-- Sidebar -->
-    <div :class="['sidebar', { hidden: !sidebarVisible }]" @click="sidebarVisible = false">
+    <div
+      :class="['sidebar', { hidden: !sidebarVisible }]"
+      @click="sidebarVisible = false"
+    >
       <button
         class="btn btn-outline-light sidebar-toggle"
         @click.stop="toggleSidebar"
@@ -55,25 +58,42 @@
     <div :class="['dashboard-content', { 'with-sidebar': sidebarVisible }]">
       <!-- Collections Section -->
       <div v-if="activeSection === 'collections'" class="section-card">
-        <h2>Collections</h2>
+        <div class="collections-header">
+          <h2>Collections</h2>
+          <!-- Trashcan Drop Zone -->
+          <div
+            v-show="isDragging"
+            class="trashcan-drop-zone show"
+            @dragover.prevent
+            @drop="onDropTrashcan"
+          >
+            <i class="bi bi-trash3"></i>
+          </div>
+        </div>
         <div class="collection-container">
           <Card
             :key="'wishlist'"
             title="Wishlist"
             :items="wishlistItems"
             @refreshCollections="fetchCollections"
+            @dragging="onDragging"
+            @drag-end="onDragEnd"
           />
           <Card
             :key="'playing'"
             title="Playing"
             :items="playingItems"
             @refreshCollections="fetchCollections"
+            @dragging="onDragging"
+            @drag-end="onDragEnd"
           />
           <Card
             :key="'played'"
             title="Played"
             :items="playedItems"
             @refreshCollections="fetchCollections"
+            @dragging="onDragging"
+            @drag-end="onDragEnd"
           />
         </div>
       </div>
@@ -176,6 +196,7 @@ export default {
       loadingReviews: true,
       sidebarVisible: true,
       activeSection: "collections",
+      isDragging: false, // Track if an item is being dragged
     };
   },
   computed: {
@@ -257,6 +278,27 @@ export default {
     setActiveSection(section) {
       this.activeSection = section;
     },
+    onDragging() {
+      console.log("Dragging detected in Dashboard");
+      this.isDragging = true;
+    },
+    onDragEnd() {
+      console.log("Drag ended in Dashboard");
+      this.isDragging = false;
+    },
+    onDropTrashcan(event) {
+      const game = JSON.parse(event.dataTransfer.getData('game'));
+      console.log("Dropping game into trashcan:", game);
+
+      CollectionService.deleteToCollections(game)
+        .then(() => {
+          this.fetchCollections();
+          this.isDragging = false;
+        })
+        .catch((error) => {
+          console.error('Error deleting game from collection:', error);
+        });
+    },
   },
 };
 </script>
@@ -289,7 +331,9 @@ export default {
 }
 
 .sidebar.hidden {
-  transform: translateX(-80%); /* Sidebar moves out of view, leaving a portion visible */
+  transform: translateX(
+    -80%
+  ); /* Sidebar moves out of view, leaving a portion visible */
 }
 
 .sidebar-toggle,
@@ -472,7 +516,10 @@ export default {
 
   .reviews-grid,
   .comments-grid {
-    grid-template-columns: repeat(1, 1fr); /* Display 1 review/comment per row */
+    grid-template-columns: repeat(
+      1,
+      1fr
+    ); /* Display 1 review/comment per row */
   }
 }
 
@@ -485,7 +532,9 @@ export default {
   }
 
   .sidebar.hidden {
-    transform: translateX(-94.5%); /* Sidebar moves out of view, leaving a portion visible */
+    transform: translateX(
+      -94.5%
+    ); /* Sidebar moves out of view, leaving a portion visible */
   }
 
   .dashboard-content {
@@ -499,25 +548,51 @@ export default {
   }
 }
 
+.collections-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trashcan-drop-zone {
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.2s ease-in-out;
+  transform: scale(0.8);
+}
+
+.trashcan-drop-zone.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.trashcan-drop-zone i {
+  font-size: 1.5rem;
+}
+
 @media (max-width: 700px) {
   .sidebar.hidden {
-    transform: translateX(-93%); /* Sidebar moves out of view, leaving a portion visible */
+    transform: translateX(-93%);
   }
 }
 
 @media (max-width: 600px) {
   .sidebar.hidden {
-    transform: translateX(-89%); /* Sidebar moves out of view, leaving a portion visible */
+    transform: translateX(-89%);
   }
 }
 
 @media (max-width: 410px) {
   .sidebar-toggle-outside {
-
-  top: 123px; /* Moved down 80px from the original 3px */
-  
+    top: 123px;
+  }
 }
-}
-
-
 </style>

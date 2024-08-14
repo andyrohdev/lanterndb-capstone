@@ -12,6 +12,8 @@
         :game="item"
         :collection-title="title"
         @updateCollections="refreshCollections"
+        @dragging="onDragging"
+        @drag-end="onDragEnd" 
       />
     </div>
     <div v-else class="no-games-message">
@@ -55,10 +57,18 @@ export default {
           .then(() => {
             this.refreshCollections();
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Error moving game:', error);
           });
       }
+    },
+    onDragging() {
+      console.log("Dragging event caught in Card");
+      this.$emit('dragging'); // Propagate to Dashboard
+    },
+    onDragEnd() {
+      console.log("Drag-end event caught in Card");
+      this.$emit('drag-end'); // Propagate to Dashboard
     },
     getTargetCollectionId(title) {
       const collectionMap = {
