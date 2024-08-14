@@ -21,11 +21,14 @@
         <div v-if="!loading && filteredGames.length === 0" class="no-games-message">
           No games found.
         </div>
-        <game-card v-bind:game="game" v-bind:key="game.id" v-for="game in filteredGames" />
-      </div>
+        <!-- Display the loading spinner while games are loading -->
+        <LoadingSpinner v-if="loading" />
 
-      <!-- Loading Spinner -->
-      <!-- <div v-if="loading" class="loading-spinner">Loading...</div> -->
+        <!-- Display the game cards if games are found -->
+        <div v-if="!loading">
+        <game-card v-bind:game="game" v-bind:key="game.id" v-for="game in filteredGames" />
+       </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,11 +36,14 @@
 <script>
 import GameService from "../services/GameService.js";
 import GameCard from "./GameCard.vue";
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 export default {
   components: {
     GameCard,
+    LoadingSpinner,
   },
+  
 
   data() {
     return {
