@@ -100,16 +100,20 @@
 </div>
 
 <div class="faq-section">
-      <h2>FAQ</h2>
-      <p>
-        Here you'll find answers to the most frequently asked questions about LanternDB.
-        If you have any other questions, feel free to reach out to our support team.
-      </p>
-      <!-- You can add more FAQ content or sections here -->
+  <h2>FAQ</h2>
+  <p>
+    Here you'll find answers to the most frequently asked questions about LanternDB.
+    If you have any other questions, feel free to reach out to our support team.
+  </p>
+  <div class="faq-item" v-for="(faq, index) in faqs" :key="index">
+    <div class="faq-question">
+      {{ faq.question }}
     </div>
-
-    <!-- ... existing code ... -->
+    <div class="faq-answer">
+      {{ faq.answer }}
+    </div>
   </div>
+</div>
 </template>
  
 
@@ -381,28 +385,36 @@ export default {
   line-height: 1.6; /* Improve readability */
   margin: 0; /* Remove default margin */
 }
+.faq-item {
+  position: relative;
+  margin-bottom: 20px;
+}
 
-.faq-section {
-  padding: 20px;
-  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+.faq-question {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #292929;
   color: white;
-  margin-top: 20px;
-  text-align: left;
-  width: 40%;
-  margin-left: 10vw;
-  box-sizing: border-box;
-  padding-top: 50px;
+  transition: background-color 0.3s;
 }
 
-.faq-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+.faq-question:hover {
+  background-color: #d14b06;
 }
 
-.faq-section p {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin: 0;
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  background-color: #121212;
+  color: white;
+  border-left: 4px solid #d14b06;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item:hover .faq-answer {
+  max-height: 100px; /* Adjust to fit your content */
+  padding: 10px;
 }
 
 
