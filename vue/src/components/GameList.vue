@@ -21,29 +21,29 @@
         <div v-if="!loading && filteredGames.length === 0" class="no-games-message">
           No games found.
         </div>
-        <!-- Display the loading spinner while games are loading -->
-        <LoadingSpinner v-if="loading" />
 
         <!-- Display the game cards if games are found -->
-        <div v-if="!loading">
         <game-card v-bind:game="game" v-bind:key="game.id" v-for="game in filteredGames" />
-       </div>
+
+        <!-- Loading Spinner -->
+        <div v-if="loading" class="loading-overlay">
+          <img src="../assets/karl-duche-karlduche.gif" alt="Loading..." />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 import GameService from "../services/GameService.js";
 import GameCard from "./GameCard.vue";
-import LoadingSpinner from "./LoadingSpinner.vue";
 
 export default {
   components: {
     GameCard,
-    LoadingSpinner,
   },
-  
+ 
 
   data() {
     return {
@@ -166,13 +166,6 @@ function debounce(func, wait) {
 </script>
 
 <style scoped>
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
 .page-container {
   display: flex;
   flex-direction: column;
@@ -182,7 +175,6 @@ html {
   overflow: hidden;
   color: white;
   padding-top: 3rem;
-
 }
 
 .content-container {
@@ -191,13 +183,9 @@ html {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-
   overflow: hidden;
   position: relative;
   z-index: 1;
-
-  /* Prevent content-level scrolling */
-
 }
 
 .search-box-container {
@@ -207,13 +195,14 @@ html {
   margin-bottom: 2rem;
   align-items: center;
   gap: 10px;
-
 }
-.search-box{
+
+.search-box {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
+
 .search-box label {
   font-size: 1rem;
   color: white;
@@ -225,7 +214,7 @@ html {
   min-height: 70px;
   padding: 0.5rem 1rem;
   border: 1px solid #0c0c0c;
-  background-color:rgba(55, 55, 53, 0.711);
+  background-color: rgba(55, 55, 53, 0.711);
   color: white;
   font-size: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.21);
@@ -245,8 +234,6 @@ html {
   color: white;
 }
 
-
-
 .game-container {
   width: 85%;
   flex: 1;
@@ -259,9 +246,11 @@ html {
   border-radius: 30px;
   padding: 2%;
   height: 800px;
-
-
+  position: relative;
+  gap: 20px; /* Add spacing between cards */
 }
+
+
 
 .no-games-message {
   font-size: 1.2rem;
@@ -270,8 +259,22 @@ html {
   margin: 20px 0;
 }
 
-.loading-spinner {
-  margin: 20px;
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-overlay img {
+  width: 300px;
+  height: 300px;
 }
 
 .video-background {
@@ -283,7 +286,6 @@ html {
   overflow: hidden;
   z-index: 1;
   background-size: cover;
-
 }
 
 .background-video {
@@ -298,7 +300,6 @@ html {
 
 ::-webkit-scrollbar {
   width: 5px;
-
 }
 
 ::-webkit-scrollbar-track {
@@ -309,7 +310,6 @@ html {
 ::-webkit-scrollbar-thumb {
   background: rgba(136, 136, 153, 0);
   border-radius: 10px;
-
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -322,39 +322,27 @@ html {
   text-align: center;
   margin-top: 2rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
 }
 
 .flame {
-
   animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
-
 }
 
 @keyframes colorFlow {
   0% {
     color: #ff4400;
-    /* Dark Orange */
   }
-
   25% {
     color: #d32406;
-    /* Tomato Red */
   }
-
   50% {
     color: #f85b00;
-    /* Light Orange */
   }
-
   75% {
     color: #fa8704;
-    /* Darker Orange */
   }
-
   100% {
     color: #ff4400;
-    /* Back to Dark Orange */
   }
 }
 
@@ -362,12 +350,9 @@ html {
   0% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.1);
-    /* Slightly enlarged */
   }
-
   100% {
     transform: scale(1);
   }
@@ -379,7 +364,6 @@ html {
   margin-top: 1.5rem;
   text-align: center;
   background-color: rgba(10, 9, 8, 0);
-  ;
   z-index: 1;
 }
 
@@ -405,7 +389,6 @@ html {
 .nav-link:hover {
   color: orange;
   text-decoration: underline;
-
 }
 
 .footer-text {
@@ -418,9 +401,18 @@ html {
 
 @media (max-width: 600px) {
   .game-card {
-    width: 48%;
-    /* Adjust width to 48% to allow for margins */
+    width: calc(50% - 20px); /* Adjust width for smaller screens */
   }
-}</style>
+  .loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 
-
+  .loading-overlay img {
+    width: 300px;
+    height: 300px;
+  }
+}
+</style>
