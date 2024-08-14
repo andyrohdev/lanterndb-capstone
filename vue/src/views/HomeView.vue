@@ -32,16 +32,12 @@
         Create and Manage Collections
         <div class="info-box-description">
           <p>
-            Easily and efficiently manage your game collection by seamlessly
-            adding new titles, categorizing them into specific genres or themes,
-            and keeping track of your favorites all within one intuitive and
-            user-friendly interface. With this powerful tool, you can ensure
-            that your entire game library is organized and readily accessible,
-            allowing you to focus more on enjoying your games rather than
-            worrying about where to find them. Whether you're a casual player or
+            Easily manage your game collection by seamlessly
+            adding new titles, and keeping track of your favorites all within one intuitive and
+            user-friendly interface. Allowing you to find more information on video games.
+            Whether you're a casual player or
             a dedicated enthusiast, this feature will streamline the way you
-            handle your gaming collection, making it easier than ever to stay on
-            top of your ever-growing list of games.
+            handle your gaming collection.
           </p>
         </div>
       </div>
@@ -54,7 +50,7 @@
             perspectives and insights, but you can also contribute by sharing
             your own in-depth reviews. Your feedback can guide others in making
             well-informed decisions, ensuring they choose the games that best
-            suit their tastes and preferences.
+            suit their tastes.
           </p>
         </div>
       </div>
@@ -92,11 +88,7 @@
             interactions on LanternDB. With these new tools and options, you can
             dive deeper into your favorite games, explore unique
             functionalities, and enjoy an even more immersive and engaging
-            platform. Whether it's discovering hidden gems or leveraging
-            advanced analytics, these enhancements aim to provide you with an
-            unparalleled experience, keeping you at the forefront of the gaming
-            world and allowing you to make the most out of every moment spent on
-            LanternDB.
+            platform.
           </p>
         </div>
       </div>
@@ -125,6 +117,8 @@
     Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
   </p>
 </div>
+
+<hr class="section-divider">
 
 <div class="faq-section">
       <h2>FAQ</h2>
@@ -412,6 +406,7 @@ export default {
   box-sizing: border-box; /* Ensure padding is included in the width */
   padding-top: 50px;
   margin-top: 75px;
+  margin-bottom: 50px;
 }
 
 .about-us-section h2 {
@@ -425,13 +420,19 @@ export default {
   margin: 0; /* Remove default margin */
 }
 
+.section-divider {
+  border: none;
+  border-top: 1px solid white; /* Thin white line */
+  margin: 20px 0; /* Adjust the spacing between sections */
+}
+
 .faq-section {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.007);
   color: white;
   margin-top: 150px;
   text-align: left;
-  width: 75%;
+  width: 47%;
   margin-left: 10vw;
   box-sizing: border-box;
   padding-top: 50px;
