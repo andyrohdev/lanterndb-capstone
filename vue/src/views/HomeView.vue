@@ -499,6 +499,7 @@ export default {
   text-align: left;
   width: 47%;
   margin-left: 10vw;
+  margin-bottom: 50px;
   box-sizing: border-box;
   padding-top: 50px;
   border: 2px solid #d14b06;
