@@ -95,21 +95,28 @@
     </div>
 
     <div class="featured-games-section">
-      <h2>Featured Games:</h2>
-    <div class="track-wrapper">
-      <ul class="track">
-        <li
-          v-for="game in featuredGames"
-          :key="game.id"
-          class="track__item"
-          @click="redirectToGameDetails(game.id)"
-        >
-          <img :src="game.imageUrl" :alt="game.name" class="game-image" />
-          <p>{{ game.name }}</p>
-        </li>
-      </ul>
+  <h2>Featured Games:</h2>
+  <div class="featured-games-accordion">
+    <div
+      v-for="game in featuredGames"
+      :key="game.id"
+      class="featured-game-item"
+      @mouseover="setActiveGame(game.id)"
+      @mouseleave="clearActiveGame"
+      :class="{ 'active': activeGame === game.id }"
+    >
+      <img :src="game.imageUrl" :alt="game.name" class="game-image" />
+      <div class="game-info">
+        <h3>{{ game.name }}</h3>
+        <router-link :to="{ name: 'game-details', params: { gameId: game.id } }" class="view-details-button">
+          View Details
+        </router-link>
+      </div>
     </div>
-    </div>
+  </div>
+</div>
+
+
     <div class="about-us-section">
   <h2>About Us</h2>
   <p>
@@ -141,7 +148,8 @@
 
 
 <script>
-import videoSrc from "@/assets/animated-homepage2.mp4"; // Import the video source
+import videoSrc from "@/assets/animated-homepage.mp4"; // Import the video source
+
 
 export default {
   data() {
@@ -173,14 +181,24 @@ export default {
             "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg",
         },
       ],
+      activeGame: null,
     };
   },
   methods: {
     redirectToGameDetails(gameId) {
       this.$router.push({ name: "game-details", params: { gameId: gameId } });
     },
+    setActiveGame(gameId) {
+      this.activeGame = gameId;
+    },
+    clearActiveGame() {
+      this.activeGame = null;
+    },
+   
+  
   },
 };
+
 </script>
 
 <style scoped>
@@ -583,6 +601,74 @@ export default {
 }
 
 /* Add more nth-child selectors if you have more lines */
+
+.featured-games-accordion {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  height: 300px; /* Adjust the height as needed */
+}
+
+.featured-game-item {
+  flex: 1;
+  transition: flex 0.6s ease-in-out, transform 0.6s ease-in-out;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1; /* Default z-index */
+}
+
+.featured-game-item.active {
+  flex: 4;
+  transform: scale(1.01);
+  z-index: 10; /* Higher z-index for the active game */
+}
+
+.featured-game-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease-in-out;
+}
+
+.featured-game-item.active img {
+  transform: scale(1.01);
+}
+
+.game-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.featured-game-item.active .game-info {
+  opacity: 1;
+}
+
+.view-details-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 15px;
+  background-color: #ff6700;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.view-details-button:hover {
+  background-color: #e65c00;
+}
+
 
 @keyframes fadeInAnimation {
   to {
