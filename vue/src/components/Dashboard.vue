@@ -491,5 +491,33 @@ export default {
   .dashboard-content {
     margin-left: 0; /* Content takes full width */
   }
+
+  .collection-container {
+    flex-wrap: wrap;
+    justify-content: center; /* Center-align the items */
+    overflow-x: visible; /* Remove horizontal scroll */
+  }
 }
+
+@media (max-width: 700px) {
+  .sidebar.hidden {
+    transform: translateX(-93%); /* Sidebar moves out of view, leaving a portion visible */
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar.hidden {
+    transform: translateX(-89%); /* Sidebar moves out of view, leaving a portion visible */
+  }
+}
+
+@media (max-width: 410px) {
+  .sidebar-toggle-outside {
+
+  top: 123px; /* Moved down 80px from the original 3px */
+  
+}
+}
+
+
 </style>

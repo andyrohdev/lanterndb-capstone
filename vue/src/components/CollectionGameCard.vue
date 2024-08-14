@@ -218,11 +218,6 @@ export default {
   color: #fff !important;
 }
 
-.dragging {
-  opacity: 0.5; /* Example: Make the dragged card semi-transparent */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Example: Add a shadow to indicate it's being dragged */
-}
-
 .highlight-drop-zone {
   border: 2px dashed #4a90e2; /* Example: Highlight drop zones with a dashed border */
   background-color: rgba(74, 144, 226, 0.1); /* Example: Slight background color change */
