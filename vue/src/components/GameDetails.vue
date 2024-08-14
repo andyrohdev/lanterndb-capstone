@@ -12,24 +12,34 @@
       />
     </div>
     <div class="details-content">
-      <h1>{{ game.name || "Unknown Title" }}</h1>
+      <h1>{{ game.name || 'Unknown Title' }}</h1>
       <p class="game-genres">Genres: {{ formattedGenres }}</p>
       <div class="ratings-container">
-        <p class="game-rating">Critic's Rating: {{ game.rating || "N/A" }}</p>
-        <p class="lantern-db-rating">
-          Lantern DB Rating: {{ lanternDbRating || "N/A" }}
-        </p>
+        <p class="game-rating">Critic's Rating: {{ game.rating || 'N/A' }}</p>
+        <p class="lantern-db-rating">Lantern DB Rating: {{ lanternDbRating || 'N/A' }}</p>
       </div>
 
       <!-- Add to Collection Buttons -->
       <div v-if="isUserLoggedIn" class="add-to-collection">
-        <button @click="addToCollection(1)" class="btn btn-primary">
+        <button
+          @click="addToCollection(1)"
+          class="btn btn-primary"
+          :disabled="isItemDisabled(1)"
+        >
           Add to Wishlist
         </button>
-        <button @click="addToCollection(2)" class="btn btn-primary">
+        <button
+          @click="addToCollection(2)"
+          class="btn btn-primary"
+          :disabled="isItemDisabled(2)"
+        >
           Add to Playing
         </button>
-        <button @click="addToCollection(3)" class="btn btn-primary">
+        <button
+          @click="addToCollection(3)"
+          class="btn btn-primary"
+          :disabled="isItemDisabled(3)"
+        >
           Add to Played
         </button>
       </div>
@@ -51,19 +61,14 @@
 
         <!-- Add Rating Button -->
         <div v-if="isUserLoggedIn" class="add-rating-button">
-          <button @click="openRatingForm" class="btn btn-primary">
-            Add Rating
-          </button>
+          <button @click="openRatingForm" class="btn btn-primary">Add Rating</button>
         </div>
       </div>
 
       <!-- Reviews Section -->
       <div class="reviews-container">
         <h2>Reviews</h2>
-        <div
-          v-if="Array.isArray(reviews) && reviews.length > 0"
-          class="reviews-scrollable"
-        >
+        <div v-if="Array.isArray(reviews) && reviews.length > 0" class="reviews-scrollable">
           <div class="reviews-section">
             <ReviewCard
               v-for="review in reviews"
@@ -77,9 +82,7 @@
           No reviews found.
         </div>
         <div v-if="isUserLoggedIn" class="add-review-button">
-          <button @click="openReviewForm" class="btn btn-primary">
-            Add Review
-          </button>
+          <button @click="openReviewForm" class="btn btn-primary">Add Review</button>
         </div>
       </div>
     </div>
@@ -87,29 +90,19 @@
     <!-- Rating Form Modal -->
     <div v-if="showRatingForm" class="rating-form-modal">
       <div class="rating-form-content">
-        <h3>
-          {{ editingRatingId ? "Edit Your Rating" : "Submit Your Rating" }}
-        </h3>
+        <h3>{{ editingRatingId ? 'Edit Your Rating' : 'Submit Your Rating' }}</h3>
         <div class="rating-flames">
           <i
             v-for="flame in 5"
             :key="flame"
-            :class="[
-              'bi',
-              'bi-fire',
-              { filled: flame <= hoverRating || flame <= newRating },
-            ]"
+            :class="['bi', 'bi-fire', { filled: flame <= hoverRating || flame <= newRating }]"
             @mouseover="hoverRating = flame"
             @mouseleave="hoverRating = 0"
             @click="newRating = flame"
           ></i>
         </div>
-        <button @click="submitRating" class="btn btn-primary">
-          {{ editingRatingId ? "Update" : "Submit" }}
-        </button>
-        <button @click="closeRatingForm" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="submitRating" class="btn btn-primary">{{ editingRatingId ? 'Update' : 'Submit' }}</button>
+        <button @click="closeRatingForm" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
 
@@ -117,31 +110,21 @@
     <div v-if="showReviewForm" class="review-form-modal">
       <div class="review-form-content">
         <h3>Submit Your Review</h3>
-        <input
-          v-model="newReviewTitle"
-          placeholder="Review Title"
-          class="review-title-input"
-        />
-        <textarea
-          v-model="newReviewContent"
-          placeholder="Write your review here."
-          rows="4"
-        ></textarea>
+        <input v-model="newReviewTitle" placeholder="Review Title" class="review-title-input" />
+        <textarea v-model="newReviewContent" placeholder="Write your review here." rows="4"></textarea>
         <button @click="submitReview" class="btn btn-primary">Submit</button>
-        <button @click="closeReviewForm" class="btn btn-secondary">
-          Cancel
-        </button>
+        <button @click="closeReviewForm" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import GameService from "../services/GameService";
-import CollectionService from "../services/CollectionService.js";
-import ReviewCard from "./ReviewCard.vue";
-import RatingCard from "./RatingCard.vue";
+import { mapState } from 'vuex';
+import GameService from '../services/GameService';
+import CollectionService from '../services/CollectionService.js';
+import ReviewCard from './ReviewCard.vue';
+import RatingCard from './RatingCard.vue';
 
 export default {
   components: {
@@ -152,15 +135,15 @@ export default {
     return {
       game: {
         genres: [],
-        background_image: "",
-        name: "",
-        rating: "N/A",
+        background_image: '',
+        name: '',
+        rating: 'N/A',
       },
       reviews: [],
       loading: true,
       showReviewForm: false,
-      newReviewTitle: "",
-      newReviewContent: "",
+      newReviewTitle: '',
+      newReviewContent: '',
       showRatingForm: false,
       newRating: null,
       hoverRating: 0,
@@ -168,17 +151,18 @@ export default {
       lanternDbRating: null,
       users: {},
       editingRatingId: null,
+      disabledCollections: new Set(), // Track disabled collections
     };
   },
   computed: {
-    ...mapState(["token", "user"]),
+    ...mapState(['token', 'user']),
     isUserLoggedIn() {
       return !!this.token;
     },
     formattedGenres() {
       return Array.isArray(this.game.genres) && this.game.genres.length > 0
-        ? this.game.genres.map((genre) => genre.name).join(", ")
-        : "N/A";
+        ? this.game.genres.map((genre) => genre.name).join(', ')
+        : 'N/A';
     },
   },
   mounted() {
@@ -192,10 +176,11 @@ export default {
       GameService.getGameDetails(game_id)
         .then((response) => {
           this.game = response.data;
+          this.checkAllCollections(); // Check collections after getting game details
           return this.fetchReviews();
         })
         .catch((error) => {
-          console.error("Error fetching game details or reviews:", error);
+          console.error('Error fetching game details or reviews:', error);
           this.loading = false;
         });
     },
@@ -207,7 +192,7 @@ export default {
           this.loading = false;
         })
         .catch((error) => {
-          console.error("Error fetching reviews:", error);
+          console.error('Error fetching reviews:', error);
           this.loading = false;
         });
     },
@@ -219,15 +204,12 @@ export default {
           this.lanternDbRating = this.calculateAverageRating(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching Lantern DB ratings:", error);
+          console.error('Error fetching Lantern DB ratings:', error);
         });
     },
     calculateAverageRating(ratings) {
       if (!ratings.length) return null;
-      const total = ratings.reduce(
-        (sum, rating) => sum + rating.rating_score,
-        0
-      );
+      const total = ratings.reduce((sum, rating) => sum + rating.rating_score, 0);
       return (total / ratings.length).toFixed(1);
     },
     fetchUsers() {
@@ -238,17 +220,17 @@ export default {
           });
         })
         .catch((error) => {
-          console.error("Error fetching users:", error);
+          console.error('Error fetching users:', error);
         });
     },
     fetchUsername(userId) {
-      return this.users[userId] || "Anonymous";
+      return this.users[userId] || 'Anonymous';
     },
     addToCollection(collection_id) {
       const genre =
         this.game.genres && this.game.genres.length > 0
           ? this.game.genres[0].name
-          : "Unknown Genre";
+          : 'Unknown Genre';
 
       const gameData = {
         title: this.game.name,
@@ -259,25 +241,45 @@ export default {
       CollectionService.addToCollections(gameData)
         .then((response) => {
           console.log(`Game added to ${collection_id} collection`, response);
+          this.disabledCollections.add(collection_id); // Disable the button after adding
         })
         .catch((error) => {
-          console.error(
-            `Error adding game to ${collection_id} collection`,
-            error
-          );
+          console.error(`Error adding game to ${collection_id} collection`, error);
         });
+    },
+    checkIfAlreadyInCollection(collection_id) {
+      CollectionService.getCollections(collection_id)
+        .then((response) => {
+          const gamesInCollection = response.data;
+          const gameExists = gamesInCollection.some((game) => game.title === this.game.name);
+
+          if (gameExists) {
+            this.disabledCollections.add(collection_id);
+          }
+        })
+        .catch((error) => {
+          console.error(`Error checking if game is in collection ${collection_id}:`, error);
+        });
+    },
+    checkAllCollections() {
+      [1, 2, 3].forEach((collection_id) => {
+        this.checkIfAlreadyInCollection(collection_id);
+      });
+    },
+    isItemDisabled(collection_id) {
+      return this.disabledCollections.has(collection_id);
     },
     openReviewForm() {
       this.showReviewForm = true;
     },
     closeReviewForm() {
       this.showReviewForm = false;
-      this.newReviewTitle = "";
-      this.newReviewContent = "";
+      this.newReviewTitle = '';
+      this.newReviewContent = '';
     },
     submitReview() {
       if (!this.newReviewTitle.trim() || !this.newReviewContent.trim()) {
-        alert("Please provide both a title and content for your review.");
+        alert('Please provide both a title and content for your review.');
         return;
       }
 
@@ -295,7 +297,7 @@ export default {
           this.closeReviewForm();
         })
         .catch((error) => {
-          console.error("Error submitting review:", error);
+          console.error('Error submitting review:', error);
         });
     },
     openRatingForm(rating) {
@@ -311,7 +313,7 @@ export default {
     },
     submitRating() {
       if (this.newRating === null) {
-        alert("Please provide a rating.");
+        alert('Please provide a rating.');
         return;
       }
 
@@ -331,7 +333,7 @@ export default {
             this.closeRatingForm();
           })
           .catch((error) => {
-            console.error("Error updating rating:", error);
+            console.error('Error updating rating:', error);
           });
       } else {
         // POST request for adding a new rating
@@ -341,7 +343,7 @@ export default {
             this.closeRatingForm();
           })
           .catch((error) => {
-            console.error("Error submitting rating:", error);
+            console.error('Error submitting rating:', error);
           });
       }
     },
@@ -578,5 +580,11 @@ h1 {
   .lantern-db-rating {
     font-size: 1.2rem;
   }
+}
+
+.btn-primary:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  border: 1px solid #666;
 }
 </style>
