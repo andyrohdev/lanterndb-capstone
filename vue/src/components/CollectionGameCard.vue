@@ -4,6 +4,9 @@
     :to="{ name: 'game-details', params: { gameId: gameId } }"
     class="collection-game-card-link"
     @click.native.stop="navigateToDetails"
+    draggable="true"
+    @dragstart="onDragStart"
+    @dragend="onDragEnd"
   >
     <div class="collection-game-card">
       <img :src="gameImage" alt="Game Image" class="game-image" />
@@ -120,12 +123,25 @@ export default {
       if (event.target.closest('.dropdown')) {
         event.preventDefault();
       }
+    },
+    onDragStart(event) {
+      event.dataTransfer.setData('game', JSON.stringify(this.game));
+      event.dataTransfer.effectAllowed = 'move';
+      this.$emit('drag-start', this.game);
+    },
+    onDragEnd() {
+      this.$emit('drag-end');
     }
   }
 };
 </script>
 
 <style scoped>
+
+.collection-game-card.dragging {
+  opacity: 0.5;
+}
+
 .collection-game-card-link {
   text-decoration: none;
   color: inherit;
