@@ -8,24 +8,19 @@
       </video>
       <div class="header-content">
         <h1>
-          Welcome to <span class="glow">Lantern</span
-          ><span class="flame">DB</span>
+          Welcome to <span class="glow">Lantern</span><span class="flame">DB</span>
         </h1>
         <h2>Illuminate Your Gaming World</h2>
         <p>
-          <span class="fade-in-line"
-            >Enjoy reviews, ratings, in-depth articles,</span
-          ><br />
-          <span class="fade-in-line"
-            >and easily add your favorite games to your collections</span
-          ><br />
+          <span class="fade-in-line">Enjoy reviews, ratings, in-depth articles,</span><br />
+          <span class="fade-in-line">and easily add your favorite games to your collections</span><br />
           <span class="fade-in-line">for everyone to enjoy.</span>
         </p>
       </div>
     </header>
     <div class="register-to">
-  <router-link to="/register" class="register-button">Register now to gain access to:</router-link>
-</div>
+      <router-link to="/register" class="register-button">Register now to gain access to:</router-link>
+    </div>
 
     <div class="info-boxes-section">
       <div class="info-box">
@@ -118,25 +113,26 @@
 
 
     <div class="about-us-section">
-  <h2>About Us</h2>
-  <p>
-    LanternDB is dedicated to illuminating your gaming experience. 
-    We provide comprehensive reviews, ratings, and in-depth articles on the latest and greatest games. 
-    Our mission is to help you discover, enjoy, and share your favorite games with the community. 
-    Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
-  </p>
-</div>
+      <h2>About Us</h2>
+      <p>
+        LanternDB is dedicated to illuminating your gaming experience.
+        We provide comprehensive reviews, ratings, and in-depth articles on the latest and greatest games.
+        Our mission is to help you discover, enjoy, and share your favorite games with the community.
+        Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming
+        world.
+      </p>
+    </div>
 
-<hr class="section-divider">
+    <hr class="section-divider">
 
-<div class="faq-section">
+    <div class="faq-section">
       <h2>FAQ</h2>
       <ul>
-            <li>QUESTION: How many games are in the browse feature?</li>
-            <p>ANSWER: More than 500,000 games can be found!</p>
-            <li>QUESTION: Is there a fee or monthly payment involved with registration?</li>
-            <p>ANSWER: No, all features are 100% FREE!</p>
-          </ul>
+        <li>QUESTION: How many games are in the browse feature?</li>
+        <p>ANSWER: More than 500,000 games can be found!</p>
+        <li>QUESTION: Is there a fee or monthly payment involved with registration?</li>
+        <p>ANSWER: No, all features are 100% FREE!</p>
+      </ul>
       <!-- You can add more FAQ content or sections here -->
     </div>
 
@@ -184,6 +180,11 @@ export default {
       activeGame: null,
     };
   },
+  computed: {
+    totalSlides() {
+      return this.featuredGames.length;
+    },
+  },
   methods: {
     redirectToGameDetails(gameId) {
       this.$router.push({ name: "game-details", params: { gameId: gameId } });
@@ -197,6 +198,10 @@ export default {
    
   
   },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateSlidePosition);
+  },
+
 };
 
 </script>
@@ -274,29 +279,39 @@ export default {
   color: white;
   text-align: center;
   font-size: 30px;
-  text-decoration: underline; /* Add this line */
-  text-decoration-color: #d14b06; /* Change this to your desired color */
+  text-decoration: underline;
+  /* Add this line */
+  text-decoration-color: #d14b06;
+  /* Change this to your desired color */
   text-decoration-style: solid;
 }
 
 .info-boxes-section {
   display: flex;
-  flex-wrap: nowrap; /* Ensure the boxes stay in a single line */
-  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  flex-wrap: nowrap;
+  /* Ensure the boxes stay in a single line */
+  overflow-x: auto;
+  /* Allow horizontal scrolling if needed */
   padding: 20px;
-  gap: 20px; /* Add space between the info boxes */
+  gap: 20px;
+  /* Add space between the info boxes */
   padding-bottom: 70px;
 }
 
 .info-box {
   color: white;
-  display: flex; /* Enables flexbox centering */
-  flex-direction: column; /* Align children vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  display: flex;
+  /* Enables flexbox centering */
+  flex-direction: column;
+  /* Align children vertically */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
   position: relative;
   flex: 1;
-  margin: 0; /* Reset margin */
+  margin: 0;
+  /* Reset margin */
   padding: 20px;
   text-align: center;
   background-color: #2929299f;
@@ -304,7 +319,8 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: background-color 0.3s ease;
-  min-width: 150px; /* Ensures boxes have a consistent width */
+  min-width: 150px;
+  /* Ensures boxes have a consistent width */
   min-height: 135px;
   font-size: 28px;
   padding-bottom: 70px;
@@ -328,8 +344,10 @@ export default {
 }
 
 .info-box:hover .info-box-description {
-  max-height: 1000px; /* Adjust to fit the content */
-  padding-top: 10px; /* Optional: Add padding for visual separation */
+  max-height: 1000px;
+  /* Adjust to fit the content */
+  padding-top: 10px;
+  /* Optional: Add padding for visual separation */
 }
 
 .flame {
@@ -403,17 +421,21 @@ export default {
 }
 
 .game-card:hover {
-  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
-              0 0 10px #d14b06, /* Slightly larger glow */
-              0 0 20px #ff6700, /* Larger and more diffused glow */
-              0 0 30px #ff6700; /* Further larger and more diffused glow */
+  box-shadow: 0 0 5px #d14b06,
+    /* Outer neon glow */
+    0 0 10px #d14b06,
+    /* Slightly larger glow */
+    0 0 20px #ff6700,
+    /* Larger and more diffused glow */
+    0 0 30px #ff6700;
+  /* Further larger and more diffused glow */
   transition: box-shadow 0.3s ease-in-out;
 }
 
 .game-card:hover p {
   color: #ff6700;
-  text-shadow: 0 0 5px #d14b06, 
-               0 0 10px #ff6700;
+  text-shadow: 0 0 5px #d14b06,
+    0 0 10px #ff6700;
   transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
@@ -425,39 +447,47 @@ export default {
 
 .about-us-section {
   padding: 20px;
-  background-image: linear-gradient(
-    to right,
-    rgb(158, 54, 10),
-    #29292943,
-    #29292943
-  );
+  background-image: linear-gradient(to right,
+      rgb(158, 54, 10),
+      #29292943,
+      #29292943);
   color: white;
   margin-top: 20px;
-  text-align: left; /* Align text to the left */
-  width: 40%; /* Control the width to match previous section */
-  margin-left: 10vw; /* Center the section horizontally */
-  box-sizing: border-box; /* Ensure padding is included in the width */
+  text-align: left;
+  /* Align text to the left */
+  width: 40%;
+  /* Control the width to match previous section */
+  margin-left: 10vw;
+  /* Center the section horizontally */
+  box-sizing: border-box;
+  /* Ensure padding is included in the width */
   padding-top: 50px;
   margin-top: 75px;
   margin-bottom: 50px;
 }
 
 .about-us-section h2 {
-  font-size: 2.5rem; /* Increase the font size */
+  font-size: 2.5rem;
+  /* Increase the font size */
   margin-bottom: 15px;
 }
 
 .about-us-section p {
-  font-size: 1.3rem; /* Adjust font size */
-  line-height: 1.6; /* Improve readability */
-  margin: 0; /* Remove default margin */
+  font-size: 1.3rem;
+  /* Adjust font size */
+  line-height: 1.6;
+  /* Improve readability */
+  margin: 0;
+  /* Remove default margin */
 }
 
 .section-divider {
-  width: 53%; 
+  width: 53%;
   border: none;
-  border-top: 2px solid #f5c277; /* Thin white line */
-  margin: 20px 0; /* Adjust the spacing between sections */
+  border-top: 2px solid #f5c277;
+  /* Thin white line */
+  margin: 20px 0;
+  /* Adjust the spacing between sections */
 }
 
 .faq-section {
@@ -471,12 +501,18 @@ export default {
   margin-left: 10vw;
   box-sizing: border-box;
   padding-top: 50px;
-  border: 2px solid #d14b06; /* Basic outline */
-  border-radius: 10px; /* Optional: add rounded corners */
-  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
-              0 0 10px #d14b06, /* Slightly larger glow */
-              0 0 20px #ff6700, /* Larger and more diffused glow */
-              0 0 30px #ff6700; /* Further larger and more diffused glow */
+  border: 2px solid #d14b06;
+  /* Basic outline */
+  border-radius: 10px;
+  /* Optional: add rounded corners */
+  box-shadow: 0 0 5px #d14b06,
+    /* Outer neon glow */
+    0 0 10px #d14b06,
+    /* Slightly larger glow */
+    0 0 20px #ff6700,
+    /* Larger and more diffused glow */
+    0 0 30px #ff6700;
+  /* Further larger and more diffused glow */
 }
 
 .faq-section h2 {
@@ -583,7 +619,8 @@ export default {
 }
 
 .fade-in-line {
-  display: block; /* Ensure each line is treated as a block */
+  display: block;
+  /* Ensure each line is treated as a block */
   opacity: 0;
   animation: fadeInAnimation 2s ease forwards;
 }
@@ -686,5 +723,4 @@ export default {
   .game-card {
     width: 100%;
   }
-}
-</style>
+}</style>
