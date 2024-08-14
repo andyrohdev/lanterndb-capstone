@@ -284,7 +284,20 @@ export default {
   text-decoration-color: #d14b06;
   /* Change this to your desired color */
   text-decoration-style: solid;
+  
 }
+
+.register-button {
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Optional: make text bold */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.register-button:hover {
+  color: rgb(158, 54, 10); /* Change color on hover */
+}
+
 
 .info-boxes-section {
   display: flex;
@@ -333,7 +346,7 @@ export default {
 .info-box-description {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 9s ease-in-out;
+  transition: max-height 0.5s ease-in-out;
   position: absolute;
   bottom: 0;
   left: 0;
