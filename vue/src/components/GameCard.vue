@@ -74,7 +74,6 @@ export default {
     return {
       isDropDownOpen: false,
       lanternDbRating: null,
-      // Track which collections the game has been added to
       addedCollections: new Set(),
       toast: useToast(),
     };
@@ -82,7 +81,7 @@ export default {
   computed: {
     isLoggedIn() {
       const user = this.$store.state.user;
-      return !!user && !!user.id; // Check if user is logged in
+      return !!user && !!user.id;
     },
   },
   methods: {
@@ -115,9 +114,29 @@ export default {
       }
     },
     handleItemClick(collection_id) {
-      if (this.isItemDisabled(collection_id)) return; // Prevent action if item is disabled
+      if (this.isItemDisabled(collection_id)) return;
 
-      this.addToCollection(collection_id);
+      this.checkIfGameInCollection(collection_id);
+    },
+    checkIfGameInCollection(collection_id) {
+      GameService.getCollections(collection_id)
+        .then((response) => {
+          const existingGames = response.data;
+          const gameAlreadyInCollection = existingGames.some(
+            (game) => game.title === this.game.name
+          );
+
+          if (gameAlreadyInCollection) {
+            this.showNotification("Game is already in this collection.", 'error');
+            this.addedCollections.add(collection_id); // Disable button for this collection
+          } else {
+            this.addToCollection(collection_id);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking collection:", error);
+          this.showNotification("Failed to check collection. Try again.", 'error');
+        });
     },
     addToCollection(collection_id) {
       const genre =
@@ -133,15 +152,13 @@ export default {
 
       CollectionService.addToCollections(gameData)
         .then((response) => {
-          console.log(`Game added to ${collection_id} collection`, response);
-          this.addedCollections.add(collection_id); // Mark as added
-          this.closeDropDown(); // Close the dropdown after adding
+          this.addedCollections.add(collection_id);
+          this.closeDropDown();
           this.showNotification("It has Successfully been added!");
-          
         })
         .catch((error) => {
           console.error(`Error adding game to ${collection_id} collection`, error);
-          this.closeDropDown(); // Close the dropdown even if there's an error
+          this.closeDropDown();
           this.showNotification("Something went wrong!");
         });
     },
