@@ -7,83 +7,102 @@
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-  <h1>Welcome to <span class="glow">Lantern</span><span class="flame">DB</span></h1>
-  <h2>Illuminate Your Gaming World</h2>
-  <p>
-    <span class="fade-in-line">Enjoy reviews, ratings, in-depth articles,</span><br>
-    <span class="fade-in-line">and easily add your favorite games to your collections</span><br>
-    <span class="fade-in-line">for everyone to enjoy.</span>
-  </p>
-</div>
+        <h1>
+          Welcome to <span class="glow">Lantern</span
+          ><span class="flame">DB</span>
+        </h1>
+        <h2>Illuminate Your Gaming World</h2>
+        <p>
+          <span class="fade-in-line"
+            >Enjoy reviews, ratings, in-depth articles,</span
+          ><br />
+          <span class="fade-in-line"
+            >and easily add your favorite games to your collections</span
+          ><br />
+          <span class="fade-in-line">for everyone to enjoy.</span>
+        </p>
+      </div>
     </header>
-  <div class="register-to">
-    <p>
-      Register now to gain access to:
-    </p>
- </div>
+    <div class="register-to">
+      <p>Register now to gain access to:</p>
+    </div>
 
- <div class="info-boxes-section">
-  <div class="info-box">
-    Create and Manage Collections
-    <div class="info-box-description">
-      <p>
-        Easily and efficiently manage your game collection by seamlessly adding new titles, categorizing them into specific genres or themes, and keeping track of your favorites all within one intuitive and user-friendly interface.
-         With this powerful tool, you can ensure that your entire game library is organized and readily accessible, allowing you to focus more on enjoying your games rather than worrying about where to find them. 
-         Whether you're a casual player or a dedicated enthusiast, this feature will streamline the way you handle your gaming collection, making it easier than ever to stay on top of your ever-growing list of games.
-      </p>
+    <div class="info-boxes-section">
+      <div class="info-box">
+        Create and Manage Collections
+        <div class="info-box-description">
+          <p>
+            Easily manage your game collection by seamlessly
+            adding new titles, and keeping track of your favorites all within one intuitive and
+            user-friendly interface. Allowing you to find more information on video games.
+            Whether you're a casual player or
+            a dedicated enthusiast, this feature will streamline the way you
+            handle your gaming collection.
+          </p>
+        </div>
+      </div>
+      <div class="info-box">
+        Read and Leave Reviews
+        <div class="info-box-description">
+          <p>
+            Dive deep into a vast collection of detailed game reviews written by
+            fellow gamers who share your passion. Not only can you discover new
+            perspectives and insights, but you can also contribute by sharing
+            your own in-depth reviews. Your feedback can guide others in making
+            well-informed decisions, ensuring they choose the games that best
+            suit their tastes.
+          </p>
+        </div>
+      </div>
+      <div class="info-box">
+        Rate Games you've Played
+        <div class="info-box-description">
+          <p>
+            Express your unique opinion by rating games you've experienced. Your
+            ratings contribute to a collective understanding of how a game
+            resonates with the community. In addition, you can delve into the
+            ratings provided by others, exploring how your tastes align or
+            differ from the broader gaming community, which can be both
+            enlightening and entertaining.
+          </p>
+        </div>
+      </div>
+      <div class="info-box">
+        Comment on Reviews
+        <div class="info-box-description">
+          <p>
+            Join the lively discussions by commenting on reviews. This is your
+            chance to share your thoughts, offer counterpoints, or build upon
+            the ideas expressed by others. Engaging with the gaming community in
+            this way fosters a richer dialogue, creating connections and
+            enhancing the shared experience of discovering and enjoying games.
+          </p>
+        </div>
+      </div>
+      <div class="info-box">
+        Whatever Else
+        <div class="info-box-description">
+          <p>
+            Uncover a variety of exciting additional features and enhancements
+            designed to significantly enrich your overall gaming experience and
+            interactions on LanternDB. With these new tools and options, you can
+            dive deeper into your favorite games, explore unique
+            functionalities, and enjoy an even more immersive and engaging
+            platform.
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="info-box">
-    Read and Leave Reviews
-    <div class="info-box-description">
-      <p>
-        Dive deep into a vast collection of detailed game reviews 
-        written by fellow gamers who share your passion. 
-        Not only can you discover new perspectives and insights, 
-        but you can also contribute by sharing your own in-depth reviews. 
-        Your feedback can guide others in making well-informed decisions, 
-        ensuring they choose the games that best suit their tastes and preferences.
-      </p>
-    </div>
-  </div>
-  <div class="info-box">
-    Rate Games you've Played
-    <div class="info-box-description">
-      <p>
-        Express your unique opinion by rating games you've experienced. 
-        Your ratings contribute to a collective understanding of how a game 
-        resonates with the community. In addition, you can delve into the ratings 
-        provided by others, exploring how your tastes align or differ 
-        from the broader gaming community, which can be both enlightening and entertaining.
-      </p>
-    </div>
-  </div>
-  <div class="info-box">
-    Comment on Reviews
-    <div class="info-box-description">
-      <p>
-        Join the lively discussions by commenting on reviews. 
-        This is your chance to share your thoughts, offer counterpoints, 
-        or build upon the ideas expressed by others. Engaging with the gaming 
-        community in this way fosters a richer dialogue, creating connections 
-        and enhancing the shared experience of discovering and enjoying games.
-      </p>
-    </div>
-  </div>
-  <div class="info-box">
-    Whatever Else
-    <div class="info-box-description">
-      <p>Uncover a variety of exciting additional features and enhancements designed to significantly enrich your overall gaming experience and interactions on LanternDB.
-         With these new tools and options, you can dive deeper into your favorite games, explore unique functionalities, and enjoy an even more immersive and engaging platform. 
-         Whether it's discovering hidden gems or leveraging advanced analytics, these enhancements aim to provide you with an unparalleled experience, keeping you at the forefront of the gaming world and allowing you to make the most out of every moment spent on LanternDB.</p>
-    </div>
-  </div>
-</div>
-    
+
     <div class="featured-games-section">
-      <h2>Featured Games: </h2>
+      <h2>Featured Games:</h2>
       <div class="games-container">
-        <div v-for="game in featuredGames" :key="game.id" class="game-card" @click="redirectToGameDetails(game.id)">
+        <div
+          v-for="game in featuredGames"
+          :key="game.id"
+          class="game-card"
+          @click="redirectToGameDetails(game.id)"
+        >
           <img :src="game.imageUrl" :alt="game.name" class="game-image" />
           <p>{{ game.name }}</p>
         </div>
@@ -98,6 +117,8 @@
     Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
   </p>
 </div>
+
+<hr class="section-divider">
 
 <div class="faq-section">
       <h2>FAQ</h2>
@@ -116,23 +137,43 @@
 
 
 <script>
-import videoSrc from '@/assets/animated-homepage2.mp4'; // Import the video source
+import videoSrc from "@/assets/animated-homepage2.mp4"; // Import the video source
 
 export default {
   data() {
     return {
       videoSrc, // Use the imported video source
       featuredGames: [
-        { id: 3498, name: "Grand Theft Auto V", imageUrl: "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" },
-        { id: 4200, name: "Portal 2", imageUrl: "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg" },
-        { id: 3328, name: "The Witch 3:Wild Hunt", imageUrl: "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg" },
-        { id: 4291, name: "Counter-Strike Global Offensive", imageUrl: "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg" },
+        {
+          id: 3498,
+          name: "Grand Theft Auto V",
+          imageUrl:
+            "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
+        },
+        {
+          id: 4200,
+          name: "Portal 2",
+          imageUrl:
+            "https://media.rawg.io/media/games/2ba/2bac0e87cf45e5b508f227d281c9252a.jpg",
+        },
+        {
+          id: 3328,
+          name: "The Witch 3:Wild Hunt",
+          imageUrl:
+            "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg",
+        },
+        {
+          id: 4291,
+          name: "Counter-Strike Global Offensive",
+          imageUrl:
+            "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg",
+        },
       ],
     };
   },
   methods: {
     redirectToGameDetails(gameId) {
-      this.$router.push({ name: 'game-details', params: { gameId: gameId } });
+      this.$router.push({ name: "game-details", params: { gameId: gameId } });
     },
   },
 };
@@ -158,9 +199,6 @@ export default {
   /* Align content to the left */
 }
 
-
-
-
 .background-video {
   position: fixed;
   top: 0;
@@ -173,7 +211,6 @@ export default {
   object-position: center;
   /* Center the video */
 }
-
 
 .header-content {
   position: relative;
@@ -209,28 +246,25 @@ export default {
   margin-bottom: 20px;
   /* You can adjust or add margin as needed */
   font-style: italic;
-
 }
 
-.register-to{
+.register-to {
   color: white;
   text-align: center;
   font-size: 30px;
   text-decoration: underline; /* Add this line */
   text-decoration-color: #d14b06; /* Change this to your desired color */
   text-decoration-style: solid;
-
 }
 
 .info-boxes-section {
   display: flex;
   flex-wrap: nowrap; /* Ensure the boxes stay in a single line */
-  overflow-x: auto;  /* Allow horizontal scrolling if needed */
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
   padding: 20px;
   gap: 20px; /* Add space between the info boxes */
   padding-bottom: 70px;
 }
-
 
 .info-box {
   color: white;
@@ -276,12 +310,9 @@ export default {
   padding-top: 10px; /* Optional: Add padding for visual separation */
 }
 
-
-
 .flame {
-
-  animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
-
+  animation: colorFlow 20s ease-in-out infinite,
+    scaleFlow 1.2s ease-in-out infinite;
 }
 
 @keyframes colorFlow {
@@ -329,7 +360,7 @@ export default {
 .featured-games-section {
   padding: 20px;
   background-color: #1212127e;
-  color: white
+  color: white;
 }
 
 .games-container {
@@ -350,7 +381,18 @@ export default {
 }
 
 .game-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
+              0 0 10px #d14b06, /* Slightly larger glow */
+              0 0 20px #ff6700, /* Larger and more diffused glow */
+              0 0 30px #ff6700; /* Further larger and more diffused glow */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.game-card:hover p {
+  color: #ff6700;
+  text-shadow: 0 0 5px #d14b06, 
+               0 0 10px #ff6700;
+  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
 .game-image {
@@ -361,7 +403,12 @@ export default {
 
 .about-us-section {
   padding: 20px;
-  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+  background-image: linear-gradient(
+    to right,
+    rgb(158, 54, 10),
+    #29292943,
+    #29292943
+  );
   color: white;
   margin-top: 20px;
   text-align: left; /* Align text to the left */
@@ -369,6 +416,8 @@ export default {
   margin-left: 10vw; /* Center the section horizontally */
   box-sizing: border-box; /* Ensure padding is included in the width */
   padding-top: 50px;
+  margin-top: 75px;
+  margin-bottom: 50px;
 }
 
 .about-us-section h2 {
@@ -382,16 +431,29 @@ export default {
   margin: 0; /* Remove default margin */
 }
 
+.section-divider {
+  width: 53%; 
+  border: none;
+  border-top: 2px solid #f5c277; /* Thin white line */
+  margin: 20px 0; /* Adjust the spacing between sections */
+}
+
 .faq-section {
   padding: 20px;
-  background-image: linear-gradient(to right, rgb(158, 54, 10), #29292943, #29292943);
+  background-color: rgba(0, 0, 0, 0.007);
   color: white;
-  margin-top: 20px;
+  margin-top: 150px;
   text-align: left;
-  width: 40%;
+  width: 47%;
   margin-left: 10vw;
   box-sizing: border-box;
   padding-top: 50px;
+  border: 2px solid #d14b06; /* Basic outline */
+  border-radius: 10px; /* Optional: add rounded corners */
+  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
+              0 0 10px #d14b06, /* Slightly larger glow */
+              0 0 20px #ff6700, /* Larger and more diffused glow */
+              0 0 30px #ff6700; /* Further larger and more diffused glow */
 }
 
 .faq-section h2 {
@@ -405,11 +467,10 @@ export default {
   margin: 0;
 }
 
-
 .glow {
   font-size: 2rem;
   /* Adjust size as needed */
-  color: #F5C277;
+  color: #f5c277;
   text-align: center;
   font-size: 6rem;
   font-weight: bold;
@@ -421,100 +482,78 @@ export default {
 
 @keyframes flame {
   0% {
-    text-shadow: 0 0 8px rgba(255, 140, 0, 0.5),
-      0 0 12px rgba(255, 140, 0, 0.5),
-      0 0 16px rgba(255, 69, 0, 0.3),
-      0 0 20px rgba(255, 69, 0, 0.3),
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.5), 0 0 12px rgba(255, 140, 0, 0.5),
+      0 0 16px rgba(255, 69, 0, 0.3), 0 0 20px rgba(255, 69, 0, 0.3),
       0 0 24px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
 
   10% {
     text-shadow: 0 0 12px rgba(255, 160, 0, 0.5),
-      0 0 18px rgba(255, 160, 0, 0.5),
-      0 0 24px rgba(255, 99, 71, 0.4),
-      0 0 30px rgba(255, 99, 71, 0.4),
-      0 0 36px rgba(255, 99, 71, 0.4);
+      0 0 18px rgba(255, 160, 0, 0.5), 0 0 24px rgba(255, 99, 71, 0.4),
+      0 0 30px rgba(255, 99, 71, 0.4), 0 0 36px rgba(255, 99, 71, 0.4);
     transform: translateY(-1px);
   }
 
   20% {
     text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4),
-      0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3),
-      0 0 34px rgba(255, 69, 0, 0.3);
+      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
+      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
 
   30% {
     text-shadow: 0 0 14px rgba(255, 165, 0, 0.5),
-      0 0 22px rgba(255, 165, 0, 0.5),
-      0 0 30px rgba(255, 99, 71, 0.4),
-      0 0 38px rgba(255, 99, 71, 0.4),
-      0 0 46px rgba(255, 99, 71, 0.4);
+      0 0 22px rgba(255, 165, 0, 0.5), 0 0 30px rgba(255, 99, 71, 0.4),
+      0 0 38px rgba(255, 99, 71, 0.4), 0 0 46px rgba(255, 99, 71, 0.4);
     transform: translateY(-2px);
   }
 
   40% {
     text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4),
-      0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3),
-      0 0 34px rgba(255, 69, 0, 0.3);
+      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
+      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
 
   50% {
     text-shadow: 0 0 16px rgba(255, 170, 0, 0.5),
-      0 0 24px rgba(255, 170, 0, 0.5),
-      0 0 32px rgba(255, 99, 71, 0.4),
-      0 0 40px rgba(255, 99, 71, 0.4),
-      0 0 48px rgba(255, 99, 71, 0.4);
+      0 0 24px rgba(255, 170, 0, 0.5), 0 0 32px rgba(255, 99, 71, 0.4),
+      0 0 40px rgba(255, 99, 71, 0.4), 0 0 48px rgba(255, 99, 71, 0.4);
     transform: translateY(-1px);
   }
 
   60% {
     text-shadow: 0 0 12px rgba(255, 140, 0, 0.4),
-      0 0 20px rgba(255, 140, 0, 0.4),
-      0 0 28px rgba(255, 69, 0, 0.3),
-      0 0 36px rgba(255, 69, 0, 0.3),
-      0 0 44px rgba(255, 69, 0, 0.3);
+      0 0 20px rgba(255, 140, 0, 0.4), 0 0 28px rgba(255, 69, 0, 0.3),
+      0 0 36px rgba(255, 69, 0, 0.3), 0 0 44px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
 
   70% {
     text-shadow: 0 0 14px rgba(255, 160, 0, 0.5),
-      0 0 22px rgba(255, 160, 0, 0.5),
-      0 0 30px rgba(255, 99, 71, 0.4),
-      0 0 38px rgba(255, 99, 71, 0.4),
-      0 0 46px rgba(255, 99, 71, 0.4);
+      0 0 22px rgba(255, 160, 0, 0.5), 0 0 30px rgba(255, 99, 71, 0.4),
+      0 0 38px rgba(255, 99, 71, 0.4), 0 0 46px rgba(255, 99, 71, 0.4);
     transform: translateY(-1px);
   }
 
   80% {
     text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4),
-      0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3),
-      0 0 34px rgba(255, 69, 0, 0.3);
+      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
+      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
 
   90% {
     text-shadow: 0 0 16px rgba(255, 165, 0, 0.5),
-      0 0 24px rgba(255, 165, 0, 0.5),
-      0 0 32px rgba(255, 99, 71, 0.4),
-      0 0 40px rgba(255, 99, 71, 0.4),
-      0 0 48px rgba(255, 99, 71, 0.4);
+      0 0 24px rgba(255, 165, 0, 0.5), 0 0 32px rgba(255, 99, 71, 0.4),
+      0 0 40px rgba(255, 99, 71, 0.4), 0 0 48px rgba(255, 99, 71, 0.4);
     transform: translateY(-2px);
   }
 
   100% {
-    text-shadow: 0 0 8px rgba(255, 140, 0, 0.4),
-      0 0 12px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 69, 0, 0.3),
-      0 0 20px rgba(255, 69, 0, 0.3),
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.4), 0 0 12px rgba(255, 140, 0, 0.4),
+      0 0 16px rgba(255, 69, 0, 0.3), 0 0 20px rgba(255, 69, 0, 0.3),
       0 0 24px rgba(255, 69, 0, 0.3);
     transform: translateY(0px);
   }
@@ -546,9 +585,6 @@ export default {
   }
 }
 
-
-
-
 @media (max-width: 768px) {
   .game-card {
     width: 48%;
@@ -559,4 +595,5 @@ export default {
   .game-card {
     width: 100%;
   }
-}</style>
+}
+</style>
