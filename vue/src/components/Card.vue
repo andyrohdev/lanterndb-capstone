@@ -1,5 +1,9 @@
 <template>
-  <div class="dashboard-card">
+  <div
+    class="dashboard-card"
+    @dragover.prevent="onDragOver"
+    @drop="onDrop"
+  >
     <h3>{{ title }}</h3>
     <div v-if="items.length > 0" class="games-grid">
       <CollectionGameCard
@@ -36,7 +40,33 @@ export default {
   },
   methods: {
     refreshCollections() {
-      this.$emit('refreshCollections');  // Emit event to parent component
+      this.$emit('refreshCollections'); // Emit event to parent component
+    },
+    onDragOver(event) {
+      event.dataTransfer.dropEffect = 'move';
+    },
+    onDrop(event) {
+      const game = JSON.parse(event.dataTransfer.getData('game'));
+      const targetCollectionId = this.getTargetCollectionId(this.title);
+
+      if (targetCollectionId && game.collection_id !== targetCollectionId) {
+        game.collection_id = targetCollectionId;
+        CollectionService.updateToCollections(game)
+          .then(() => {
+            this.refreshCollections();
+          })
+          .catch(error => {
+            console.error('Error moving game:', error);
+          });
+      }
+    },
+    getTargetCollectionId(title) {
+      const collectionMap = {
+        'Wishlist': 1,
+        'Playing': 2,
+        'Played': 3
+      };
+      return collectionMap[title] || null;
     }
   }
 };
@@ -75,5 +105,16 @@ export default {
   color: #888;
   font-size: 1rem;
   margin-top: 20px;
+}
+
+.dashboard-card.drag-over {
+  border: 2px dashed #ccc;
+}
+
+/* Mobile specific: hide dragging capabilities */
+@media (max-width: 900px) {
+  .collection-game-card-link {
+    pointer-events: none;
+  }
 }
 </style>
