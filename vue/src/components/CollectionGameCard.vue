@@ -128,12 +128,12 @@ export default {
       event.dataTransfer.setData('game', JSON.stringify(this.game));
       event.dataTransfer.effectAllowed = 'move';
       event.target.classList.add('hidden-during-drag');
-      this.$emit('drag-start', this.game);
+    
       
     },
     onDragEnd(event) {
       event.target.classList.remove('hidden-during-drag');
-      this.$emit('drag-end');
+      
     },
     
     

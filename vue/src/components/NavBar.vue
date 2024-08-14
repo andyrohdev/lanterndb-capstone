@@ -16,10 +16,10 @@
             <div class="divider"></div>
             <div v-if="isLoggedIn" class="profile-link" @click.stop="toggleDropDown">
                 <i class="bi bi-person-circle"></i>
-                <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]">
+                <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]" ref="dropdownMenuRef">
                     <div class="dropdown-item user-info">
                         <i class="bi bi-person"></i>
-                        <span>{{ userName }}</span>
+                        <div>{{ userName }}</div>
                     </div>
                     <div class="divider-horizontal"></div>
                     <router-link v-if="showProfileLink" to="/dashboard" class="dropdown-item">
@@ -43,6 +43,7 @@
         </div>
     </nav>
 </template>
+
 
 <script>
 import 'bootstrap-icons/font/bootstrap-icons.css'
@@ -74,6 +75,7 @@ export default {
     data() {
         return {
             isDropDownOpen: false,
+            dropdownMenuRef: null,
         };
     },
     computed: {
@@ -96,7 +98,8 @@ export default {
             this.isDropDownOpen = false;
         },
         handleClickOutside(event) {
-            if (this.isDropDownOpen && !this.$el.contains(event.target)) {
+            const dropdownMenu = this.$refs.dropdownMenuRef;
+            if (this.isDropDownOpen && dropdownMenu && !dropdownMenu.contains(event.target)) {
                 this.closeDropDown();
             }
         }
@@ -226,7 +229,7 @@ export default {
 }
 
 .profile-link {
-    cursor: pointer;
+
     position: relative;
     padding: 10px;
 }
@@ -240,11 +243,11 @@ export default {
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: rgba(55, 55, 53, 0.711);
-    color: #181818;
-    border: 2px solid #181818;
+    background-color: rgba(30, 30, 30, 0.95); /* Darker background similar to the dashboard */
+    color: #fff;
+    border: 1px solid #333;
     border-radius: 4px;
-    box-shadow: 0px 8px 16px rgba(35, 34, 34, 0.907);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.7); /* Slightly darker shadow */
     width: 200px;
     display: none;
     z-index: 1000;
@@ -259,16 +262,21 @@ export default {
     align-items: center;
     padding: 10px;
     text-decoration: none;
-    color: rgb(255, 255, 255);
+    color: #fff; /* White text */
 }
 
 .dropdown-item i {
     margin-right: 8px;
 }
 
+.dropdown-item:hover {
+    background-color: #444; /* Slightly lighter on hover */
+    color: #fff; /* Ensure text stays white on hover */
+}
+
 .divider-horizontal {
     height: 1px;
-    background-color: #181818;
+    background-color: #333;
     margin: 5px 0;
 }
 
@@ -279,6 +287,10 @@ export default {
     pointer-events: none; /* Disable hover and click */
 }
 
+.user-info:hover {
+    background-color: transparent;
+}
+
 .title-lantern {
     color: #F5C277;
 }
@@ -287,17 +299,13 @@ export default {
     color: #F97401;
 }
 
-.user-info:hover {
-    background-color: transparent;
-}
-
-.login-button{
+.login-button {
     display: flex;
     align-items: center;
-    
     border-radius: 3px;
 }
-.login-button i{
+
+.login-button i {
     margin-right: 8px;
 }
 </style>

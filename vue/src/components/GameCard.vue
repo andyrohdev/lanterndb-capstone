@@ -74,8 +74,7 @@ export default {
     return {
       isDropDownOpen: false,
       lanternDbRating: null,
-      // Track which collections the game has been added to
-      addedCollections: new Set(),
+      addedCollections: new Set(), // Track which collections the game has been added to
       toast: useToast(),
     };
   },
@@ -97,26 +96,8 @@ export default {
         this.closeDropDown();
       }
     },
-    showNotification(message, type = 'success') {
-      switch (type) {
-        case 'success':
-          this.toast.success(message, {
-            position: 'top-center',
-            timeout: 3000,
-            theme: 'dark',
-          });
-          break;
-        case 'error':
-          this.toast.error(message, {
-            position: 'top-center',
-            timeout: 3000,
-            theme: 'dark',
-          });
-      }
-    },
     handleItemClick(collection_id) {
       if (this.isItemDisabled(collection_id)) return; // Prevent action if item is disabled
-
       this.addToCollection(collection_id);
     },
     addToCollection(collection_id) {
@@ -137,7 +118,6 @@ export default {
           this.addedCollections.add(collection_id); // Mark as added
           this.closeDropDown(); // Close the dropdown after adding
           this.showNotification("It has Successfully been added!");
-          
         })
         .catch((error) => {
           console.error(`Error adding game to ${collection_id} collection`, error);
@@ -163,10 +143,30 @@ export default {
           this.lanternDbRating = "N/A";
         });
     },
+    checkIfAlreadyInCollection(collection_id) {
+      CollectionService.getCollections(collection_id)
+        .then((response) => {
+          const gamesInCollection = response.data;
+          const gameExists = gamesInCollection.some(game => game.title === this.game.name);
+
+          if (gameExists) {
+            this.addedCollections.add(collection_id);
+          }
+        })
+        .catch((error) => {
+          console.error(`Error checking if game is in collection ${collection_id}:`, error);
+        });
+    },
+    checkAllCollections() {
+      [1, 2, 3].forEach(collection_id => {
+        this.checkIfAlreadyInCollection(collection_id);
+      });
+    },
   },
   mounted() {
     document.addEventListener("click", this.handleClickOutside);
     this.fetchLanternDbRating();
+    this.checkAllCollections(); // Check all collections when the component is mounted
   },
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
