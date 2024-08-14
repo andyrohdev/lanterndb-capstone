@@ -117,6 +117,7 @@
       </div>
     </div>
     <div class="about-us-section">
+<<<<<<< HEAD
       <h2>About Us</h2>
       <p>
         LanternDB is dedicated to illuminating your gaming experience. We
@@ -143,7 +144,27 @@
           {{ faq.answer }}
         </div>
       </div>
+=======
+  <h2>About Us</h2>
+  <p>
+    LanternDB is dedicated to illuminating your gaming experience. 
+    We provide comprehensive reviews, ratings, and in-depth articles on the latest and greatest games. 
+    Our mission is to help you discover, enjoy, and share your favorite games with the community. 
+    Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
+  </p>
+</div>
+
+<div class="faq-section">
+      <h2>FAQ</h2>
+      <p>
+        Here you'll find answers to the most frequently asked questions about LanternDB.
+        If you have any other questions, feel free to reach out to our support team.
+      </p>
+      <!-- You can add more FAQ content or sections here -->
+>>>>>>> 4d4122c299927b2b13f0bae8928a86ccfa2e0b73
     </div>
+
+    <!-- ... existing code ... -->
   </div>
 </template>
  
@@ -419,6 +440,7 @@ export default {
   margin-left: 10vw; /* Center the section horizontally */
   box-sizing: border-box; /* Ensure padding is included in the width */
   padding-top: 50px;
+  margin-top: 75px;
 }
 
 .about-us-section h2 {
@@ -431,36 +453,34 @@ export default {
   line-height: 1.6; /* Improve readability */
   margin: 0; /* Remove default margin */
 }
-.faq-item {
-  position: relative;
-  margin-bottom: 20px;
-}
 
-.faq-question {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #292929;
+.faq-section {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.007);
   color: white;
-  transition: background-color 0.3s;
+  margin-top: 150px;
+  text-align: left;
+  width: 75%;
+  margin-left: 10vw;
+  box-sizing: border-box;
+  padding-top: 50px;
+  border: 2px solid #d14b06; /* Basic outline */
+  border-radius: 10px; /* Optional: add rounded corners */
+  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
+              0 0 10px #d14b06, /* Slightly larger glow */
+              0 0 20px #ff6700, /* Larger and more diffused glow */
+              0 0 30px #ff6700; /* Further larger and more diffused glow */
 }
 
-.faq-question:hover {
-  background-color: #d14b06;
+.faq-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
 }
 
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  padding: 0 10px;
-  background-color: #121212;
-  color: white;
-  border-left: 4px solid #d14b06;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
-
-.faq-item:hover .faq-answer {
-  max-height: 100px; /* Adjust to fit your content */
-  padding: 10px;
+.faq-section p {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .glow {
