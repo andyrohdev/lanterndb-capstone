@@ -90,24 +90,28 @@
     </div>
 
     <div class="featured-games-section">
-      <h2 class="featured-header">Featured</h2>
-      <div class="carousel">
-        <div class="carousel-track-container">
-          <ul class="carousel-track">
-            <li v-for="game in featuredGames" :key="game.id" class="carousel-slide"
-              @click="redirectToGameDetails(game.id)">
-              <img :src="game.imageUrl" :alt="game.name" class="game-image" />
-              <p>{{ game.name }}</p>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Navigation buttons -->
-        <button class="carousel-button left" @click="prevSlide">&#10094;</button>
-        <button class="carousel-button right" @click="nextSlide">&#10095;</button>
-
+  <h2>Featured Games:</h2>
+  <div class="featured-games-accordion">
+    <div
+      v-for="game in featuredGames"
+      :key="game.id"
+      class="featured-game-item"
+      @mouseover="setActiveGame(game.id)"
+      @mouseleave="clearActiveGame"
+      :class="{ 'active': activeGame === game.id }"
+    >
+      <img :src="game.imageUrl" :alt="game.name" class="game-image" />
+      <div class="game-info">
+        <h3>{{ game.name }}</h3>
+        <router-link :to="{ name: 'game-details', params: { gameId: game.id } }" class="view-details-button">
+          View Details
+        </router-link>
       </div>
     </div>
+  </div>
+</div>
+
+
     <div class="about-us-section">
       <h2>About Us</h2>
       <p>
@@ -140,7 +144,8 @@
 
 
 <script>
-import videoSrc from "@/assets/animated-homepage2.mp4"; // Import the video source
+import videoSrc from "@/assets/animated-homepage.mp4"; // Import the video source
+
 
 export default {
   data() {
@@ -172,6 +177,7 @@ export default {
             "https://media.rawg.io/media/games/736/73619bd336c894d6941d926bfd563946.jpg",
         },
       ],
+      activeGame: null,
     };
   },
   computed: {
@@ -183,42 +189,21 @@ export default {
     redirectToGameDetails(gameId) {
       this.$router.push({ name: "game-details", params: { gameId: gameId } });
     },
-
-    prevSlide() {
-      if (this.currentSlide > 0) {
-        this.currentSlide--;
-      } else {
-        this.currentSlide = this.totalSlides - 1;
-      }
-      this.updateSlidePosition();
+    setActiveGame(gameId) {
+      this.activeGame = gameId;
     },
-    nextSlide() {
-      if (this.currentSlide < this.totalSlides - 1) {
-        this.currentSlide++;
-      } else {
-        this.currentSlide = 0;
-      }
-      this.updateSlidePosition();
+    clearActiveGame() {
+      this.activeGame = null;
     },
-    updateSlidePosition() {
-      const track = this.$el.querySelector(".carousel-track");
-      const slideWidth = this.$el.querySelector(".carousel-slide").clientWidth;
-      const amountToMove = this.currentSlide * slideWidth;
-      track.style.transform = `translateX(-${amountToMove}px)`;
-    },
-
-  },
-
-
-  mounted() {
-    this.updateSlidePosition(); // Ensure the initial position is correct
-    window.addEventListener("resize", this.updateSlidePosition); // Adjust on window resize
+   
+  
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.updateSlidePosition);
   },
 
 };
+
 </script>
 
 <style scoped>
@@ -654,89 +639,73 @@ export default {
 
 /* Add more nth-child selectors if you have more lines */
 
-.featured-games-section {
-  padding: 20px;
-  background-color: #1212127e;
-  color: white;
-  text-align: center; /* Center-align the text */
-}
-
-.featured-header {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.carousel {
-  position: relative;
-  overflow: hidden;
-  margin: 0 auto;
-  width: 80%;
-}
-
-.carousel-track-container {
+.featured-games-accordion {
   display: flex;
   justify-content: center;
-  align-items: center;
+  gap: 10px;
+  height: 300px; /* Adjust the height as needed */
+}
+
+.featured-game-item {
+  flex: 1;
+  transition: flex 0.6s ease-in-out, transform 0.6s ease-in-out;
   overflow: hidden;
   position: relative;
-  width: 100%;
-  padding: 0 20px; /* Add padding to show adjacent games */
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-  min-width: 25%; /* Adjust the width to show more of adjacent slides */
-  transition: transform 0.5s ease-in-out;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.game-image {
-  width: 300%; /* Make the images smaller */
-  height: auto;
-  border-radius: 10px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.carousel-slide p {
-  margin-top: 10px;
-  font-size: 1.2rem;
-}
-
-.carousel-slide:hover .game-image {
-  transform: scale(1.05);
-}
-
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 2rem;
   cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1; /* Default z-index */
+}
+
+.featured-game-item.active {
+  flex: 4;
+  transform: scale(1.01);
+  z-index: 10; /* Higher z-index for the active game */
+}
+
+.featured-game-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease-in-out;
+}
+
+.featured-game-item.active img {
+  transform: scale(1.01);
+}
+
+.game-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
   padding: 10px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.featured-game-item.active .game-info {
+  opacity: 1;
+}
+
+.view-details-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 15px;
+  background-color: #ff6700;
+  color: white;
   border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
 
-.carousel-button.left {
-  left: 10px;
+.view-details-button:hover {
+  background-color: #e65c00;
 }
 
-.carousel-button.right {
-  right: 10px;
-}
-
-
-.carousel-button:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
 
 @keyframes fadeInAnimation {
   to {
