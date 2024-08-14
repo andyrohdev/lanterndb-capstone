@@ -381,7 +381,18 @@ export default {
 }
 
 .game-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
+              0 0 10px #d14b06, /* Slightly larger glow */
+              0 0 20px #ff6700, /* Larger and more diffused glow */
+              0 0 30px #ff6700; /* Further larger and more diffused glow */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.game-card:hover p {
+  color: #ff6700;
+  text-shadow: 0 0 5px #d14b06, 
+               0 0 10px #ff6700;
+  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
 .game-image {
@@ -421,8 +432,9 @@ export default {
 }
 
 .section-divider {
+  width: 53%; 
   border: none;
-  border-top: 1px solid white; /* Thin white line */
+  border-top: 2px solid #f5c277; /* Thin white line */
   margin: 20px 0; /* Adjust the spacing between sections */
 }
 
