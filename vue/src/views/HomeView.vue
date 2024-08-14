@@ -118,6 +118,8 @@
   </p>
 </div>
 
+<hr class="section-divider">
+
 <div class="faq-section">
       <h2>FAQ</h2>
       <p>
@@ -404,6 +406,7 @@ export default {
   box-sizing: border-box; /* Ensure padding is included in the width */
   padding-top: 50px;
   margin-top: 75px;
+  margin-bottom: 50px;
 }
 
 .about-us-section h2 {
@@ -417,13 +420,19 @@ export default {
   margin: 0; /* Remove default margin */
 }
 
+.section-divider {
+  border: none;
+  border-top: 1px solid white; /* Thin white line */
+  margin: 20px 0; /* Adjust the spacing between sections */
+}
+
 .faq-section {
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.007);
   color: white;
   margin-top: 150px;
   text-align: left;
-  width: 75%;
+  width: 47%;
   margin-left: 10vw;
   box-sizing: border-box;
   padding-top: 50px;
