@@ -74,14 +74,14 @@ export default {
     return {
       isDropDownOpen: false,
       lanternDbRating: null,
-      addedCollections: new Set(),
+      addedCollections: new Set(), // Track which collections the game has been added to
       toast: useToast(),
     };
   },
   computed: {
     isLoggedIn() {
       const user = this.$store.state.user;
-      return !!user && !!user.id;
+      return !!user && !!user.id; // Check if user is logged in
     },
   },
   methods: {
@@ -96,47 +96,9 @@ export default {
         this.closeDropDown();
       }
     },
-    showNotification(message, type = 'success') {
-      switch (type) {
-        case 'success':
-          this.toast.success(message, {
-            position: 'top-center',
-            timeout: 3000,
-            theme: 'dark',
-          });
-          break;
-        case 'error':
-          this.toast.error(message, {
-            position: 'top-center',
-            timeout: 3000,
-            theme: 'dark',
-          });
-      }
-    },
     handleItemClick(collection_id) {
-      if (this.isItemDisabled(collection_id)) return;
-
-      this.checkIfGameInCollection(collection_id);
-    },
-    checkIfGameInCollection(collection_id) {
-      GameService.getCollections(collection_id)
-        .then((response) => {
-          const existingGames = response.data;
-          const gameAlreadyInCollection = existingGames.some(
-            (game) => game.title === this.game.name
-          );
-
-          if (gameAlreadyInCollection) {
-            this.showNotification("Game is already in this collection.", 'error');
-            this.addedCollections.add(collection_id); // Disable button for this collection
-          } else {
-            this.addToCollection(collection_id);
-          }
-        })
-        .catch((error) => {
-          console.error("Error checking collection:", error);
-          this.showNotification("Failed to check collection. Try again.", 'error');
-        });
+      if (this.isItemDisabled(collection_id)) return; // Prevent action if item is disabled
+      this.addToCollection(collection_id);
     },
     addToCollection(collection_id) {
       const genre =
@@ -152,13 +114,14 @@ export default {
 
       CollectionService.addToCollections(gameData)
         .then((response) => {
-          this.addedCollections.add(collection_id);
-          this.closeDropDown();
+          console.log(`Game added to ${collection_id} collection`, response);
+          this.addedCollections.add(collection_id); // Mark as added
+          this.closeDropDown(); // Close the dropdown after adding
           this.showNotification("It has Successfully been added!");
         })
         .catch((error) => {
           console.error(`Error adding game to ${collection_id} collection`, error);
-          this.closeDropDown();
+          this.closeDropDown(); // Close the dropdown even if there's an error
           this.showNotification("Something went wrong!");
         });
     },
@@ -180,10 +143,30 @@ export default {
           this.lanternDbRating = "N/A";
         });
     },
+    checkIfAlreadyInCollection(collection_id) {
+      CollectionService.getCollections(collection_id)
+        .then((response) => {
+          const gamesInCollection = response.data;
+          const gameExists = gamesInCollection.some(game => game.title === this.game.name);
+
+          if (gameExists) {
+            this.addedCollections.add(collection_id);
+          }
+        })
+        .catch((error) => {
+          console.error(`Error checking if game is in collection ${collection_id}:`, error);
+        });
+    },
+    checkAllCollections() {
+      [1, 2, 3].forEach(collection_id => {
+        this.checkIfAlreadyInCollection(collection_id);
+      });
+    },
   },
   mounted() {
     document.addEventListener("click", this.handleClickOutside);
     this.fetchLanternDbRating();
+    this.checkAllCollections(); // Check all collections when the component is mounted
   },
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
