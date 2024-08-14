@@ -117,34 +117,6 @@
       </div>
     </div>
     <div class="about-us-section">
-<<<<<<< HEAD
-      <h2>About Us</h2>
-      <p>
-        LanternDB is dedicated to illuminating your gaming experience. We
-        provide comprehensive reviews, ratings, and in-depth articles on the
-        latest and greatest games. Our mission is to help you discover, enjoy,
-        and share your favorite games with the community. Whether you're a
-        casual gamer or a hardcore enthusiast, LanternDB offers a vibrant
-        platform to enhance your gaming world.
-      </p>
-    </div>
-
-    <div class="faq-section">
-      <h2>FAQ</h2>
-      <p>
-        Here you'll find answers to the most frequently asked questions about
-        LanternDB. If you have any other questions, feel free to reach out to
-        our support team.
-      </p>
-      <div class="faq-item" v-for="(faq, index) in faqs" :key="index">
-        <div class="faq-question">
-          {{ faq.question }}
-        </div>
-        <div class="faq-answer">
-          {{ faq.answer }}
-        </div>
-      </div>
-=======
   <h2>About Us</h2>
   <p>
     LanternDB is dedicated to illuminating your gaming experience. 
@@ -161,7 +133,6 @@
         If you have any other questions, feel free to reach out to our support team.
       </p>
       <!-- You can add more FAQ content or sections here -->
->>>>>>> 4d4122c299927b2b13f0bae8928a86ccfa2e0b73
     </div>
 
     <!-- ... existing code ... -->
