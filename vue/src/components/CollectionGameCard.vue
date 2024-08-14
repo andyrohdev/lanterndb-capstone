@@ -142,7 +142,6 @@ export default {
 </script>
 
 <style scoped>
-
 .collection-game-card.dragging {
   opacity: 0.5;
 }
@@ -210,6 +209,15 @@ export default {
   background-color: #2e2e2e;
 }
 
+.dropdown-item {
+  color: #fff !important;
+}
+
+.dropdown-item:hover {
+  background-color: #444;
+  color: #fff !important;
+}
+
 .dragging {
   opacity: 0.5; /* Example: Make the dragged card semi-transparent */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Example: Add a shadow to indicate it's being dragged */
@@ -219,7 +227,5 @@ export default {
   border: 2px dashed #4a90e2; /* Example: Highlight drop zones with a dashed border */
   background-color: rgba(74, 144, 226, 0.1); /* Example: Slight background color change */
 }
-
-
 
 </style>
