@@ -122,10 +122,12 @@
 
 <div class="faq-section">
       <h2>FAQ</h2>
-      <p>
-        Here you'll find answers to the most frequently asked questions about LanternDB.
-        If you have any other questions, feel free to reach out to our support team.
-      </p>
+      <ul>
+            <li>QUESTION: How many games are in the browse feature?</li>
+            <p>ANSWER: More than 500,000 games can be found!</p>
+            <li>QUESTION: Is there a fee or monthly payment involved with registration?</li>
+            <p>ANSWER: No, all features are 100% FREE!</p>
+          </ul>
       <!-- You can add more FAQ content or sections here -->
     </div>
 
@@ -440,6 +442,7 @@ export default {
 
 .faq-section {
   padding: 20px;
+  padding-top: 1px;
   background-color: rgba(0, 0, 0, 0.007);
   color: white;
   margin-top: 150px;
