@@ -122,10 +122,12 @@
 
 <div class="faq-section">
       <h2>FAQ</h2>
-      <p>
-        Here you'll find answers to the most frequently asked questions about LanternDB.
-        If you have any other questions, feel free to reach out to our support team.
-      </p>
+      <ul>
+            <li>QUESTION: How many games are in the browse feature?</li>
+            <p>ANSWER: More than 500,000 games can be found!</p>
+            <li>QUESTION: Is there a fee or monthly payment involved with registration?</li>
+            <p>ANSWER: No, all features are 100% FREE!</p>
+          </ul>
       <!-- You can add more FAQ content or sections here -->
     </div>
 
@@ -381,7 +383,18 @@ export default {
 }
 
 .game-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px #d14b06, /* Outer neon glow */
+              0 0 10px #d14b06, /* Slightly larger glow */
+              0 0 20px #ff6700, /* Larger and more diffused glow */
+              0 0 30px #ff6700; /* Further larger and more diffused glow */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.game-card:hover p {
+  color: #ff6700;
+  text-shadow: 0 0 5px #d14b06, 
+               0 0 10px #ff6700;
+  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
 .game-image {
@@ -421,13 +434,15 @@ export default {
 }
 
 .section-divider {
+  width: 53%; 
   border: none;
-  border-top: 1px solid white; /* Thin white line */
+  border-top: 2px solid #f5c277; /* Thin white line */
   margin: 20px 0; /* Adjust the spacing between sections */
 }
 
 .faq-section {
   padding: 20px;
+  padding-top: 1px;
   background-color: rgba(0, 0, 0, 0.007);
   color: white;
   margin-top: 150px;

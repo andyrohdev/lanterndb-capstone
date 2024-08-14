@@ -5,6 +5,9 @@ import router from './router'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Toast, { POSITION } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
+
 
 
 
@@ -33,3 +36,13 @@ const app = createApp(CapstoneApp);
 app.use(store);
 app.use(router);
 app.mount('#app');
+
+const toastOptions = {
+  position: POSITION.TOP_CENTER,
+  timeout: 10000,
+  theme: 'dark',
+};
+  
+
+app.use(Toast, toastOptions);
+
