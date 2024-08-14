@@ -24,18 +24,54 @@ public class CollectionListDaoTest {
     private JdbcUserDao jdbcUserDao;
     private int userId = 3;
 
+
     @BeforeEach
     void setUp() {
         jdbcTemplate = new JdbcTemplate() {
             @Override
+            public int update(String sql, Object... args) {
+                // Default behavior for update method
+                return 0; // Override in specific tests
+            }
+
+            @Override
             public SqlRowSet queryForRowSet(String sql, Object... args) {
-                return createMockRowSet();
+                // Determine which query is being executed
+                if (sql.contains("collection_list_id")) {
+                    return createMockRowSet();
+                }
+                return null;
+            }
+
+            @Override
+            public <T> T queryForObject(String sql, Class<T> requiredType, Object... args) {
+
+                if (sql.contains("RETURNING collection_id")) {
+                    return (T) Integer.valueOf(1); // mock the new id being returned
+                }
+                return null;
             }
         };
 
         jdbcUserDao = new JdbcUserDao(jdbcTemplate);
-
         jdbcCollectionListDao = new JdbcCollectionListDao(jdbcTemplate, jdbcUserDao);
+    }
+
+
+    @Test
+    public void fetchCollectionById_ShouldReturnCollectionList() {
+        int collectionListId = 1;
+
+
+        CollectionList result = jdbcCollectionListDao.fetchCollectionById(collectionListId);
+
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.getCollection_list_id());
+        Assert.assertEquals(3, result.getUser_id());
+        Assert.assertEquals(1, result.getCollection_id());
+        Assert.assertEquals("Test Title", result.getTitle());
+        Assert.assertEquals("Test Genre", result.getGenre());
     }
 
     @Test
@@ -53,6 +89,107 @@ public class CollectionListDaoTest {
         Assert.assertEquals("Test Title", collectionList.getTitle());
         Assert.assertEquals("Test Genre", collectionList.getGenre());
     }
+
+    @Test
+    public void addGameToCollection_ShouldAddGameAndReturnCollectionList() {
+        CollectionList collectionListToAdd = new CollectionList();
+        collectionListToAdd.setUser_id(3);
+        collectionListToAdd.setCollection_id(1);
+        collectionListToAdd.setTitle("New Game");
+        collectionListToAdd.setGenre("New Genre");
+
+        // implement fetchCollectionByType method returning a list with the new game
+        jdbcCollectionListDao = new JdbcCollectionListDao(jdbcTemplate, jdbcUserDao) {
+            @Override
+            public List<CollectionList> fetchCollectionByType(int collectionId, int userId) {
+                CollectionList addedCollectionList = new CollectionList();
+                addedCollectionList.setCollection_list_id(1);
+                addedCollectionList.setUser_id(3);
+                addedCollectionList.setCollection_id(1);
+                addedCollectionList.setTitle("New Game");
+                addedCollectionList.setGenre("New Genre");
+                return List.of(addedCollectionList);
+            }
+        };
+
+        List<CollectionList> result = jdbcCollectionListDao.addGameToCollection(collectionListToAdd, 3);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+
+        CollectionList addedCollectionList = result.get(0);
+        Assert.assertEquals(1, addedCollectionList.getCollection_list_id());
+        Assert.assertEquals(3, addedCollectionList.getUser_id());
+        Assert.assertEquals(1, addedCollectionList.getCollection_id());
+        Assert.assertEquals("New Game", addedCollectionList.getTitle());
+        Assert.assertEquals("New Genre", addedCollectionList.getGenre());
+    }
+
+
+    @Test
+    public void updateCollection_ShouldUpdateAndReturnUpdatedCollection() {
+        CollectionList collectionListToUpdate = new CollectionList();
+        collectionListToUpdate.setCollection_list_id(1);
+        collectionListToUpdate.setUser_id(3);
+        collectionListToUpdate.setCollection_id(1);
+        collectionListToUpdate.setTitle("Updated Title");
+        collectionListToUpdate.setGenre("Updated Genre");
+
+        //mock behavior for update
+        jdbcTemplate = new JdbcTemplate() {
+            @Override
+            public int update(String sql, Object... args) {
+                if (sql.contains("UPDATE collection_list")) {
+                    //mock successful update
+                    return 1;
+                }
+                return 0;
+            }
+        };
+
+        jdbcCollectionListDao = new JdbcCollectionListDao(jdbcTemplate, jdbcUserDao) {
+            @Override
+            public CollectionList fetchCollectionById(int collectionListId) {
+                //mock fetching updated collection
+                CollectionList updatedCollectionList = new CollectionList();
+                updatedCollectionList.setCollection_list_id(1);
+                updatedCollectionList.setUser_id(3);
+                updatedCollectionList.setCollection_id(1);
+                updatedCollectionList.setTitle("Updated Title");
+                updatedCollectionList.setGenre("Updated Genre");
+                return updatedCollectionList;
+            }
+        };
+
+        CollectionList result = jdbcCollectionListDao.updateCollection(collectionListToUpdate, 3);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.getCollection_list_id());
+        Assert.assertEquals(3, result.getUser_id());
+        Assert.assertEquals(1, result.getCollection_id());
+        Assert.assertEquals("Updated Title", result.getTitle());
+        Assert.assertEquals("Updated Genre", result.getGenre());
+    }
+
+    @Test
+    public void deleteGameFromACollection_ShouldReturnRowsAffected_WhenSuccess() {
+        int collectionListId = 1;
+
+        jdbcTemplate = new JdbcTemplate() {
+            @Override
+            public int update(String sql, Object... args) {
+                return 1; //show that 1 row was affected
+            }
+        };
+
+        jdbcCollectionListDao = new JdbcCollectionListDao(jdbcTemplate, jdbcUserDao);
+
+        int rowsAffected = jdbcCollectionListDao.deleteGameFromACollection(collectionListId);
+
+        Assert.assertEquals(1, rowsAffected);
+    }
+
+
 
     private SqlRowSet createMockRowSet() {
         return new SqlRowSet() {
