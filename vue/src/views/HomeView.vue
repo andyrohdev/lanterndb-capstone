@@ -96,17 +96,19 @@
 
     <div class="featured-games-section">
       <h2>Featured Games:</h2>
-      <div class="games-container">
-        <div
+    <div class="track-wrapper">
+      <ul class="track">
+        <li
           v-for="game in featuredGames"
           :key="game.id"
-          class="game-card"
+          class="track__item"
           @click="redirectToGameDetails(game.id)"
         >
           <img :src="game.imageUrl" :alt="game.name" class="game-image" />
           <p>{{ game.name }}</p>
-        </div>
-      </div>
+        </li>
+      </ul>
+    </div>
     </div>
     <div class="about-us-section">
   <h2>About Us</h2>
