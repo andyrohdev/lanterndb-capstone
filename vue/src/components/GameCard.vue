@@ -30,19 +30,31 @@
         class="dropdown-menu"
         :class="{ 'dropdown-menu-show': isDropDownOpen }"
       >
-        <div class="dropdown-item" @click="addToCollection(1)">
-          <i class="bi bi-heart" style="color: rgb(244, 130, 9)"></i> Add to
-          Wishlist
+        <div
+          class="dropdown-item"
+          @click="handleItemClick(1)"
+          :class="{ disabled: isItemDisabled(1) }"
+        >
+          <i class="bi bi-heart" :style="{ color: isItemDisabled(1) ? '#666' : 'rgb(244, 130, 9)' }"></i>
+          Add to Wishlist
         </div>
         <div class="divider-horizontal"></div>
-        <div class="dropdown-item" @click="addToCollection(2)">
-          <i class="bi bi-play-circle" style="color: rgb(244, 130, 9)"></i> Add
-          to Playing
+        <div
+          class="dropdown-item"
+          @click="handleItemClick(2)"
+          :class="{ disabled: isItemDisabled(2) }"
+        >
+          <i class="bi bi-play-circle" :style="{ color: isItemDisabled(2) ? '#666' : 'rgb(244, 130, 9)' }"></i>
+          Add to Playing
         </div>
         <div class="divider-horizontal"></div>
-        <div class="dropdown-item" @click="addToCollection(3)">
-          <i class="bi bi-check-circle" style="color: rgb(244, 130, 9)"></i> Add
-          to Played
+        <div
+          class="dropdown-item"
+          @click="handleItemClick(3)"
+          :class="{ disabled: isItemDisabled(3) }"
+        >
+          <i class="bi bi-check-circle" :style="{ color: isItemDisabled(3) ? '#666' : 'rgb(244, 130, 9)' }"></i>
+          Add to Played
         </div>
       </div>
     </div>
@@ -51,7 +63,8 @@
 
 <script>
 import CollectionService from "../services/CollectionService";
-import GameService from "../services/GameService"; // Import your GameService to fetch ratings
+import GameService from "../services/GameService";
+import { useToast } from 'vue-toastification';
 
 export default {
   props: {
@@ -60,7 +73,10 @@ export default {
   data() {
     return {
       isDropDownOpen: false,
-      lanternDbRating: null, // Store the LanternDB rating
+      lanternDbRating: null,
+      // Track which collections the game has been added to
+      addedCollections: new Set(),
+      toast: useToast(),
     };
   },
   computed: {
@@ -81,6 +97,28 @@ export default {
         this.closeDropDown();
       }
     },
+    showNotification(message, type = 'success') {
+      switch (type) {
+        case 'success':
+          this.toast.success(message, {
+            position: 'top-center',
+            timeout: 3000,
+            theme: 'dark',
+          });
+          break;
+        case 'error':
+          this.toast.error(message, {
+            position: 'top-center',
+            timeout: 3000,
+            theme: 'dark',
+          });
+      }
+    },
+    handleItemClick(collection_id) {
+      if (this.isItemDisabled(collection_id)) return; // Prevent action if item is disabled
+
+      this.addToCollection(collection_id);
+    },
     addToCollection(collection_id) {
       const genre =
         this.game.genres && this.game.genres.length > 0
@@ -96,15 +134,19 @@ export default {
       CollectionService.addToCollections(gameData)
         .then((response) => {
           console.log(`Game added to ${collection_id} collection`, response);
-          this.closeDropDown(); // Close the dropdown after adding to the collection
+          this.addedCollections.add(collection_id); // Mark as added
+          this.closeDropDown(); // Close the dropdown after adding
+          this.showNotification("It has Successfully been added!");
+          
         })
         .catch((error) => {
-          console.error(
-            `Error adding game to ${collection_id} collection`,
-            error
-          );
+          console.error(`Error adding game to ${collection_id} collection`, error);
           this.closeDropDown(); // Close the dropdown even if there's an error
+          this.showNotification("Something went wrong!");
         });
+    },
+    isItemDisabled(collection_id) {
+      return this.addedCollections.has(collection_id);
     },
     fetchLanternDbRating() {
       GameService.getLanternDbRatings(this.game.id)
@@ -124,7 +166,7 @@ export default {
   },
   mounted() {
     document.addEventListener("click", this.handleClickOutside);
-    this.fetchLanternDbRating(); // Fetch the LanternDB rating when the component is mounted
+    this.fetchLanternDbRating();
   },
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
@@ -250,10 +292,30 @@ export default {
   margin-right: 8px;
 }
 
+.dropdown-item.disabled {
+  background-color: #666;
+  color: #999;
+  cursor: not-allowed;
+}
+
 .divider-horizontal {
   height: 1px;
   background-color: #00000033;
   margin: 5px 0;
+}
+.vue-toastification__toast--dark {
+  background-color: #333;
+  color: #050505;
+  border-radius: 4px;
+}
+
+.vue-toastification__toast--dark .vue-toastification__toast-body {
+  font-size: 14px;
+  padding: 10px 15px;
+}
+
+.vue-toastification__toast--dark .vue-toastification__toast-icon {
+  color: #fff;
 }
 
 @media (max-width: 600px) {
