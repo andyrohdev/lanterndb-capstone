@@ -4,9 +4,12 @@
     :to="{ name: 'game-details', params: { gameId: gameId } }"
     class="collection-game-card-link"
     @click.native.stop="navigateToDetails"
+    draggable="true"
+    @dragstart="onDragStart"
+    @dragend="onDragEnd"
   >
     <div class="collection-game-card">
-      <img :src="gameImage" alt="Game Image" class="game-image" />
+      <img :src="gameImage" alt="Game Image" class="game-image" draggable="false" />
       <div class="game-title-overlay">
         <p class="game-title">{{ game.title }}</p>
         <div class="dropdown" @click.stop>
@@ -120,12 +123,29 @@ export default {
       if (event.target.closest('.dropdown')) {
         event.preventDefault();
       }
-    }
+    },
+    onDragStart(event) {
+      event.dataTransfer.setData('game', JSON.stringify(this.game));
+      event.dataTransfer.effectAllowed = 'move';
+      event.target.classList.add('hidden-during-drag');
+    
+      
+    },
+    onDragEnd(event) {
+      event.target.classList.remove('hidden-during-drag');
+      
+    },
+    
+    
   }
 };
 </script>
 
 <style scoped>
+.collection-game-card.dragging {
+  opacity: 0.5;
+}
+
 .collection-game-card-link {
   text-decoration: none;
   color: inherit;
@@ -139,12 +159,18 @@ export default {
   overflow: hidden;
   background-color: #1e1e1e;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: grab; /* Change cursor to indicate the card can be dragged */
+}
+
+.collection-game-card:active {
+  cursor: grabbing; /* Change cursor when dragging */
 }
 
 .game-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none; /* Ensure the image does not interfere with drag events */
 }
 
 .game-title-overlay {
@@ -182,4 +208,24 @@ export default {
   top: 30px;
   background-color: #2e2e2e;
 }
+
+.dropdown-item {
+  color: #fff !important;
+}
+
+.dropdown-item:hover {
+  background-color: #444;
+  color: #fff !important;
+}
+
+.dragging {
+  opacity: 0.5; /* Example: Make the dragged card semi-transparent */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Example: Add a shadow to indicate it's being dragged */
+}
+
+.highlight-drop-zone {
+  border: 2px dashed #4a90e2; /* Example: Highlight drop zones with a dashed border */
+  background-color: rgba(74, 144, 226, 0.1); /* Example: Slight background color change */
+}
+
 </style>

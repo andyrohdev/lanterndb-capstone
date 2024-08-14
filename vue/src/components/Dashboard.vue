@@ -1,57 +1,55 @@
 <template>
   <div class="dashboard-container d-flex" id="main">
     <!-- Sidebar -->
-    <transition name="slide-left">
-      <div class="sidebar" :class="{ hidden: !sidebarVisible }">
-        <button
-          class="btn btn-outline-light sidebar-toggle"
-          @click="toggleSidebar"
-        >
-          <i class="bi bi-chevron-left"></i>
-        </button>
-        <nav class="sidebar-nav">
-          <h4>Dashboard</h4>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a
-                class="nav-link text-light"
-                href="#"
-                @click="setActiveSection('collections')"
-              >
-                <i class="bi bi-collection"></i>Collections
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link text-light"
-                href="#"
-                @click="setActiveSection('ratings')"
-              >
-                <i class="bi bi-star"></i>Ratings
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link text-light"
-                href="#"
-                @click="setActiveSection('reviews')"
-              >
-                <i class="bi bi-chat"></i>Reviews
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link text-light"
-                href="#"
-                @click="setActiveSection('comments')"
-              >
-                <i class="bi bi-chat-dots"></i>Comments
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </transition>
+    <div :class="['sidebar', { hidden: !sidebarVisible }]" @click="sidebarVisible = false">
+      <button
+        class="btn btn-outline-light sidebar-toggle"
+        @click.stop="toggleSidebar"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <nav class="sidebar-nav">
+        <h4>Dashboard</h4>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link text-light"
+              href="#"
+              @click="setActiveSection('collections')"
+            >
+              <i class="bi bi-collection"></i>Collections
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-light"
+              href="#"
+              @click="setActiveSection('ratings')"
+            >
+              <i class="bi bi-star"></i>Ratings
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-light"
+              href="#"
+              @click="setActiveSection('reviews')"
+            >
+              <i class="bi bi-chat"></i>Reviews
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-light"
+              href="#"
+              @click="setActiveSection('comments')"
+            >
+              <i class="bi bi-chat-dots"></i>Comments
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
     <!-- Main Content -->
     <div :class="['dashboard-content', { 'with-sidebar': sidebarVisible }]">
@@ -263,8 +261,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 #main {
   display: flex;
@@ -283,16 +279,17 @@ export default {
   bottom: 0;
   left: 0;
   width: 250px;
-  background: #141413c5;
+  background: rgba(20, 20, 19, 0.9); /* Slight transparency */
   padding: 20px;
   overflow-y: auto;
   transform: translateX(0);
   transition: transform 0.3s ease;
   padding-top: 80px;
+  z-index: 500; /* Ensure it's on top of the dashboard content */
 }
 
 .sidebar.hidden {
-  transform: translateX(-200px); /* Sidebar slides partially out, leaving 50px visible */
+  transform: translateX(-80%); /* Sidebar moves out of view, leaving a portion visible */
 }
 
 .sidebar-toggle,
@@ -305,7 +302,7 @@ export default {
   color: white;
   font-size: 24px;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1060;
 }
 
 .sidebar-toggle {
@@ -314,13 +311,6 @@ export default {
 
 .sidebar-expand-toggle {
   left: 0px;
-}
-
-/* New Toggle Button when Sidebar is Hidden */
-.sidebar-toggle-outside {
-  left: 0;
-  transform: translateX(-200px); /* Adjust the position of the toggle button */
-  transition: transform 0.3s ease;
 }
 
 .dashboard-content {
@@ -335,11 +325,7 @@ export default {
 }
 
 .sidebar.hidden + .dashboard-content {
-  margin-left: 50px; /* Content expands but leaves space for the toggle button */
-}
-
-.sidebar.hidden ~ .sidebar-toggle-outside {
-  transform: translateX(0); /* Adjust the outside toggle button */
+  margin-left: 40px; /* Content expands to full width */
 }
 
 .sidebar-nav {
@@ -490,33 +476,20 @@ export default {
   }
 }
 
-/* Media Query for screens up to 900px - Stack Collection Cards */
+/* Media Query for screens up to 900px - Full screen overlay for the sidebar */
 @media (max-width: 900px) {
-  .collection-container {
-    flex-direction: column; /* Stack collection cards on top of each other */
-    align-items: stretch; /* Ensure cards take full width */
+  .sidebar {
+    width: 100%;
+    transform: translateX(0%);
+    background: rgba(20, 20, 19, 0.95); /* Increased transparency */
   }
 
-}
+  .sidebar.hidden {
+    transform: translateX(-94.5%); /* Sidebar moves out of view, leaving a portion visible */
+  }
 
-/* Transition styles for sidebar */
-.slide-left-enter-active,
-.slide-left-leave-active {
-  transition: all 0.3s ease;
+  .dashboard-content {
+    margin-left: 0; /* Content takes full width */
+  }
 }
-.slide-left-enter,
-.slide-left-leave-to {
-  transform: translateX(-200px); /* Sidebar slides partially out */
-}
-
-.slide-right-enter-active,
-.slide-right-leave-active {
-  transition: all 0.3s ease;
-}
-.slide-right-enter,
-.slide-right-leave-to {
-  transform: translateX(-200px); /* Sidebar slides back in */
-}
-
-
 </style>
