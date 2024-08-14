@@ -24,8 +24,8 @@
       </div>
     </header>
     <div class="register-to">
-      <p>Register now to gain access to:</p>
-    </div>
+  <router-link to="/register" class="register-button">Register now to gain access to:</router-link>
+</div>
 
     <div class="info-boxes-section">
       <div class="info-box">
@@ -400,7 +400,7 @@ export default {
 .game-image {
   width: 100%;
   height: auto;
-  border-bottom: 2px solid #d14b06;
+  border-bottom: 2px solid #8181813a;
 }
 
 .about-us-section {
