@@ -36,19 +36,38 @@
   <div class="info-box">
     Read and Leave Reviews
     <div class="info-box-description">
-      <p>Dive into detailed game reviews from fellow gamers and share your own insights to help others make informed choices.</p>
+      <p>
+        Dive deep into a vast collection of detailed game reviews 
+        written by fellow gamers who share your passion. 
+        Not only can you discover new perspectives and insights, 
+        but you can also contribute by sharing your own in-depth reviews. 
+        Your feedback can guide others in making well-informed decisions, 
+        ensuring they choose the games that best suit their tastes and preferences.
+      </p>
     </div>
   </div>
   <div class="info-box">
     Rate Games you've Played
     <div class="info-box-description">
-      <p>Express your opinion by rating games and explore ratings from other users to see how your preferences align with the community.</p>
+      <p>
+        Express your unique opinion by rating games you've experienced. 
+        Your ratings contribute to a collective understanding of how a game 
+        resonates with the community. In addition, you can delve into the ratings 
+        provided by others, exploring how your tastes align or differ 
+        from the broader gaming community, which can be both enlightening and entertaining.
+      </p>
     </div>
   </div>
   <div class="info-box">
     Comment on Reviews
     <div class="info-box-description">
-      <p>Join the conversation by commenting on reviews, sharing your thoughts, and engaging with the gaming community.</p>
+      <p>
+        Join the lively discussions by commenting on reviews. 
+        This is your chance to share your thoughts, offer counterpoints, 
+        or build upon the ideas expressed by others. Engaging with the gaming 
+        community in this way fosters a richer dialogue, creating connections 
+        and enhancing the shared experience of discovering and enjoying games.
+      </p>
     </div>
   </div>
   <div class="info-box">
@@ -224,7 +243,7 @@ export default {
   margin: 0; /* Reset margin */
   padding: 20px;
   text-align: center;
-  background-color: rgba(158, 54, 10, 0.404);
+  background-color: #2929299f;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   overflow: hidden;
@@ -236,7 +255,7 @@ export default {
 }
 
 .info-box:hover {
-  background-color: #292929;
+  background-color: rgba(158, 54, 10, 0.404);
 }
 
 .info-box-description {
@@ -247,13 +266,13 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #292929;
+  background-color: rgb(158, 54, 10);
   padding: 0 10px;
   font-size: 14px;
 }
 
 .info-box:hover .info-box-description {
-  max-height: 300px; /* Adjust to fit the content */
+  max-height: 1000px; /* Adjust to fit the content */
   padding-top: 10px; /* Optional: Add padding for visual separation */
 }
 
