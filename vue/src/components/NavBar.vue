@@ -226,7 +226,7 @@ export default {
 }
 
 .profile-link {
-    cursor: pointer;
+
     position: relative;
     padding: 10px;
 }
