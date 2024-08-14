@@ -16,7 +16,7 @@
             <div class="divider"></div>
             <div v-if="isLoggedIn" class="profile-link" @click.stop="toggleDropDown">
                 <i class="bi bi-person-circle"></i>
-                <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]">
+                <div :class="['dropdown-menu', { 'dropdown-menu-show': isDropDownOpen }]" ref="dropdownMenuRef">
                     <div class="dropdown-item user-info">
                         <i class="bi bi-person"></i>
                         <div>{{ userName }}</div>
@@ -43,6 +43,7 @@
         </div>
     </nav>
 </template>
+
 
 <script>
 import 'bootstrap-icons/font/bootstrap-icons.css'
@@ -74,6 +75,7 @@ export default {
     data() {
         return {
             isDropDownOpen: false,
+            dropdownMenuRef: null,
         };
     },
     computed: {
@@ -96,7 +98,8 @@ export default {
             this.isDropDownOpen = false;
         },
         handleClickOutside(event) {
-            if (this.isDropDownOpen && !this.$el.contains(event.target)) {
+            const dropdownMenu = this.$refs.dropdownMenuRef;
+            if (this.isDropDownOpen && dropdownMenu && !dropdownMenu.contains(event.target)) {
                 this.closeDropDown();
             }
         }
