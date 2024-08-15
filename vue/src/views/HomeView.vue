@@ -38,6 +38,7 @@
           <h2>Your Gaming Journey Starts Here</h2>
           <p>Join our community to explore and share your favorite games.</p>
           <router-link to="/register" class="cta-button">Get Started</router-link>
+
         </div>
       </div>
 
@@ -425,6 +426,7 @@ export default {
   opacity: 1;
   transform: none;
   transition: none;
+  z-index: 1;
 }
 
 .featured-games-section:before {
@@ -456,6 +458,7 @@ export default {
   margin-bottom: 50px;
   position: relative;
   overflow: hidden;
+  z-index: 2; /* Ensure this card stays on top */
 }
 
 .call-to-action-card:before {
@@ -467,6 +470,11 @@ export default {
   height: 100%;
   background: radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.5), transparent); /* Keep the same background for call-to-action */
   animation: wave 4s infinite alternate ease-in-out;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2; /* Ensure the content, including the button, stays on top */
 }
 
 .cta-content h2 {
@@ -481,15 +489,17 @@ export default {
 
 .cta-button {
   padding: 15px 30px;
-  background-color: #ff6700;
+  background-color: #FF6800; /* Updated color */
   color: white;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  z-index: 3;
+  position: relative;
 }
 
 .cta-button:hover {
-  background-color: #e65c00;
+  background-color: #F3540C; /* Darker blue on hover */
 }
 
 /* Info Cards Section */
@@ -545,7 +555,7 @@ export default {
 }
 
 .info-box-back {
-  background-color: #ff9e1b;
+  background-color: #FA8903;
   color: black;
   transform: rotateY(180deg); /* Back face is hidden initially */
   text-align: center;
