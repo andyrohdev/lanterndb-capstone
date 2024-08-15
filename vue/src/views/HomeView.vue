@@ -2,155 +2,121 @@
   <div class="home-page">
     <header class="header-section">
       <!-- Video Background -->
-      <video autoplay muted loop preload="auto" class="background-video">
+      <video
+        v-if="!isMobile"
+        autoplay
+        muted
+        loop
+        preload="auto"
+        class="background-video"
+      >
         <source :src="videoSrc" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div class="header-content">
-        <h1>
-          Welcome to <span class="glow">Lantern</span><span class="flame">DB</span>
-        </h1>
-        <h2>Illuminate Your Gaming World</h2>
-        <p>
-          <span class="fade-in-line">Enjoy reviews, ratings, in-depth articles,</span><br />
-          <span class="fade-in-line">and easily add your favorite games to your collections</span><br />
-          <span class="fade-in-line">for everyone to enjoy.</span>
-        </p>
+        <div class="header-text">
+          <h1>
+            <span class="glow">Lantern</span><span class="flame">DB</span>
+          </h1>
+          <h2>Illuminate Your Gaming World</h2>
+          <p>
+            <span class="fade-in-line"
+              >Enjoy reviews, ratings, in-depth articles,</span
+            ><br />
+            <span class="fade-in-line"
+              >and easily add your favorite games to your collections</span
+            ><br />
+            <span class="fade-in-line">for everyone to enjoy.</span>
+          </p>
+        </div>
       </div>
     </header>
-    <div class="register-to">
-      <router-link to="/register" class="register-button">Register now to gain access to:</router-link>
-    </div>
-
-    <div class="info-boxes-section">
-      <div class="info-box">
-        Create and Manage Collections
-        <div class="info-box-description">
-          <p>
-            Easily manage your game collection by seamlessly
-            adding new titles, and keeping track of your favorites all within one intuitive and
-            user-friendly interface. Allowing you to find more information on video games.
-            Whether you're a casual player or
-            a dedicated enthusiast, this feature will streamline the way you
-            handle your gaming collection.
-          </p>
-        </div>
-      </div>
-      <div class="info-box">
-        Read and Leave Reviews
-        <div class="info-box-description">
-          <p>
-            Dive deep into a vast collection of detailed game reviews written by
-            fellow gamers who share your passion. Not only can you discover new
-            perspectives and insights, but you can also contribute by sharing
-            your own in-depth reviews. Your feedback can guide others in making
-            well-informed decisions, ensuring they choose the games that best
-            suit their tastes.
-          </p>
-        </div>
-      </div>
-      <div class="info-box">
-        Rate Games you've Played
-        <div class="info-box-description">
-          <p>
-            Express your unique opinion by rating games you've experienced. Your
-            ratings contribute to a collective understanding of how a game
-            resonates with the community. In addition, you can delve into the
-            ratings provided by others, exploring how your tastes align or
-            differ from the broader gaming community, which can be both
-            enlightening and entertaining.
-          </p>
-        </div>
-      </div>
-      <div class="info-box">
-        Comment on Reviews
-        <div class="info-box-description">
-          <p>
-            Join the lively discussions by commenting on reviews. This is your
-            chance to share your thoughts, offer counterpoints, or build upon
-            the ideas expressed by others. Engaging with the gaming community in
-            this way fosters a richer dialogue, creating connections and
-            enhancing the shared experience of discovering and enjoying games.
-          </p>
-        </div>
-      </div>
-      <div class="info-box">
-        Whatever Else
-        <div class="info-box-description">
-          <p>
-            Uncover a variety of exciting additional features and enhancements
-            designed to significantly enrich your overall gaming experience and
-            interactions on LanternDB. With these new tools and options, you can
-            dive deeper into your favorite games, explore unique
-            functionalities, and enjoy an even more immersive and engaging
-            platform.
-          </p>
-        </div>
-      </div>
-    </div>
 
     <div class="featured-games-section">
-  <h2>Featured Games:</h2>
-  <div class="featured-games-accordion">
-    <div
-      v-for="game in featuredGames"
-      :key="game.id"
-      class="featured-game-item"
-      @mouseover="setActiveGame(game.id)"
-      @mouseleave="clearActiveGame"
-      :class="{ 'active': activeGame === game.id }"
-    >
-      <img :src="game.imageUrl" :alt="game.name" class="game-image" />
-      <div class="game-info">
-        <h3>{{ game.name }}</h3>
-        <router-link :to="{ name: 'game-details', params: { gameId: game.id } }" class="view-details-button">
-          View Details
-        </router-link>
+      <div class="call-to-action-card">
+        <div class="cta-content">
+          <h2>Your Gaming Journey Starts Here</h2>
+          <p>Join our community to explore and share your favorite games.</p>
+          <router-link to="/register" class="cta-button">Get Started</router-link>
+        </div>
+      </div>
+
+      <div class="info-boxes-section">
+        <div class="info-box-wrapper" v-for="(box, index) in infoBoxes" :key="index">
+          <div class="info-box">
+            <div class="info-box-front">
+              {{ box.title }}
+            </div>
+            <div class="info-box-back">
+              <p>{{ isMobile ? box.shortDescription : box.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Featured Games:</h2>
+      <div class="featured-games-accordion">
+        <div
+          v-for="game in featuredGames"
+          :key="game.id"
+          class="featured-game-item"
+          @mouseover="setActiveGame(game.id)"
+          @mouseleave="clearActiveGame"
+          :class="{ 'active': activeGame === game.id }"
+        >
+          <img :src="game.imageUrl" :alt="game.name" class="game-image" />
+          <div class="game-info">
+            <h3>{{ game.name }}</h3>
+            <router-link :to="{ name: 'game-details', params: { gameId: game.id } }" class="view-details-button">
+              View Details
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-
-    <div class="about-us-section">
+    <div class="about-us-section" ref="aboutUsSection">
       <h2>About Us</h2>
       <p>
         LanternDB is dedicated to illuminating your gaming experience.
         We provide comprehensive reviews, ratings, and in-depth articles on the latest and greatest games.
         Our mission is to help you discover, enjoy, and share your favorite games with the community.
-        Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming
-        world.
+        Whether you're a casual gamer or a hardcore enthusiast, LanternDB offers a vibrant platform to enhance your gaming world.
       </p>
     </div>
 
-    <hr class="section-divider">
-
-    <div class="faq-section">
+    <div class="faq-section" ref="faqSection">
       <h2>FAQ</h2>
-      <ul>
-        <li>QUESTION: How many games are in the browse feature?</li>
-        <p>ANSWER: More than 500,000 games can be found!</p>
-        <li>QUESTION: Is there a fee or monthly payment involved with registration?</li>
-        <p>ANSWER: No, all features are 100% FREE!</p>
-      </ul>
-      <!-- You can add more FAQ content or sections here -->
+      <div class="faq-list">
+        <div
+          v-for="(faq, index) in faqs"
+          :key="index"
+          class="faq-card"
+          :class="{ 'active': activeAccordion === index }"
+        >
+          <div class="faq-title" @click="toggleAccordion(index)">
+            <h3>{{ faq.question }}</h3>
+            <span>{{ activeAccordion === index ? '-' : '+' }}</span>
+          </div>
+          <transition name="faq-accordion">
+            <div v-show="activeAccordion === index" class="faq-content">
+              <p>{{ faq.answer }}</p>
+            </div>
+          </transition>
+        </div>
+      </div>
     </div>
-
-    <!-- ... existing code ... -->
   </div>
 </template>
- 
-
-
 
 <script>
 import videoSrc from "@/assets/animated-homepage.mp4"; // Import the video source
-
 
 export default {
   data() {
     return {
       videoSrc, // Use the imported video source
+      isMobile: false,
       featuredGames: [
         {
           id: 3498,
@@ -166,7 +132,7 @@ export default {
         },
         {
           id: 3328,
-          name: "The Witch 3:Wild Hunt",
+          name: "The Witcher 3: Wild Hunt",
           imageUrl:
             "https://media.rawg.io/media/games/618/618c2031a07bbff6b4f611f10b6bcdbc.jpg",
         },
@@ -178,16 +144,59 @@ export default {
         },
       ],
       activeGame: null,
+      infoBoxes: [
+        {
+          title: "Create and Manage Collections",
+          description:
+            "Easily manage your game collection by seamlessly adding new titles, and keeping track of your favorites all within one intuitive and user-friendly interface.",
+          shortDescription: "Easily manage and track your games.",
+        },
+        {
+          title: "Read and Leave Reviews",
+          description:
+            "Discover a vast collection of detailed game reviews written by fellow gamers who share your passion.",
+          shortDescription: "Discover reviews by fellow gamers.",
+        },
+        {
+          title: "Rate Games You've Played",
+          description:
+            "Express your opinion by rating games you've experienced, contributing to the collective understanding of how a game resonates with the community.",
+          shortDescription: "Rate and share your experiences.",
+        },
+        {
+          title: "Comment on Reviews",
+          description:
+            "Join discussions by commenting on reviews, share your thoughts, or offer counterpoints, fostering richer dialogue.",
+          shortDescription: "Comment and discuss reviews.",
+        },
+        {
+          title: "Discover More",
+          description:
+            "Uncover additional features and enhancements designed to enrich your gaming experience on LanternDB.",
+          shortDescription: "Explore new features.",
+        },
+      ],
+      faqs: [
+        { question: "How many games are in the browse feature?", answer: "More than 500,000 games can be found!" },
+        { question: "Is there a fee or monthly payment involved with registration?", answer: "No, all features are 100% FREE!" },
+        { question: "Can I contribute reviews?", answer: "Absolutely! You can contribute reviews and share your experiences with other gamers." },
+        { question: "What platforms are supported?", answer: "LanternDB supports games across multiple platforms including PC, consoles, and mobile devices." },
+        { question: "How do I manage my game collections?", answer: "LanternDB offers intuitive tools to add, remove, and organize games in your collections with ease." }
+      ],
+      activeAccordion: null,
     };
   },
-  computed: {
-    totalSlides() {
-      return this.featuredGames.length;
-    },
+  mounted() {
+    this.detectMobile();
+    this.addScrollAnimations();
+    window.addEventListener('resize', this.detectMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.detectMobile);
   },
   methods: {
-    redirectToGameDetails(gameId) {
-      this.$router.push({ name: "game-details", params: { gameId: gameId } });
+    detectMobile() {
+      this.isMobile = window.innerWidth <= 768;
     },
     setActiveGame(gameId) {
       this.activeGame = gameId;
@@ -195,18 +204,36 @@ export default {
     clearActiveGame() {
       this.activeGame = null;
     },
-   
-  
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.updateSlidePosition);
-  },
+    addScrollAnimations() {
+      const aboutSection = this.$refs.aboutUsSection;
+      const faqSection = this.$refs.faqSection;
+      const featuredGamesSection = this.$el.querySelector('.featured-games-section');
 
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          } else {
+            entry.target.classList.remove("in-view");
+          }
+        });
+      }, {
+        threshold: 0.2,
+      });
+
+      observer.observe(aboutSection);
+      observer.observe(faqSection);
+      observer.observe(featuredGamesSection);
+    },
+    toggleAccordion(index) {
+      this.activeAccordion = this.activeAccordion === index ? null : index;
+    },
+  },
 };
-
 </script>
 
 <style scoped>
+/* Overall Page Styles */
 .home-page {
   margin: 0;
   padding: 0;
@@ -215,6 +242,7 @@ export default {
   z-index: 1;
 }
 
+/* Header Section with Video Background */
 .header-section {
   position: relative;
   width: 100%;
@@ -223,7 +251,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  /* Align content to the left */
 }
 
 .background-video {
@@ -234,9 +261,7 @@ export default {
   height: 100%;
   z-index: -1;
   object-fit: cover;
-  /* Ensure the video covers the entire area */
   object-position: center;
-  /* Center the video */
 }
 
 .header-content {
@@ -244,313 +269,96 @@ export default {
   z-index: 2;
   color: white;
   text-align: center;
-  /* Align text to the left */
   padding: 0 20px;
-  margin-left: 10vw;
-  width: 40%;
-  /* Control the width of the text block */
-  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.header-text {
+  max-width: 33%;
+  margin-left: 5%;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Center text */
 }
 
 .header-content h1 {
   font-size: 6rem;
-  /* Adjust the size as needed */
   margin-bottom: 20px;
-  /* You can adjust or add margin as needed */
-  padding-bottom: 100px;
-}
-
-.header-content p {
-  font-size: 1.3rem;
-  /* Adjust the size as needed */
-  margin-bottom: 20px;
-  /* You can adjust or add margin as needed */
 }
 
 .header-content h2 {
   font-size: 3rem;
-  /* Adjust the size as needed */
   margin-bottom: 20px;
-  /* You can adjust or add margin as needed */
   font-style: italic;
 }
 
-.register-to {
-  color: white;
-  text-align: center;
-  font-size: 30px;
-  text-decoration: underline;
-  /* Add this line */
-  text-decoration-color: #d14b06;
-  /* Change this to your desired color */
-  text-decoration-style: solid;
-  
-}
-
-.register-button {
-  color: white; /* Text color */
-  text-decoration: none; /* Remove underline */
-  font-weight: bold; /* Optional: make text bold */
-  transition: color 0.3s ease; /* Smooth transition for color change */
-}
-
-.register-button:hover {
-  color: rgb(158, 54, 10); /* Change color on hover */
-}
-
-
-.info-boxes-section {
-  display: flex;
-  flex-wrap: nowrap;
-  /* Ensure the boxes stay in a single line */
-  overflow-x: auto;
-  /* Allow horizontal scrolling if needed */
-  padding: 20px;
-  gap: 20px;
-  /* Add space between the info boxes */
-  padding-bottom: 70px;
-}
-
-.info-box {
-  color: white;
-  display: flex;
-  /* Enables flexbox centering */
-  flex-direction: column;
-  /* Align children vertically */
-  justify-content: center;
-  /* Center vertically */
-  align-items: center;
-  /* Center horizontally */
-  position: relative;
-  flex: 1;
-  margin: 0;
-  /* Reset margin */
-  padding: 20px;
-  text-align: center;
-  background-color: #2929299f;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  transition: background-color 0.3s ease;
-  min-width: 150px;
-  /* Ensures boxes have a consistent width */
-  min-height: 135px;
-  font-size: 28px;
-  padding-bottom: 70px;
-}
-
-.info-box:hover {
-  background-color: rgba(158, 54, 10, 0.404);
-}
-
-.info-box-description {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgb(158, 54, 10);
-  padding: 0 10px;
-  font-size: 14px;
-}
-
-.info-box:hover .info-box-description {
-  max-height: 1000px;
-  /* Adjust to fit the content */
-  padding-top: 10px;
-  /* Optional: Add padding for visual separation */
-}
-
-.flame {
-  animation: colorFlow 20s ease-in-out infinite,
-    scaleFlow 1.2s ease-in-out infinite;
-}
-
-@keyframes colorFlow {
-  0% {
-    color: #ff4400;
-    /* Dark Orange */
-  }
-
-  25% {
-    color: #d32406;
-    /* Tomato Red */
-  }
-
-  50% {
-    color: #f85b00;
-    /* Light Orange */
-  }
-
-  75% {
-    color: #fa8704;
-    /* Darker Orange */
-  }
-
-  100% {
-    color: #ff4400;
-    /* Back to Dark Orange */
-  }
-}
-
-@keyframes scaleFlow {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-    /* Slightly enlarged */
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.featured-games-section {
-  padding: 20px;
-  background-color: #1212127e;
-  color: white;
-}
-
-.games-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.game-card {
-  width: 23%;
-  margin: 10px 0;
-  cursor: pointer;
-  text-align: center;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: #292929;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.game-card:hover {
-  box-shadow: 0 0 5px #d14b06,
-    /* Outer neon glow */
-    0 0 10px #d14b06,
-    /* Slightly larger glow */
-    0 0 20px #ff6700,
-    /* Larger and more diffused glow */
-    0 0 30px #ff6700;
-  /* Further larger and more diffused glow */
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.game-card:hover p {
-  color: #ff6700;
-  text-shadow: 0 0 5px #d14b06,
-    0 0 10px #ff6700;
-  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
-}
-
-.game-image {
-  width: 100%;
-  height: auto;
-  border-bottom: 2px solid #8181813a;
-}
-
-.about-us-section {
-  padding: 20px;
-  background-image: linear-gradient(to right,
-      rgb(158, 54, 10),
-      #29292943,
-      #29292943);
-  color: white;
-  margin-top: 20px;
-  text-align: left;
-  /* Align text to the left */
-  width: 40%;
-  /* Control the width to match previous section */
-  margin-left: 10vw;
-  /* Center the section horizontally */
-  box-sizing: border-box;
-  /* Ensure padding is included in the width */
-  padding-top: 50px;
-  margin-top: 75px;
-  margin-bottom: 50px;
-}
-
-.about-us-section h2 {
-  font-size: 2.5rem;
-  /* Increase the font size */
-  margin-bottom: 15px;
-}
-
-.about-us-section p {
-  font-size: 1.3rem;
-  /* Adjust font size */
-  line-height: 1.6;
-  /* Improve readability */
-  margin: 0;
-  /* Remove default margin */
-}
-
-.section-divider {
-  width: 53%;
-  border: none;
-  border-top: 2px solid #f5c277;
-  /* Thin white line */
-  margin: 20px 0;
-  /* Adjust the spacing between sections */
-}
-
-.faq-section {
-  padding: 20px;
-  padding-top: 1px;
-  background-color: rgba(0, 0, 0, 0.007);
-  color: white;
-  margin-top: 150px;
-  text-align: left;
-  width: 47%;
-  margin-left: 10vw;
-  margin-bottom: 50px;
-  box-sizing: border-box;
-  padding-top: 50px;
-  border: 2px solid #d14b06;
-  /* Basic outline */
-  border-radius: 10px;
-  /* Optional: add rounded corners */
-  box-shadow: 0 0 5px #d14b06,
-    /* Outer neon glow */
-    0 0 10px #d14b06,
-    /* Slightly larger glow */
-    0 0 20px #ff6700,
-    /* Larger and more diffused glow */
-    0 0 30px #ff6700;
-  /* Further larger and more diffused glow */
-}
-
-.faq-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.faq-section p {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
 .glow {
-  font-size: 2rem;
-  /* Adjust size as needed */
-  color: #f5c277;
-  text-align: center;
   font-size: 6rem;
+  color: #f5c277;
   font-weight: bold;
-  /* Optional: make text bold for better visibility */
-  -webkit-animation: flame 8s infinite alternate ease-in-out;
-  -moz-animation: flame 8s infinite alternate ease-in-out;
-  animation: flame 8s infinite alternate ease-in-out;
+  animation: flicker 2s infinite;
+  text-shadow: 0 0 8px rgba(255, 140, 0, 0.7),
+               0 0 20px rgba(255, 69, 0, 0.5),
+               0 0 30px rgba(255, 99, 71, 0.4),
+               0 0 40px rgba(255, 99, 71, 0.3),
+               0 0 50px rgba(255, 69, 0, 0.2);
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.7),
+                 0 0 20px rgba(255, 69, 0, 0.5),
+                 0 0 30px rgba(255, 99, 71, 0.4),
+                 0 0 40px rgba(255, 99, 71, 0.3),
+                 0 0 50px rgba(255, 69, 0, 0.2);
+  }
+  10% {
+    opacity: 0.9;
+    text-shadow: 0 0 12px rgba(255, 170, 0, 0.8),
+                 0 0 22px rgba(255, 99, 71, 0.6),
+                 0 0 32px rgba(255, 69, 0, 0.5),
+                 0 0 42px rgba(255, 99, 71, 0.4),
+                 0 0 52px rgba(255, 69, 0, 0.3);
+  }
+  20% {
+    opacity: 1;
+    text-shadow: 0 0 15px rgba(255, 140, 0, 0.6),
+                 0 0 25px rgba(255, 99, 71, 0.5),
+                 0 0 35px rgba(255, 69, 0, 0.4),
+                 0 0 45px rgba(255, 99, 71, 0.3),
+                 0 0 55px rgba(255, 69, 0, 0.2);
+  }
+  30% {
+    opacity: 0.8;
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.7),
+                 0 0 20px rgba(255, 99, 71, 0.6),
+                 0 0 30px rgba(255, 69, 0, 0.4),
+                 0 0 40px rgba(255, 99, 71, 0.3),
+                 0 0 50px rgba(255, 69, 0, 0.2);
+  }
+  40% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 140, 0, 0.8),
+                 0 0 22px rgba(255, 99, 71, 0.5),
+                 0 0 32px rgba(255, 69, 0, 0.3),
+                 0 0 42px rgba(255, 99, 71, 0.4),
+                 0 0 52px rgba(255, 69, 0, 0.3);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.7),
+                 0 0 20px rgba(255, 69, 0, 0.5),
+                 0 0 30px rgba(255, 99, 71, 0.4),
+                 0 0 40px rgba(255, 99, 71, 0.3),
+                 0 0 50px rgba(255, 69, 0, 0.2);
+  }
 }
 
 @keyframes flame {
@@ -558,83 +366,35 @@ export default {
     text-shadow: 0 0 8px rgba(255, 140, 0, 0.5), 0 0 12px rgba(255, 140, 0, 0.5),
       0 0 16px rgba(255, 69, 0, 0.3), 0 0 20px rgba(255, 69, 0, 0.3),
       0 0 24px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
   }
-
-  10% {
-    text-shadow: 0 0 12px rgba(255, 160, 0, 0.5),
-      0 0 18px rgba(255, 160, 0, 0.5), 0 0 24px rgba(255, 99, 71, 0.4),
-      0 0 30px rgba(255, 99, 71, 0.4), 0 0 36px rgba(255, 99, 71, 0.4);
-    transform: translateY(-1px);
-  }
-
-  20% {
-    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
-  }
-
-  30% {
-    text-shadow: 0 0 14px rgba(255, 165, 0, 0.5),
-      0 0 22px rgba(255, 165, 0, 0.5), 0 0 30px rgba(255, 99, 71, 0.4),
-      0 0 38px rgba(255, 99, 71, 0.4), 0 0 46px rgba(255, 99, 71, 0.4);
-    transform: translateY(-2px);
-  }
-
-  40% {
-    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
-  }
-
-  50% {
+  100% {
     text-shadow: 0 0 16px rgba(255, 170, 0, 0.5),
       0 0 24px rgba(255, 170, 0, 0.5), 0 0 32px rgba(255, 99, 71, 0.4),
       0 0 40px rgba(255, 99, 71, 0.4), 0 0 48px rgba(255, 99, 71, 0.4);
-    transform: translateY(-1px);
   }
+}
 
-  60% {
-    text-shadow: 0 0 12px rgba(255, 140, 0, 0.4),
-      0 0 20px rgba(255, 140, 0, 0.4), 0 0 28px rgba(255, 69, 0, 0.3),
-      0 0 36px rgba(255, 69, 0, 0.3), 0 0 44px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
-  }
+.flame {
+  animation: colorFlow 20s ease-in-out infinite, scaleFlow 1.2s ease-in-out infinite;
+  background: linear-gradient(45deg, #ff4500, #ff8c00, #ffa500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-  70% {
-    text-shadow: 0 0 14px rgba(255, 160, 0, 0.5),
-      0 0 22px rgba(255, 160, 0, 0.5), 0 0 30px rgba(255, 99, 71, 0.4),
-      0 0 38px rgba(255, 99, 71, 0.4), 0 0 46px rgba(255, 99, 71, 0.4);
-    transform: translateY(-1px);
-  }
+@keyframes colorFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  80% {
-    text-shadow: 0 0 10px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 140, 0, 0.4), 0 0 22px rgba(255, 69, 0, 0.3),
-      0 0 28px rgba(255, 69, 0, 0.3), 0 0 34px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
-  }
-
-  90% {
-    text-shadow: 0 0 16px rgba(255, 165, 0, 0.5),
-      0 0 24px rgba(255, 165, 0, 0.5), 0 0 32px rgba(255, 99, 71, 0.4),
-      0 0 40px rgba(255, 99, 71, 0.4), 0 0 48px rgba(255, 99, 71, 0.4);
-    transform: translateY(-2px);
-  }
-
-  100% {
-    text-shadow: 0 0 8px rgba(255, 140, 0, 0.4), 0 0 12px rgba(255, 140, 0, 0.4),
-      0 0 16px rgba(255, 69, 0, 0.3), 0 0 20px rgba(255, 69, 0, 0.3),
-      0 0 24px rgba(255, 69, 0, 0.3);
-    transform: translateY(0px);
-  }
+@keyframes scaleFlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .fade-in-line {
   display: block;
-  /* Ensure each line is treated as a block */
   opacity: 0;
   animation: fadeInAnimation 2s ease forwards;
 }
@@ -651,13 +411,154 @@ export default {
   animation-delay: 3s;
 }
 
-/* Add more nth-child selectors if you have more lines */
+@keyframes fadeInAnimation {
+  to { opacity: 1; }
+}
 
+/* Featured Games Section with integrated Call to Action */
+.featured-games-section {
+  padding: 100px 20px 60px 20px;
+  background: linear-gradient(to right, rgba(30, 30, 30, 0.9), rgba(50, 50, 50, 0.9)); /* Adjusted gradient */
+  color: white;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.featured-games-section:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 100%, rgba(20, 20, 20, 0.7), transparent); /* Lighter gradient for visibility */
+  animation: wave 4s infinite alternate ease-in-out;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.call-to-action-card {
+  padding: 40px 20px;
+  background: rgba(255, 102, 0, 0.8); /* Matching color */
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.call-to-action-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.5), transparent); /* Keep the same background for call-to-action */
+  animation: wave 4s infinite alternate ease-in-out;
+}
+
+.cta-content h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.cta-content p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  padding: 15px 30px;
+  background-color: #ff6700;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #e65c00;
+}
+
+/* Info Cards Section */
+.info-boxes-section {
+  display: flex;
+  flex-wrap: wrap; /* Switch to wrap for flexibility */
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.info-box-wrapper {
+  perspective: 1000px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px; /* Max width to limit card size */
+  height: 200px;
+}
+
+.info-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(0);
+  transition: transform 0.6s ease;
+  display: flex;
+  align-items: center; /* Ensure content remains centered */
+  justify-content: center;
+  text-align: center; /* Center text inside cards */
+  padding: 10px; /* Add padding to prevent text from touching the edges */
+}
+
+.info-box-wrapper:hover .info-box {
+  transform: rotateY(180deg); /* Flip the card */
+}
+
+.info-box-front, .info-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+  padding: 15px; /* Adjust padding for text wrapping */
+  text-align: center; /* Ensure text is centered */
+}
+
+.info-box-front {
+  background-color: #2929299f;
+  color: white;
+}
+
+.info-box-back {
+  background-color: #ff9e1b;
+  color: black;
+  transform: rotateY(180deg); /* Back face is hidden initially */
+  text-align: center;
+  padding: 0 15px;
+  font-size: 14px; /* Reduce font size for better readability */
+}
+
+/* Featured Games */
 .featured-games-accordion {
   display: flex;
   justify-content: center;
   gap: 10px;
-  height: 300px; /* Adjust the height as needed */
+  height: 300px;
 }
 
 .featured-game-item {
@@ -668,13 +569,13 @@ export default {
   cursor: pointer;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1; /* Default z-index */
+  z-index: 1;
 }
 
 .featured-game-item.active {
   flex: 4;
   transform: scale(1.01);
-  z-index: 10; /* Higher z-index for the active game */
+  z-index: 10;
 }
 
 .featured-game-item img {
@@ -720,21 +621,183 @@ export default {
   background-color: #e65c00;
 }
 
-
-@keyframes fadeInAnimation {
-  to {
-    opacity: 1;
-  }
+/* About Us and FAQ Sections with Scroll Animations */
+.about-us-section,
+.faq-section {
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.7); /* Transparent black background */
+  color: white;
+  margin: 50px 10vw;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.6s ease-in-out;
 }
 
+.about-us-section.in-view,
+.faq-section.in-view {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.about-us-section h2,
+.faq-section h2 {
+  font-size: 3rem;
+  margin-bottom: 25px;
+}
+
+.about-us-section p,
+.faq-section p {
+  font-size: 1.4rem;
+  line-height: 1.8;
+}
+
+/* FAQ Accordion */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.faq-card {
+  margin-bottom: 20px;
+  background-color: rgba(33, 33, 33, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.faq-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: rgba(50, 50, 50, 0.9);
+  cursor: pointer;
+  color: white;
+}
+
+.faq-title:hover {
+  background-color: rgba(70, 70, 70, 0.9);
+}
+
+.faq-content {
+  padding: 15px;
+  background-color: rgba(40, 40, 40, 0.9);
+  color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.faq-card.active .faq-content {
+  max-height: 500px; /* Adjust based on content */
+}
+
+/* Accordion Transition */
+.faq-accordion-enter-active,
+.faq-accordion-leave-active {
+  transition: max-height 0.4s ease;
+}
+
+.faq-accordion-enter,
+.faq-accordion-leave-to {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* Responsive Adjustments for Mobile */
 @media (max-width: 768px) {
-  .game-card {
-    width: 48%;
+  .header-text {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .header-content h1 {
+    font-size: 4rem; /* Reduce font size for smaller screens */
+  }
+
+  .header-content h2 {
+    font-size: 2rem; /* Reduce font size for smaller screens */
+  }
+
+  .glow {
+    font-size: 4rem; /* Ensure 'Lantern' scales down */
+  }
+
+  .flame {
+    font-size: 4rem; /* Ensure 'DB' scales down */
+  }
+
+  .featured-games-section {
+    padding: 60px 20px;
+  }
+
+  .info-boxes-section {
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust gap for mobile */
+  }
+
+  .info-box-wrapper {
+    min-width: 45%;
+    height: 150px;
+  }
+
+  .info-box {
+    padding: 15px; /* Increase padding on mobile for better spacing */
+  }
+
+  .about-us-section,
+  .faq-section {
+    margin: 20px 5vw;
+    padding: 20px;
+  }
+
+  .about-us-section h2,
+  .faq-section h2 {
+    font-size: 2.5rem;
+  }
+
+  .about-us-section p,
+  .faq-section p {
+    font-size: 1.2rem;
   }
 }
 
-@media (max-width: 480px) {
-  .game-card {
-    width: 100%;
+@media (max-width: 550px) {
+  .header-content h1 {
+    font-size: 3rem; /* Further reduce font size for very small screens */
   }
-}</style>
+
+  .glow {
+    font-size: 3rem; /* Ensure 'Lantern' scales down */
+  }
+
+  .flame {
+    font-size: 3rem; /* Ensure 'DB' scales down */
+  }
+
+  .header-content h2 {
+    font-size: 1.8rem; /* Further reduce font size for very small screens */
+  }
+
+  .header-text {
+    padding: 0 10px; /* Add padding to avoid text clipping */
+  }
+
+  .info-box-wrapper {
+    min-width: 100%;
+    height: auto; /* Allow height to adjust based on content */
+  }
+
+  .info-box {
+    padding: 20px; /* Further increase padding for better readability */
+  }
+}
+
+
+</style>
